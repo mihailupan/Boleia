@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/searchNav"
+        android:enabled="true"
+        android:title="Pesquisar"
+        android:icon="@drawable/ic_search_icon"/>
+
+    <item
+        android:id="@+id/createNav"
+        android:enabled="true"
+        android:title="Criar"
+        android:icon="@drawable/ic_create_icon"/>
+
+    <item
+        android:id="@+id/travelsNav"
+        android:enabled="true"
+        android:title="Viagens"
+        android:icon="@drawable/ic_travels_icon"/>
+
+    <item
+        android:id="@+id/profileNav"
+        android:enabled="true"
+        android:title="Perfil"
+        android:icon="@drawable/ic_profile_icon"/>
+
+</menu>
