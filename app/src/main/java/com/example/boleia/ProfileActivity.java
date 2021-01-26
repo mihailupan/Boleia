@@ -58,6 +58,9 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
                     String email = userProfile.email;
                     String phone = userProfile.phone;
 
+                    nameTextView.setText(name);
+                    emailTextView.setText(email);
+                    phoneTextView.setText(phone);
                 }
             }
 
