@@ -119,7 +119,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
+                            Toast.makeText(RegisterActivity.this, "Utilizador foi registado!", Toast.LENGTH_LONG).show();
                             userID = mAuth.getCurrentUser().getUid();
+
                             //Access document that belongs to user
                             DocumentReference documentReference = mStore.collection("users").document(userID);
                             Map<String, Object> user = new HashMap<>();
@@ -129,7 +131,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    Toast.makeText(RegisterActivity.this, "Utilizador foi registado!", Toast.LENGTH_LONG).show();
                                 }
                             });
                             startActivity(new Intent(RegisterActivity.this, MainActivity.class));
