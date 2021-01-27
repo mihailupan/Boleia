@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
@@ -52,7 +57,6 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
 
 
 
-
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
 
@@ -61,30 +65,33 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         final TextView phoneTextView = (TextView) findViewById(R.id.userPhoneProfile);
 
 
-
-        reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+        DocumentReference docRef = mStore.collection("users").document(userID);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                User userProfile = snapshot.getValue(User.class);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot doc = task.getResult();
+                    if(doc.exists()) {
+                        Log.d("Document", doc.getData().toString());
 
-                if(userProfile!= null){
-                    String name = userProfile.name;
-                    String email = userProfile.email;
-                    String phone = userProfile.phone;
 
-                    nameTextView.setText(name);
-                    emailTextView.setText(email);
-                    phoneTextView.setText(phone);
+                        String name = doc.getString("name");
+                        String email = doc.getString("email");
+                        String phone = doc.getString("phone");
 
+
+                        nameTextView.setText(name);
+                        emailTextView.setText(email);
+                        phoneTextView.setText(phone);
+                    }
+                    else{
+                        Log.d("Document", "No data "+userID);
+                    }
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ProfileActivity.this,"Algo correu mal!",Toast.LENGTH_SHORT).show();
-            }
         });
-    }
+
+  }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
