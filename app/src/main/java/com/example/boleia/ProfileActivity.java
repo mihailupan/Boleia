@@ -19,10 +19,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+    private FirebaseAuth mAuth;
     private FirebaseUser user;
+    private FirebaseFirestore mStore;
     private DatabaseReference reference;
     private String userID;
 
@@ -40,7 +44,12 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         logoutButton = (Button) findViewById(R.id.profileLogoutButton);
         logoutButton.setOnClickListener(this);
 
-        user = FirebaseAuth.getInstance().getCurrentUser();
+        mAuth = FirebaseAuth.getInstance();
+        mStore = FirebaseFirestore.getInstance();
+
+        user = mAuth.getCurrentUser();
+
+        CollectionReference reference2 = mStore.collection("Users");
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
 

@@ -17,15 +17,23 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
+    private FirebaseFirestore mStore;
+    private String userID;
 
     private TextView title;
     private EditText emailEdit, passwordEdit, nameEdit, phoneEdit;
@@ -39,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        mStore = FirebaseFirestore.getInstance();
 
         title = (TextView) findViewById(R.id.registerTitleTextView);
 
@@ -108,10 +117,32 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            User user = new User(email,name,phone);
+                        if (task.isSuccessful()) {
 
-                            FirebaseDatabase.getInstance().getReference("Users")
+                            userID = mAuth.getCurrentUser().getUid();
+                            //Access document that belongs to user
+                            DocumentReference documentReference = mStore.collection("users").document(userID);
+                            Map<String, Object> user = new HashMap<>();
+                            user.put("name", name);
+                            user.put("email", email);
+                            user.put("phone", phone);
+                            documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(RegisterActivity.this, "Utilizador foi registado!", Toast.LENGTH_LONG).show();
+                                }
+                            });
+                            startActivity(new Intent(RegisterActivity.this, MainActivity.class));
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(RegisterActivity.this, "Registo falhou! Tente novamente!", Toast.LENGTH_LONG).show();
+                        }
+
+                        progressBar.setVisibility(View.GONE);
+                            //User user = new User(email,name,phone);
+
+               /*         FirebaseDatabase.getInstance().getReference("Users")
                                     .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                                     .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -125,11 +156,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                     }
                                     progressBar.setVisibility(View.GONE);
                                 }
-                            });
-                        }else {
+                            });*/
+                        /*else {
                             Toast.makeText(RegisterActivity.this, "Registo falhou! Tente novamente!", Toast.LENGTH_LONG).show();
                             progressBar.setVisibility(View.GONE);
-                        }
+                        }*/
                     }
                 });
     }

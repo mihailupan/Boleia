@@ -19,9 +19,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private FirebaseAuth mAuth;
+    //private FirebaseFirestore mStore;
 
     private Button loginButton;
     private TextView registerTextView;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         mAuth = FirebaseAuth.getInstance();
+        //mStore = FirebaseFirestore.getInstance();
 
         loginButton = (Button) findViewById(R.id.loginMainButton);
         loginButton.setOnClickListener(this);
