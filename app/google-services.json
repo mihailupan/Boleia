@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "691820443684",
+    "project_id": "boleias-8572c",
+    "storage_bucket": "boleias-8572c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:691820443684:android:ec22bc19bed1423eeac0b1",
+        "android_client_info": {
+          "package_name": "com.example.boleia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "691820443684-0vrmjmul2fkk9lh6qh5d7lgp2icdskln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDospFxZD_GP626Hew8aAmMTqGB9G8e3wM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "691820443684-0vrmjmul2fkk9lh6qh5d7lgp2icdskln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
