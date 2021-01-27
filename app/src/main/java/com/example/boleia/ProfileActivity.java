@@ -61,6 +61,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
                     nameTextView.setText(name);
                     emailTextView.setText(email);
                     phoneTextView.setText(phone);
+
                 }
             }
 
@@ -106,6 +107,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         if(v.getId()==R.id.profileLogoutButton){
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
         }

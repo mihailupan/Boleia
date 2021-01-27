@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.registerMainTextView) {
 
             startActivity(new Intent(this, RegisterActivity.class));
+            finish();
 
         }if (v.getId() == R.id.loginMainButton){
             userLogin();
@@ -111,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(firebaseUser != null){
             startActivity(new Intent(this, SearchActivity.class));
+            finish();
         }
     }
 }
