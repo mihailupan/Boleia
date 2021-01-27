@@ -21,10 +21,7 @@
         <activity android:name=".CreateActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".VehicleRegisterAtivity" />
-        <activity android:name=".DriverRegisterActivity" />
-        <activity android:name=".PassengerRegisterActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
     </application>
 
 </manifest>
