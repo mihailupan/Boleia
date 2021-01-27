@@ -49,13 +49,18 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
 
         user = mAuth.getCurrentUser();
 
-        CollectionReference reference2 = mStore.collection("Users");
+
+
+
+
         reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
 
         final TextView nameTextView = (TextView) findViewById(R.id.userNameProfile);
         final TextView emailTextView = (TextView) findViewById(R.id.userEmailProfile);
         final TextView phoneTextView = (TextView) findViewById(R.id.userPhoneProfile);
+
+
 
         reference.child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
