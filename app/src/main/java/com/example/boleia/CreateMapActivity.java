@@ -116,27 +116,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
                     if(location != null){
                         //When location is not null
-
-                        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                            @Override
-                            public void onMapReady(GoogleMap googleMap) {
-                                //Initialize lat lng
-                                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                                //Create marker
-                                MarkerOptions options = new MarkerOptions().position(latLng)
-                                        .title("HERE");
-
-                                //Zoom map
-                                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-                                //Add marker on map
-                                googleMap.addMarker(options);
-
-                                Toast.makeText(CreateMapActivity.this, "É null!", Toast.LENGTH_LONG).show();
-
-                            }
-                        });
+                        map(location);
 
                     }else {
                         //When location result is null
@@ -155,28 +135,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
                                 //Initialize location
                                 Location location1 = locationResult.getLastLocation();
 
-                                supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                                    @Override
-                                    public void onMapReady(GoogleMap googleMap) {
-                                        //Initialize lat lng
-                                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                                        //Create marker
-                                        MarkerOptions options = new MarkerOptions().position(latLng)
-                                                .title("HERE");
-
-                                        //Zoom map
-                                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-                                        //Add marker on map
-                                        googleMap.addMarker(options);
-
-                                        Toast.makeText(CreateMapActivity.this, "não é null", Toast.LENGTH_LONG).show();
-
-                                    }
-                                });
-
-                                Toast.makeText(CreateMapActivity.this, String.valueOf(location1.getLatitude()) , Toast.LENGTH_LONG).show();
+                                map(location1);
 
                             }
                         };
@@ -193,6 +152,30 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
     }
 
 
+    private void map(Location location){
+
+        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                //Initialize lat lng
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
+                //TODO
+                //latLng = getLocationFrom();
+
+                //Create marker
+                MarkerOptions options = new MarkerOptions().position(latLng)
+                        .title("HERE");
+
+                //Zoom map
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+                //Add marker on map
+                googleMap.addMarker(options);
+
+            }
+        });
+    }
 
     /*private void getCurrentLocation() {
         //check permission
