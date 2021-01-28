@@ -42,7 +42,6 @@ import com.google.protobuf.StringValue;
 public class CreateMapActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     //Initialize variable
-    GoogleMap gMap;
     FusedLocationProviderClient client;
     SupportMapFragment supportMapFragment;
 
@@ -171,7 +170,30 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
                 //Add marker on map
-                googleMap.addMarker(options);
+                //googleMap.addMarker(options);
+
+                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        //Creating Marker
+                        MarkerOptions markerOptions = new MarkerOptions();
+
+                        //Set Marker Position
+                        markerOptions.position(latLng);
+
+                        //Set Latitude and Longitude on Marker
+                        markerOptions.title(latLng.latitude+" : "+latLng.longitude);
+
+                        //Clear the previously click position
+                        googleMap.clear();
+
+                        //Zoom the marker
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+                        //Add marker on map
+                        googleMap.addMarker(markerOptions);
+                    }
+                });
 
             }
         });
