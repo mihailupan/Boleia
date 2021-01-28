@@ -13,4 +13,10 @@
         <item>Passageiro</item>
         <item>Condutor</item>
     </string-array>
+
+    <string-array name="cities">
+        <item>Beja</item>
+        <item>Lisboa</item>
+    </string-array>
+
 </resources>
