@@ -88,12 +88,11 @@
             android:id="@+id/advance_trips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="150dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginRight="25dp"
             android:text="AVANÇAR"
-            app:layout_constraintBaseline_toBaselineOf="@+id/create_trip_date_picker"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.758"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerTo" />
 
         <Button
@@ -103,11 +102,23 @@
             android:layout_marginStart="77dp"
             android:layout_marginLeft="77dp"
             android:layout_marginTop="60dp"
-            android:layout_marginEnd="86dp"
-            android:layout_marginRight="86dp"
             android:text="DATA"
-            app:layout_constraintEnd_toStartOf="@+id/advance_trips"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerTo" />
+
+        <TextView
+            android:id="@+id/showCreateDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginBottom="2dp"
+            android:text="TextView"
+            android:textSize="15sp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/create_trip_date_picker"
+            app:layout_constraintStart_toEndOf="@+id/create_trip_date_picker"
             app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerTo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
