@@ -54,10 +54,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
 
         user = mAuth.getCurrentUser();
 
-
-
-
-        reference = FirebaseDatabase.getInstance().getReference("Users");
+        //reference = FirebaseDatabase.getInstance().getReference("Users");
         userID = user.getUid();
 
         final TextView nameTextView = (TextView) findViewById(R.id.userNameProfile);
