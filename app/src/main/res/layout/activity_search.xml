@@ -88,9 +88,23 @@
             android:id="@+id/search_trips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="63dp"
+            android:layout_marginTop="64dp"
+            android:layout_marginEnd="64dp"
+            android:layout_marginRight="64dp"
             android:text="PESQUISAR"
+            app:layout_constraintBottom_toBottomOf="@+id/search_trip_date_picker"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/searchCitiesSpinnerTo"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/search_trip_date_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="68dp"
+            android:layout_marginLeft="68dp"
+            android:layout_marginTop="64dp"
+            android:text="DATA"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/searchCitiesSpinnerTo" />
 

@@ -51,6 +51,7 @@
             android:layout_marginEnd="186dp"
             android:layout_marginRight="186dp"
             android:text="Nome"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileTitleTextView" />
@@ -65,6 +66,7 @@
             android:layout_marginEnd="188dp"
             android:layout_marginRight="188dp"
             android:text="Email"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userNameProfile" />
@@ -79,6 +81,7 @@
             android:layout_marginEnd="185dp"
             android:layout_marginRight="185dp"
             android:text="Phone"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/userEmailProfile" />

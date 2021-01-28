@@ -85,19 +85,19 @@
             app:layout_constraintGuide_begin="64dp" />
 
         <Button
-            android:id="@+id/create_trips"
+            android:id="@+id/advance_trips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
-            android:text="CRIAR"
-            app:layout_constraintBaseline_toBaselineOf="@+id/create_date_picker"
+            android:text="AVANÇAR"
+            app:layout_constraintBaseline_toBaselineOf="@+id/create_trip_date_picker"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.792"
+            app:layout_constraintHorizontal_bias="0.758"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerTo" />
 
         <Button
-            android:id="@+id/create_date_picker"
+            android:id="@+id/create_trip_date_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="77dp"
@@ -106,7 +106,7 @@
             android:layout_marginEnd="86dp"
             android:layout_marginRight="86dp"
             android:text="DATA"
-            app:layout_constraintEnd_toStartOf="@+id/create_trips"
+            app:layout_constraintEnd_toStartOf="@+id/advance_trips"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerTo" />
 

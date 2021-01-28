@@ -66,6 +66,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
 
 
         DocumentReference docRef = mStore.collection("users").document(userID);
+
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -83,6 +84,10 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
                         nameTextView.setText(name);
                         emailTextView.setText(email);
                         phoneTextView.setText(phone);
+
+                        nameTextView.setVisibility(View.VISIBLE);
+                        emailTextView.setVisibility(View.VISIBLE);
+                        phoneTextView.setVisibility(View.VISIBLE);
                     }
                     else{
                         Log.d("Document", "No data "+userID);
