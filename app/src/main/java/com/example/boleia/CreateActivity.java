@@ -7,7 +7,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,7 +25,7 @@ import java.util.Calendar;
 
 public class CreateActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    Button button;
+    Button chooseDateBtn, advanceBtn;
     int day, month, year, hour, minute;
     int myDay, myMonth, myYear, myHour, myMinute;
     TextView showDateTime;
@@ -51,12 +50,24 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         createCitiesSpinnerTo.setOnItemSelectedListener(this);
 
 
+
         //Button to choose date
-        button = findViewById(R.id.create_trip_date_picker);
-        button.setOnClickListener(new View.OnClickListener() {
+        chooseDateBtn = findViewById(R.id.create_trip_date_picker);
+        chooseDateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDateDialog();
+            }
+        });
+
+        //VButton advance
+        advanceBtn = findViewById(R.id.advance_create_trip);
+        advanceBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
+                //intent.putExtra("mySpinnerValue", text);
+                startActivity(intent);
             }
         });
 
