@@ -44,8 +44,9 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     ImageButton openGalleryButtonVehicle, captureImageButtonVehicle;
     EditText editBrandVehicle, editModelVehicle, editLicensePlateVehicle, editSeatNumberVehicle;
     ImageView photo;
-    String currentPhotoPath;
     Uri contentUri;
+    String currentPhotoPath;
+
 
 
     @Override
@@ -71,8 +72,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         createTravelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 String txtToDB = getData();
                 createTravel();
                 Toast.makeText(CreateVehicleActivity.this, txtToDB, Toast.LENGTH_LONG).show();
@@ -103,9 +102,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         //TESTING
         Bundle bundle = getIntent().getExtras();
         data = bundle.getStringArray("data");
-
-
-
     }
 
 
