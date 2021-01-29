@@ -41,9 +41,17 @@ import com.google.protobuf.StringValue;
 
 public class CreateMapActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
+
     //Initialize variable
     FusedLocationProviderClient client;
     SupportMapFragment supportMapFragment;
+    Button next;
+    LatLng latLng;
+    //TODO
+    //TESTING
+    String fromCreate, toCreate;
+    int myDay, myMonth, myYear, myHour, myMinute;
+    double [] initLocation = new double[2];
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -55,6 +63,20 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        //TODO
+        //TESTING
+        Bundle bundle = getIntent().getExtras();
+        fromCreate = bundle.getString("fromCreate");
+        toCreate = bundle.getString("toCreate");
+
+        myDay = bundle.getInt("myDay");
+        myMonth = bundle.getInt("myMonth");
+        myYear = bundle.getInt("myYear");
+        myHour = bundle.getInt("myHour");
+        myMinute = bundle.getInt("myMinute");
+
+        initLocation = bundle.getDoubleArray("location");
+
         //Obtain the SupportMapFragment
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
         //supportMapFragment.getMapAsync(this);
@@ -65,8 +87,10 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         //Check permission and get current location
         //getCurrentLocation();
 
-        Button next = findViewById(R.id.choseLocationNextButton);
+        next = findViewById(R.id.choseLocationNextButton);
+        next.setVisibility(View.INVISIBLE);
         next.setOnClickListener(this);
+
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -157,7 +181,10 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 //Initialize lat lng
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                location.setLatitude(initLocation[0]);
+                location.setLongitude(initLocation[1]);
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+
 
                 //TODO
                 //latLng = getLocationFrom();
@@ -192,6 +219,13 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
                         //Add marker on map
                         googleMap.addMarker(markerOptions);
+
+                        //Set button visible
+                        next.setVisibility(View.VISIBLE);
+
+                        //TODO
+                         //TESTING
+                        Toast.makeText(CreateMapActivity.this, fromCreate+" "+toCreate, Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -315,7 +349,25 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.choseLocationNextButton) {
-            startActivity(new Intent(this, CreateVehicleActivity.class));
+
+
+            //TODO
+            String [] data = {
+                    fromCreate,
+                    toCreate,
+                    String.valueOf(myDay),
+                    String.valueOf(myMonth),
+                    String.valueOf(myYear),
+                    String.valueOf(myHour),
+                    String.valueOf(myMinute),
+                    String.valueOf(latLng.latitude),
+                    String.valueOf(latLng.longitude)
+            };
+
+            Intent intent = new Intent(this, CreateVehicleActivity.class);
+            intent.putExtra("data", data);
+            startActivity(intent);
+
         }
     }
 }

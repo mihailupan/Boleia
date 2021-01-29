@@ -16,7 +16,10 @@
 
     <string-array name="cities">
         <item>Beja</item>
+        <item>Evora</item>
+        <item>Faro</item>
         <item>Lisboa</item>
+        <item>Braga</item>
     </string-array>
     <string name="map_key" translatable="false">AIzaSyATUyvttNBj4keCFBsSyoQWKEIGXIApAlI</string>
 

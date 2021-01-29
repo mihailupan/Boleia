@@ -6,12 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class CreateVehicleActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
+    //TODO
+    String [] data;
+    Button createTravelButton, openGalleryButtonVehicle, captureImageButtonVehicle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,9 +26,37 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        Button createTravel = findViewById(R.id.createTravelButton);
+        //TODO
+        createTravelButton = findViewById(R.id.createTravelButton);
+        createTravelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                String txtToDB = getData();
+                Toast.makeText(CreateVehicleActivity.this, txtToDB, Toast.LENGTH_LONG).show();
+            }
+        });
         //FALTA DAR ACAO AO BOTAO
 
+        //TODO
+        //TESTING
+        Bundle bundle = getIntent().getExtras();
+        data = bundle.getStringArray("data");
+
+
+
+    }
+
+    private String getData() {
+
+        String str = "";
+        for (int i = 0; i < data.length; i++)
+        {
+            str += data[i] +"\n";
+        }
+        return str;
     }
 
     @Override

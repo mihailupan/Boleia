@@ -22,8 +22,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
+
+    private static final int N_OF_CITIES = 5;
+    String fromCreate, toCreate;
 
     Button chooseDateBtn, advanceBtn;
     int day, month, year, hour, minute;
@@ -40,14 +45,38 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         ArrayAdapter<CharSequence> createCitiesSpinnerFromAdapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
         createCitiesSpinnerFromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         createCitiesSpinnerFrom.setAdapter(createCitiesSpinnerFromAdapter);
-        createCitiesSpinnerFrom.setOnItemSelectedListener(this);
+        createCitiesSpinnerFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //Save selected value
+                fromCreate= createCitiesSpinnerFrom.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         //SpinnerTo
         Spinner createCitiesSpinnerTo = findViewById(R.id.createCitiesSpinnerTo);
         ArrayAdapter<CharSequence> createCitiesSpinnerToAdapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
         createCitiesSpinnerToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         createCitiesSpinnerTo.setAdapter(createCitiesSpinnerToAdapter);
-        createCitiesSpinnerTo.setOnItemSelectedListener(this);
+        createCitiesSpinnerTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                //Save selected value
+                toCreate= createCitiesSpinnerTo.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
 
@@ -67,6 +96,25 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
             public void onClick(View v) {
                 Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
                 //intent.putExtra("mySpinnerValue", text);
+
+                //Pass from and to
+                intent.putExtra("fromCreate", fromCreate);
+                intent.putExtra("toCreate", toCreate);
+
+                //Pass date and time
+                intent.putExtra("myDay", myDay);
+                intent.putExtra("myMonth", myMonth);
+                intent.putExtra("myYear", myYear);
+                intent.putExtra("myHour", myHour);
+                intent.putExtra("myMinute", myMinute);
+
+
+
+                //Pass initial latitude and longitude
+
+                double [] location = new double[2];
+                location = getInitialLoc(fromCreate);
+                intent.putExtra("location", location);
                 startActivity(intent);
             }
         });
@@ -77,6 +125,52 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
 
         //ShowDateTime textView
         showDateTime = findViewById(R.id.showCreateDateTextView);
+    }
+
+
+    /**
+     * @return Location (array of longitude and latitude) based on city (selected from) in spinner
+     */
+    private double[] getInitialLoc(String fromCreate) {
+
+/*        Map<String, double []> citiesLocation= new HashMap<String, double []>();
+        citiesLocation.put( "Beja", new double[] {38.0173806, -7.8676554});
+        citiesLocation.put( "Evora", new double[] {38.5743528,-7.9163379});
+        citiesLocation.put( "Faro", new double[] {37.0177845,-7.9749516});
+        citiesLocation.put( "Lisboa", new double[] {38.741348,-9.1694114});
+        citiesLocation.put( "Porto", new double[] {41.5487301,-8.4389198});*/
+
+        int locPosition = 0;
+        String [] cities = {
+                "Beja",
+                "Evora",
+                "Faro",
+                "Lisboa",
+                "Braga"
+        };
+
+
+        //Location of each city listed above
+        double [][] citiesLocation = {
+                {38.0173806,-7.8676554},
+                {38.5743528,-7.9163379},
+                {37.0177845,-7.9749516},
+                {38.741348,-9.1694114},
+                {41.5487301,-8.4389198}
+        };
+
+        for (int i = 0; i < cities.length; i++)
+        {
+            if(fromCreate.equals(cities[i]))
+            {
+                locPosition = i;
+                break;
+            }
+        }
+
+
+        return citiesLocation[locPosition];
+
     }
 
 
