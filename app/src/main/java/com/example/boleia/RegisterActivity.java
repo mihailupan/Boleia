@@ -81,36 +81,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String name = nameEdit.getText().toString().trim();
         String phone = phoneEdit.getText().toString().trim();
 
-        if (email.isEmpty()){
-            emailEdit.setError("É necessário o e-mail!");
-            emailEdit.requestFocus();
+        if (checkField(email.isEmpty(), emailEdit, "É necessário o e-mail!")) return;
+        if (checkField(!Patterns.EMAIL_ADDRESS.matcher(email).matches(), emailEdit, "E-mail não é válido!"))
             return;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailEdit.setError("E-mail não é válido!");
-            emailEdit.requestFocus();
-            return;
-        }
-        if (password.isEmpty()){
-            passwordEdit.setError("É necessária a password!");
-            passwordEdit.requestFocus();
-            return;
-        }
-        if (password.length() <6 ){
-            passwordEdit.setError("Mínimo de 6 caracteres!");
-            passwordEdit.requestFocus();
-            return;
-        }
-        if(name.isEmpty()){
-            nameEdit.setError("É necessário o nome!");
-            nameEdit.requestFocus();
-            return;
-        }
-        if (phone.isEmpty()){
-            phoneEdit.setError("É necessário o telemóvel!");
-            phoneEdit.requestFocus();
-            return;
-        }
+        if (checkField(password.isEmpty(), passwordEdit, "É necessária a password!")) return;
+        if (checkField(password.length() < 6, passwordEdit, "Mínimo de 6 caracteres!")) return;
+        if (checkField(name.isEmpty(), nameEdit, "É necessário o nome!")) return;
+        if (checkField(phone.isEmpty(), phoneEdit, "É necessário o telemóvel!")) return;
 
         progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email,password)
@@ -165,5 +142,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         }*/
                     }
                 });
+    }
+
+    private boolean checkField(boolean empty, EditText emailEdit, String s) {
+        if (empty) {
+            emailEdit.setError(s);
+            emailEdit.requestFocus();
+            return true;
+        }
+        return false;
     }
 }

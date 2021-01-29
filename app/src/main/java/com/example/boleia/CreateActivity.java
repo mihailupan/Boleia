@@ -94,8 +94,12 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         advanceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //Check if date was selected
+                //TODO
+                if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show(); return;}
+
                 Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
-                //intent.putExtra("mySpinnerValue", text);
 
                 //Pass from and to
                 intent.putExtra("fromCreate", fromCreate);

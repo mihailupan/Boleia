@@ -43,12 +43,19 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     ImageButton openGalleryButtonVehicle, captureImageButtonVehicle;
     EditText editBrandVehicle, editModelVehicle, editLicensePlateVehicle, editSeatNumberVehicle;
     String currentPhotoPath;
+    Uri contentUri;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_vehicle);
+
+        //EditTexts
+        editBrandVehicle = findViewById(R.id.editBrandVehicle);
+        editModelVehicle = findViewById(R.id.editModelVehicle);
+        editLicensePlateVehicle = findViewById(R.id.editLicensePlateVehicle);
+        editSeatNumberVehicle = findViewById(R.id.editSeatNumberVehicle);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
@@ -59,7 +66,10 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         createTravelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 String txtToDB = getData();
+                createTravel();
                 Toast.makeText(CreateVehicleActivity.this, txtToDB, Toast.LENGTH_LONG).show();
             }
         });
@@ -75,6 +85,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         });
 
         //Gallery button
+        openGalleryButtonVehicle = findViewById(R.id.openGalleryButtonVehicle);
         openGalleryButtonVehicle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,7 +94,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             }
         });
 
-        //FALTA DAR ACAO AO BOTAO
 
         //TODO
         //TESTING
@@ -92,6 +102,44 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
 
 
+    }
+
+    private void createTravel() {
+        String brandVehicle = editBrandVehicle.getText().toString().trim();
+        String modelVehicle = editModelVehicle.getText().toString().trim();
+        String licensePlateVehicle = editLicensePlateVehicle.getText().toString().trim();
+        String seatNumberVehicle = editSeatNumberVehicle.getText().toString().trim();
+
+        //Check if every field isn't empty
+        if ( checkField(brandVehicle.isEmpty(), editBrandVehicle, "É necessário o modelo do carro")) return;
+        if ( checkField(modelVehicle.isEmpty(), editModelVehicle, "É necessário a marca do carro")) return;
+        if ( checkField(licensePlateVehicle.isEmpty(), editLicensePlateVehicle, "É necessário a matrícula do carro")) return;
+        if ( checkField(seatNumberVehicle.isEmpty(), editSeatNumberVehicle, "É necessário o número de lugares do carro")) return;
+
+        //Check if photo was taken or chosen
+        //if(contentUri.equals(null)) {Toast.makeText(CreateVehicleActivity.this, "É necessário tirar ou escolher uma fotografia!", Toast.LENGTH_LONG).show(); return; }
+
+        if (contentUri.equals(null))
+        {
+            Toast.makeText(CreateVehicleActivity.this, "É necessário tirar ou escolher uma fotografia!", Toast.LENGTH_LONG).show();
+        }
+        else
+        {
+            Toast.makeText(CreateVehicleActivity.this, "Foto tirada ou escolhida", Toast.LENGTH_LONG).show();
+        }
+        //Save data
+        Toast.makeText(CreateVehicleActivity.this, "Guarda os dados", Toast.LENGTH_LONG).show();
+
+    }
+
+
+    private boolean checkField(boolean empty, EditText emailEdit, String s) {
+        if (empty) {
+            emailEdit.setError(s);
+            emailEdit.requestFocus();
+            return true;
+        }
+        return false;
     }
 
     private void askCameraPermissions() {
@@ -133,7 +181,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
                //selectedImage.setImageURI(Uri.fromFile(f));
 
                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-               Uri contentUri = Uri.fromFile(f);
+               contentUri = Uri.fromFile(f);
                mediaScanIntent.setData(contentUri);
                this.sendBroadcast(mediaScanIntent);
            }
@@ -142,7 +190,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         if (requestCode == GALLERY_REQUEST_CODE) {
             if(resultCode == Activity.RESULT_OK)
             {
-                Uri contentUri = data.getData();
+                contentUri = data.getData();
                 String timeStap = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStap + " . "+getFileExt(contentUri);
 
