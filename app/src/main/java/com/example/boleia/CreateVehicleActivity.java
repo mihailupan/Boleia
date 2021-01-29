@@ -12,7 +12,6 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,7 +37,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
-    //TODO
     String [] data;
     Button createTravelButton;
     ImageButton openGalleryButtonVehicle, captureImageButtonVehicle;
@@ -67,7 +65,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        //TODO
+
         createTravelButton = findViewById(R.id.createTravelButton);
         createTravelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +73,8 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
                 String txtToDB = getData();
                 createTravel();
                 Toast.makeText(CreateVehicleActivity.this, txtToDB, Toast.LENGTH_LONG).show();
+
+                startActivity(new Intent(CreateVehicleActivity.this, TravelsActivity.class));
             }
         });
 
@@ -98,8 +98,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         });
 
 
-        //TODO
-        //TESTING
         Bundle bundle = getIntent().getExtras();
         data = bundle.getStringArray("data");
     }
