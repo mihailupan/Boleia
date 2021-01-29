@@ -94,8 +94,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         openGalleryButtonVehicle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, GALLERY_REQUEST_CODE);
+                openGallery();
             }
         });
 
@@ -109,6 +108,15 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
     }
 
+
+    /**
+     * Open gallery to choose photo
+     */
+    private void openGallery() {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, GALLERY_REQUEST_CODE);
+    }
+
     private void createTravel() {
         String brandVehicle = editBrandVehicle.getText().toString().trim();
         String modelVehicle = editModelVehicle.getText().toString().trim();
@@ -119,16 +127,15 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         if ( checkField(brandVehicle.isEmpty(), editBrandVehicle, "É necessário o modelo do carro")) return;
         if ( checkField(modelVehicle.isEmpty(), editModelVehicle, "É necessário a marca do carro")) return;
         if ( checkField(licensePlateVehicle.isEmpty(), editLicensePlateVehicle, "É necessário a matrícula do carro")) return;
-        //if ( checkField(seatNumberVehicle.isEmpty(), editSeatNumberVehicle, "É necessário o número de lugares do carro")) return;
-
-        //Check if photo was taken or chosen
-        //if(contentUri.equals(null)) {Toast.makeText(CreateVehicleActivity.this, "É necessário tirar ou escolher uma fotografia!", Toast.LENGTH_LONG).show(); return; }
 
 
+        //Check if photo was chosen
+        if(photo.getVisibility() == View.INVISIBLE){
+            Toast.makeText(CreateVehicleActivity.this, "É necessário tirar ou escolher uma fotografia!", Toast.LENGTH_LONG).show();
+            return;
+        }
 
         //Save data
-
-
         Toast.makeText(CreateVehicleActivity.this, "Guarda os dados", Toast.LENGTH_LONG).show();
 
     }
