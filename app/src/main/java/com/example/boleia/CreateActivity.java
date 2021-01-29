@@ -195,8 +195,8 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
                 TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(Calendar.HOUR_OF_DAY, hour);
-                        myHour = hour;
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        myHour = hourOfDay;
 
                         calendar.set(Calendar.MINUTE, minute);
                         myMinute = minute;

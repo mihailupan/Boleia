@@ -65,6 +65,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
         //TODO
         //TESTING
+
         Bundle bundle = getIntent().getExtras();
         fromCreate = bundle.getString("fromCreate");
         toCreate = bundle.getString("toCreate");
@@ -74,6 +75,8 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         myYear = bundle.getInt("myYear");
         myHour = bundle.getInt("myHour");
         myMinute = bundle.getInt("myMinute");
+
+
 
         initLocation = bundle.getDoubleArray("location");
 

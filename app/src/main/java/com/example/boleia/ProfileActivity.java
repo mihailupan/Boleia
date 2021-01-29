@@ -50,7 +50,6 @@ import java.util.Date;
 public class ProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private FirebaseAuth mAuth;
-    private FirebaseUser user;
     private FirebaseFirestore mStore;
     private DatabaseReference reference;
     private String userID;
@@ -81,6 +80,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         mAuth = FirebaseAuth.getInstance();
         mStore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
+        userID = mAuth.getCurrentUser().getUid();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
@@ -89,12 +89,6 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         logoutButton = (Button) findViewById(R.id.profileLogoutButton);
         logoutButton.setOnClickListener(this);
 
-
-
-        user = mAuth.getCurrentUser();
-
-        //reference = FirebaseDatabase.getInstance().getReference("Users");
-        userID = user.getUid();
 
         final TextView nameTextView = (TextView) findViewById(R.id.userNameProfile);
         final TextView emailTextView = (TextView) findViewById(R.id.userEmailProfile);

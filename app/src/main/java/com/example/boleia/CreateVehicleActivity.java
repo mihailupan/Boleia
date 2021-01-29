@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -25,12 +26,27 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateVehicleActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -41,9 +57,13 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     Button createTravelButton;
     ImageButton openGalleryButtonVehicle, captureImageButtonVehicle;
     EditText editBrandVehicle, editModelVehicle, editLicensePlateVehicle, editSeatNumberVehicle;
-    ImageView photo;
+    ImageView vehiclePhoto;
     Uri contentUri;
     String currentPhotoPath;
+    private StorageReference storageReference;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mStore;
+    private String userID;
 
 
 
@@ -59,7 +79,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         //editSeatNumberVehicle = findViewById(R.id.editSeatNumberVehicle);
 
         //ImageView
-        photo = findViewById(R.id.carPhoto);
+        vehiclePhoto = findViewById(R.id.carPhoto);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
@@ -70,11 +90,9 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         createTravelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String txtToDB = getData();
-                createTravel();
-                Toast.makeText(CreateVehicleActivity.this, txtToDB, Toast.LENGTH_LONG).show();
 
-                startActivity(new Intent(CreateVehicleActivity.this, TravelsActivity.class));
+                createTravel();
+                //startActivity(new Intent(CreateVehicleActivity.this, TravelsActivity.class));
             }
         });
 
@@ -100,6 +118,11 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
         Bundle bundle = getIntent().getExtras();
         data = bundle.getStringArray("data");
+
+        mAuth = FirebaseAuth.getInstance();
+        mStore = FirebaseFirestore.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
+        storageReference = FirebaseStorage.getInstance().getReference();
     }
 
 
@@ -127,14 +150,90 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
 
         //Check if photo was chosen
-        if(photo.getVisibility() == View.INVISIBLE){
+        if(vehiclePhoto.getVisibility() == View.INVISIBLE){
             Toast.makeText(CreateVehicleActivity.this, "É necessário tirar ou escolher uma fotografia!", Toast.LENGTH_LONG).show();
             return;
         }
 
         //Save data
-        Toast.makeText(CreateVehicleActivity.this, "Guarda os dados", Toast.LENGTH_LONG).show();
+        //Toast.makeText(CreateVehicleActivity.this, "Guarda os dados", Toast.LENGTH_LONG).show();
 
+
+
+        String txtToDB = getData();
+        Toast.makeText(CreateVehicleActivity.this, txtToDB, Toast.LENGTH_LONG).show();
+
+
+        //Send data to cloud firestore and storage
+        sendDataToFirebaseCloudFirestore();
+
+
+    }
+
+    private void sendDataToFirebaseCloudFirestore() {
+
+        Map<String, Object> user = new HashMap<>();
+        user.put("userID", userID);
+
+        String[] info;
+        info = getUserInformation();
+        user.put("name", info[0]);
+        user.put("email", info[1]);
+        user.put("phone", info[2]);
+
+        user.put("from", data[0]);
+        user.put("to", data[1]);
+
+        String formatedDate =  data[2]+"-"+data[3]+"-"+data[4];
+        user.put("date", formatedDate);
+
+        String formatedTime =  data[5]+":"+data[6];
+        user.put("time", formatedTime);
+
+        user.put("meetingPointLat", data[7]);
+        user.put("meetingPointLng", data[8]);
+
+        user.put("vehicleBrand", editBrandVehicle.getText().toString());
+        user.put("vehicleModel", editModelVehicle.getText().toString());
+        user.put("vehicleLicensePlate", editLicensePlateVehicle.getText().toString());
+
+
+        String vehiclePhotoName = userID+""+data[0]+""+data[1]+""+data[2]+""+data[3]+""+data[4]+""+data[5]+""+data[6];
+
+        user.put("vehiclePhotoName", vehiclePhotoName);
+
+        //Access document that belongs to user
+        DocumentReference documentReference = mStore.collection("travels").document(vehiclePhotoName);
+        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                Toast.makeText(CreateVehicleActivity.this, "Dados da viagem submetidos!", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        updloadImageToFirebase(vehiclePhotoName);
+    }
+
+    /**
+     * Upload image to firebase storage
+     * @param name
+     */
+    private void updloadImageToFirebase(String name) {
+
+        StorageReference image  =  storageReference.child(userID+"/"+name); //images/image.jpg
+        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(CreateVehicleActivity.this, "Upload Done!", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(CreateVehicleActivity.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -204,14 +303,11 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
            if(resultCode == Activity.RESULT_OK)
            {
                File f = new File(currentPhotoPath);
-               //selectedImage.setImageURI(Uri.fromFile(f));
-
                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                contentUri = Uri.fromFile(f);
                mediaScanIntent.setData(contentUri);
                this.sendBroadcast(mediaScanIntent);
-               photo.setImageURI(contentUri);
-               photo.setVisibility(View.VISIBLE);
+               Picasso.get().load(contentUri).into(vehiclePhoto);
            }
         }
 
@@ -219,11 +315,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             if(resultCode == Activity.RESULT_OK)
             {
                 contentUri = data.getData();
-                String timeStap = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "JPEG_" + timeStap + " . "+getFileExt(contentUri);
-                photo.setImageURI(contentUri);
-                photo.setVisibility(View.VISIBLE);
-
+                Picasso.get().load(contentUri).into(vehiclePhoto);
             }
         }
 
@@ -330,5 +422,38 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             return true;
         }
         return false;
+    }
+
+    public String [] getUserInformation()
+    {
+
+        String[] aInfo = new String[3];
+
+        DocumentReference docRef = mStore.collection("users").document(userID);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot doc = task.getResult();
+                    if(doc.exists()) {
+                        Log.d("Document", doc.getData().toString());
+
+
+                        aInfo[0] = doc.getString("name");
+                        aInfo[1] = doc.getString("email");
+                        aInfo[2] = doc.getString("phone");
+
+                        //Toast.makeText(CreateVehicleActivity.this, info[0]+""+doc.getString("email"), Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        Log.d("Document", "No data "+userID);
+                    }
+                }
+            }
+        });
+
+
+        return aInfo;
     }
 }
