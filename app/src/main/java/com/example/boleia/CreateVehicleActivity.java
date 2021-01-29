@@ -23,6 +23,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -42,6 +43,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     Button createTravelButton;
     ImageButton openGalleryButtonVehicle, captureImageButtonVehicle;
     EditText editBrandVehicle, editModelVehicle, editLicensePlateVehicle, editSeatNumberVehicle;
+    ImageView photo;
     String currentPhotoPath;
     Uri contentUri;
 
@@ -55,7 +57,10 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         editBrandVehicle = findViewById(R.id.editBrandVehicle);
         editModelVehicle = findViewById(R.id.editModelVehicle);
         editLicensePlateVehicle = findViewById(R.id.editLicensePlateVehicle);
-        editSeatNumberVehicle = findViewById(R.id.editSeatNumberVehicle);
+        //editSeatNumberVehicle = findViewById(R.id.editSeatNumberVehicle);
+
+        //ImageView
+        photo = findViewById(R.id.carPhoto);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
@@ -108,26 +113,22 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         String brandVehicle = editBrandVehicle.getText().toString().trim();
         String modelVehicle = editModelVehicle.getText().toString().trim();
         String licensePlateVehicle = editLicensePlateVehicle.getText().toString().trim();
-        String seatNumberVehicle = editSeatNumberVehicle.getText().toString().trim();
+        //String seatNumberVehicle = editSeatNumberVehicle.getText().toString().trim();
 
         //Check if every field isn't empty
         if ( checkField(brandVehicle.isEmpty(), editBrandVehicle, "É necessário o modelo do carro")) return;
         if ( checkField(modelVehicle.isEmpty(), editModelVehicle, "É necessário a marca do carro")) return;
         if ( checkField(licensePlateVehicle.isEmpty(), editLicensePlateVehicle, "É necessário a matrícula do carro")) return;
-        if ( checkField(seatNumberVehicle.isEmpty(), editSeatNumberVehicle, "É necessário o número de lugares do carro")) return;
+        //if ( checkField(seatNumberVehicle.isEmpty(), editSeatNumberVehicle, "É necessário o número de lugares do carro")) return;
 
         //Check if photo was taken or chosen
         //if(contentUri.equals(null)) {Toast.makeText(CreateVehicleActivity.this, "É necessário tirar ou escolher uma fotografia!", Toast.LENGTH_LONG).show(); return; }
 
-        if (contentUri.equals(null))
-        {
-            Toast.makeText(CreateVehicleActivity.this, "É necessário tirar ou escolher uma fotografia!", Toast.LENGTH_LONG).show();
-        }
-        else
-        {
-            Toast.makeText(CreateVehicleActivity.this, "Foto tirada ou escolhida", Toast.LENGTH_LONG).show();
-        }
+
+
         //Save data
+
+
         Toast.makeText(CreateVehicleActivity.this, "Guarda os dados", Toast.LENGTH_LONG).show();
 
     }
@@ -184,6 +185,8 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
                contentUri = Uri.fromFile(f);
                mediaScanIntent.setData(contentUri);
                this.sendBroadcast(mediaScanIntent);
+               photo.setImageURI(contentUri);
+               photo.setVisibility(View.VISIBLE);
            }
         }
 
@@ -193,6 +196,8 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
                 contentUri = data.getData();
                 String timeStap = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStap + " . "+getFileExt(contentUri);
+                photo.setImageURI(contentUri);
+                photo.setVisibility(View.VISIBLE);
 
             }
         }

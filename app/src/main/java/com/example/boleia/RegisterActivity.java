@@ -82,8 +82,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String phone = phoneEdit.getText().toString().trim();
 
         if (checkField(email.isEmpty(), emailEdit, "É necessário o e-mail!")) return;
-        if (checkField(!Patterns.EMAIL_ADDRESS.matcher(email).matches(), emailEdit, "E-mail não é válido!"))
-            return;
+        if (checkField(!Patterns.EMAIL_ADDRESS.matcher(email).matches(), emailEdit, "E-mail não é válido!")) return;
         if (checkField(password.isEmpty(), passwordEdit, "É necessária a password!")) return;
         if (checkField(password.length() < 6, passwordEdit, "Mínimo de 6 caracteres!")) return;
         if (checkField(name.isEmpty(), nameEdit, "É necessário o nome!")) return;

@@ -76,22 +76,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editModelVehicle" />
 
-        <EditText
-            android:id="@+id/editSeatNumberVehicle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="100dp"
-            android:ems="10"
-            android:inputType="number"
-            android:hint="Número de lugares"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editLicensePlateVehicle" />
-
 
         <TextView
             android:id="@+id/loadPhotoVehicleTextView"
@@ -99,14 +83,14 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="118dp"
             android:layout_marginLeft="118dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="118dp"
             android:layout_marginRight="118dp"
             android:text="Carregar fotografia do veículo"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editSeatNumberVehicle" />
+            app:layout_constraintTop_toBottomOf="@+id/editLicensePlateVehicle" />
 
         <ImageButton
             android:id="@+id/captureImageButtonVehicle"
@@ -114,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="120dp"
             android:layout_marginLeft="120dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView"
             app:srcCompat="@android:drawable/ic_menu_camera" />
@@ -125,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="57dp"
             android:layout_marginLeft="57dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="120dp"
             android:layout_marginRight="120dp"
             app:layout_constraintBottom_toBottomOf="@+id/captureImageButtonVehicle"
@@ -146,6 +130,17 @@
             android:text="Criar Viagem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/carPhoto"
+            android:layout_width="112dp"
+            android:layout_height="116dp"
+            android:layout_marginTop="90dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView"
+            tools:srcCompat="@tools:sample/backgrounds/scenic"
+            android:visibility="invisible"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
