@@ -117,11 +117,14 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         startActivityForResult(gallery, GALLERY_REQUEST_CODE);
     }
 
+    /**
+     * Function to create data for new trip and save data on database
+     */
     private void createTravel() {
         String brandVehicle = editBrandVehicle.getText().toString().trim();
         String modelVehicle = editModelVehicle.getText().toString().trim();
         String licensePlateVehicle = editLicensePlateVehicle.getText().toString().trim();
-        //String seatNumberVehicle = editSeatNumberVehicle.getText().toString().trim();
+
 
         //Check if every field isn't empty
         if ( checkField(brandVehicle.isEmpty(), editBrandVehicle, "É necessário o modelo do carro")) return;
@@ -141,15 +144,24 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     }
 
 
-    private boolean checkField(boolean empty, EditText emailEdit, String s) {
-        if (empty) {
-            emailEdit.setError(s);
-            emailEdit.requestFocus();
+    /**
+     * @param var Variable to check if it's empty
+     * @param editTxt Variable to set error
+     * @param s Message to show when error if var is empty
+     * @return
+     */
+    private boolean checkField(boolean var, EditText editTxt, String s) {
+        if (var) {
+            editTxt.setError(s);
+            editTxt.requestFocus();
             return true;
         }
         return false;
     }
 
+    /**
+     * Take photo if app has permission, if not, ask user for permission
+     */
     private void askCameraPermissions() {
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)
         {
@@ -161,6 +173,13 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         }
     }
 
+
+    /**
+     * Result of permission asked, if request code equals the CAMERA_PERM_CODE, user can take photo
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         //Has permission to access camera
@@ -178,7 +197,12 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     }
 
 
-    //Photo taken
+    /**
+     * Result of apening camera to take photo or opening gallery to choose photo
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -211,6 +235,12 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
     }
 
+
+    /**
+     * Auxiliary function to get the file extension
+     * @param contentUri
+     * @return
+     */
     private String getFileExt(Uri contentUri) {
         ContentResolver c = getContentResolver();
         MimeTypeMap mime = MimeTypeMap.getSingleton();
@@ -235,6 +265,9 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         return image;
     }
 
+    /**
+     * @return Organized string to put on database
+     */
     private String getData() {
 
         String str = "";
@@ -246,7 +279,9 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     }
 
 
-
+    /**
+     * Function to ask MEDIASTORE to take photo
+     */
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         // Ensure that there's a camera activity to handle the intent
