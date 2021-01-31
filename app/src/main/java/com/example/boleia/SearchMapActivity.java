@@ -10,6 +10,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -29,6 +32,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -64,7 +69,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
         //Initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this);
 
-
+        //Check permission for the map
         checkPermissions();
     }
 
@@ -165,31 +170,34 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
     }
 
 
+
     private void map(Location location){
 
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                //Initialize lat lng
+
+                //User current location
+                double currentLocationLat =  location.getLatitude();
+                double currentLocationLng = location.getLongitude();
+
+                LatLng latLngCurrentLocation = new LatLng(currentLocationLat,currentLocationLng);
+
+                //Location of the "from" city
                 location.setLatitude(fromCitycoordinates[0]);
                 location.setLongitude(fromCitycoordinates[1]);
                 latLngfromCity = new LatLng(location.getLatitude(), location.getLongitude());
 
+                //Add Marker in the "from city"
+                googleMap.addMarker(new MarkerOptions()
+                        .position(latLngCurrentLocation).title("Localização atual!")
+                        .icon(bitmapDescriptorFromVector(getApplicationContext(),
+                                R.drawable.ic_current_location)));
 
-                //TODO
-                //latLng = getLocationFrom();
-
-                //Create marker
-                MarkerOptions options = new MarkerOptions().position(latLngfromCity)
-                        .title("HERE");
-
-                //Zoom map
+                //Zoom map to the "from" city
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngfromCity, 15));
 
-                //Add marker on map
-                //googleMap.addMarker(options);
-
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                /*googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(LatLng latLng) {
                         //Creating Marker
@@ -212,16 +220,21 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
 
                         //Set button visible
                         //next.setVisibility(View.VISIBLE);
-
-                        //TODO
-                        //TESTING
-                        //Toast.makeText(SearchMapActivity.this, fromCity+""+toCity, Toast.LENGTH_SHORT).show();
                     }
-                });
-
+                });*/
             }
         });
     }
+
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
