@@ -29,8 +29,8 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
     private Button nextButton;
     Spinner fromSpinner;
     Spinner toSpinner;
-    String selectedFrom;
-    String selectedTo;
+    String selectedFromCity;
+    String selectedToCity;
     Button dateButton;
     int myDay, myMonth, myYear, myHour, myMinute;
     TextView dateTimeTextView;
@@ -122,7 +122,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Save selected value
-                selectedFrom = fromSpinner.getSelectedItem().toString();
+                selectedFromCity = fromSpinner.getSelectedItem().toString();
             }
 
             @Override
@@ -138,7 +138,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //Save selected value
-                selectedTo = fromSpinner.getSelectedItem().toString();
+                selectedToCity = toSpinner.getSelectedItem().toString();
             }
 
             @Override
@@ -158,8 +158,8 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         Intent intent = new Intent(SearchActivity.this, SearchMapActivity.class);
 
         //Pass from and to
-        intent.putExtra("from", selectedFrom);
-        intent.putExtra("to", selectedTo);
+        intent.putExtra("fromCity", selectedFromCity);
+        intent.putExtra("toCity", selectedToCity);
 
         //Pass date and time
         intent.putExtra("day", myDay);
@@ -171,8 +171,8 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
 
         //Pass initial latitude and longitude
         double [] coordinates = new double[2];
-        coordinates = getCityCoordinates(selectedFrom);
-        intent.putExtra("coordinates", coordinates);
+        coordinates = getCityCoordinates(selectedFromCity);
+        intent.putExtra("fromCityCoordinates", coordinates);
         startActivity(intent);
     }
 
@@ -252,6 +252,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         }
         if (v.getId()== R.id.search_next_button){
             sendData();
+            Toast.makeText(SearchActivity.this, selectedToCity, Toast.LENGTH_SHORT).show();
         }
     }
 

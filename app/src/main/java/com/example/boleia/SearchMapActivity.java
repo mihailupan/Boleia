@@ -39,12 +39,19 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
 
     FusedLocationProviderClient client;
     SupportMapFragment supportMapFragment;
+    int day, month, year, hour, minute;
+    String fromCity, toCity;
+    double [] fromCitycoordinates = new double[2];
+    LatLng latLngfromCity;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_map);
+
+        //get information from SearchActivity
+        getInfo();
 
         //Bottom Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -53,13 +60,29 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
 
         //Obtain the SupportMapFragment
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-        //supportMapFragment.getMapAsync(this);
 
         //Initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this);
 
 
+        checkPermissions();
+    }
 
+    private void getInfo() {
+
+        Bundle bundle = getIntent().getExtras();
+        fromCity = bundle.getString("fromCity");
+        toCity = bundle.getString("toCity");
+        day = bundle.getInt("day");
+        month = bundle.getInt("month");
+        year = bundle.getInt("year");
+        hour = bundle.getInt("hour");
+        minute = bundle.getInt("minute");
+        fromCitycoordinates = bundle.getDoubleArray("fromCityCoordinates");
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //When permission granted
@@ -148,20 +171,20 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 //Initialize lat lng
-                location.setLatitude(initLocation[0]);
-                location.setLongitude(initLocation[1]);
-                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                location.setLatitude(fromCitycoordinates[0]);
+                location.setLongitude(fromCitycoordinates[1]);
+                latLngfromCity = new LatLng(location.getLatitude(), location.getLongitude());
 
 
                 //TODO
                 //latLng = getLocationFrom();
 
                 //Create marker
-                MarkerOptions options = new MarkerOptions().position(latLng)
+                MarkerOptions options = new MarkerOptions().position(latLngfromCity)
                         .title("HERE");
 
                 //Zoom map
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngfromCity, 15));
 
                 //Add marker on map
                 //googleMap.addMarker(options);
@@ -188,11 +211,11 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                         googleMap.addMarker(markerOptions);
 
                         //Set button visible
-                        next.setVisibility(View.VISIBLE);
+                        //next.setVisibility(View.VISIBLE);
 
                         //TODO
                         //TESTING
-                        Toast.makeText(CreateMapActivity.this, fromCreate+" "+toCreate, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SearchMapActivity.this, fromCity+""+toCity, Toast.LENGTH_SHORT).show();
                     }
                 });
 
