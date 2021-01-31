@@ -40,6 +40,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchMapActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     FusedLocationProviderClient client;
@@ -171,11 +174,33 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
 
 
 
+
     private void map(Location location){
 
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
+
+                Travel travel = new Travel("dsada","Leo","dsadas","djasjdaj","Beja","dasdas"
+                        ,"dasdasd","dasda","38.0173806","-7.8676554","dsada","dsadsa",
+                        "dsadd","dsadasd");
+
+                Travel travel1 = new Travel("dsada","Leo","dsadas","djasjdaj","Evora","dasdas"
+                        ,"dasdasd","dasda","38.014807","-7.868906","dsada","dsadsa",
+                        "dsadd","dsadasd");
+
+                List<Travel> travelList = new ArrayList<>();
+                travelList.add(travel);
+                travelList.add(travel1);
+
+                for (int i=0; i< travelList.size(); i++){
+                    double latMeet = Double.parseDouble(travelList.get(i).getMeetingPointLat());
+                    double lngMeet = Double.parseDouble(travelList.get(i).getMeetingPointLng());
+
+                    LatLng meet = new LatLng(latMeet,lngMeet);
+                    googleMap.addMarker(new MarkerOptions().position(meet).title(travelList.get(i).getFrom()));
+                }
+
 
                 //User current location
                 double currentLocationLat =  location.getLatitude();
@@ -197,31 +222,11 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                 //Zoom map to the "from" city
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLngfromCity, 15));
 
-                /*googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        //Creating Marker
-                        MarkerOptions markerOptions = new MarkerOptions();
 
-                        //Set Marker Position
-                        markerOptions.position(latLng);
+                /*googleMap.addMarker(new MarkerOptions().position(meet));
+                googleMap.addMarker(new MarkerOptions().position(meet1));*/
 
-                        //Set Latitude and Longitude on Marker
-                        markerOptions.title(latLng.latitude+" : "+latLng.longitude);
 
-                        //Clear the previously click position
-                        googleMap.clear();
-
-                        //Zoom the marker
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-                        //Add marker on map
-                        googleMap.addMarker(markerOptions);
-
-                        //Set button visible
-                        //next.setVisibility(View.VISIBLE);
-                    }
-                });*/
             }
         });
     }
