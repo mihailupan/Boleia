@@ -3,7 +3,6 @@ package com.example.boleia;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
@@ -19,7 +18,6 @@ import android.os.Looper;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -34,49 +32,24 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.protobuf.StringValue;
 
-public class CreateMapActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class SearchMapActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-
-    //Initialize variable
     FusedLocationProviderClient client;
     SupportMapFragment supportMapFragment;
-    Button next;
-    LatLng latLng;
-    //TODO
-    //TESTING
-    String fromCreate, toCreate;
-    int myDay, myMonth, myYear, myHour, myMinute;
-    double [] initLocation = new double[2];
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_map);
+        setContentView(R.layout.activity_search_map);
 
+        //Bottom Navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
-
-        //TODO
-        //TESTING
-
-        Bundle bundle = getIntent().getExtras();
-        fromCreate = bundle.getString("fromCreate");
-        toCreate = bundle.getString("toCreate");
-
-        myDay = bundle.getInt("myDay");
-        myMonth = bundle.getInt("myMonth");
-        myYear = bundle.getInt("myYear");
-        myHour = bundle.getInt("myHour");
-        myMinute = bundle.getInt("myMinute");
-
-        initLocation = bundle.getDoubleArray("location");
 
         //Obtain the SupportMapFragment
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
@@ -85,12 +58,6 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         //Initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this);
 
-        //Check permission and get current location
-        //getCurrentLocation();
-
-        next = findViewById(R.id.choseLocationNextButton);
-        next.setVisibility(View.INVISIBLE);
-        next.setOnClickListener(this);
 
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -103,7 +70,6 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             //Request permission
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
         }
-
     }
 
     @Override
@@ -225,7 +191,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
                         next.setVisibility(View.VISIBLE);
 
                         //TODO
-                         //TESTING
+                        //TESTING
                         Toast.makeText(CreateMapActivity.this, fromCreate+" "+toCreate, Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -233,86 +199,6 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             }
         });
     }
-
-    /*private void getCurrentLocation() {
-        //check permission
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                {
-            //When permission grated
-            //Initialize task location
-            Task<Location> task = client.getLastLocation();
-
-            task.addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    //When success
-                    if (location != null) {
-                        //Sync map
-                        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                            @Override
-                            public void onMapReady(GoogleMap googleMap) {
-                                //Initialize lat lng
-                                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                                //Create marker
-                                MarkerOptions options = new MarkerOptions().position(latLng)
-                                        .title("HERE");
-
-                                //Zoom map
-                                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-                                //Add marker on map
-                                googleMap.addMarker(options);
-
-                                Toast.makeText(CreateMapActivity.this, "2", Toast.LENGTH_LONG).show();
-
-                            }
-                        });
-                    }else{
-                        return;
-                    }
-                }
-            });
-        }else {
-            //When permission denied
-            //Request permission
-            ActivityCompat.requestPermissions(CreateMapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
-    }*/
-
-
-
-/*    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        //Assign variable
-        gMap = googleMap;
-
-
-
-        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                //Creating Marker
-                MarkerOptions markerOptions = new MarkerOptions();
-
-                //Set Marker Position
-                markerOptions.position(latLng);
-
-                //Set Latitude and Longitude on Marker
-                markerOptions.title(latLng.latitude+" : "+latLng.longitude);
-
-                //Clear the previously click position
-                gMap.clear();
-
-                //Zoom the marker
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-                //Add marker on map
-                gMap.addMarker(markerOptions);
-            }
-        });
-    }*/
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -346,31 +232,4 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         }
         return false;
     }
-
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.choseLocationNextButton) {
-
-
-            //TODO
-            String [] data = {
-                    fromCreate,
-                    toCreate,
-                    String.valueOf(myDay),
-                    String.valueOf(myMonth),
-                    String.valueOf(myYear),
-                    String.valueOf(myHour),
-                    String.valueOf(myMinute),
-                    String.valueOf(latLng.latitude),
-                    String.valueOf(latLng.longitude)
-            };
-
-            Intent intent = new Intent(this, CreateVehicleActivity.class);
-            intent.putExtra("data", data);
-            startActivity(intent);
-
-        }
-    }
 }
-
-

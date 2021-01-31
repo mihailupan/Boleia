@@ -31,7 +31,6 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     String fromCreate, toCreate;
 
     Button chooseDateBtn, advanceBtn;
-    int day, month, year, hour, minute;
     int myDay, myMonth, myYear, myHour, myMinute;
     TextView showDateTime;
 
@@ -97,7 +96,8 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
 
                 //Check if date was selected
                 //TODO
-                if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show(); return;}
+                if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {
+                    Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show(); return;}
 
                 Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
 
@@ -111,8 +111,6 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
                 intent.putExtra("myYear", myYear);
                 intent.putExtra("myHour", myHour);
                 intent.putExtra("myMinute", myMinute);
-
-
 
                 //Pass initial latitude and longitude
 
@@ -152,7 +150,6 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
                 "Lisboa",
                 "Braga"
         };
-
 
         //Location of each city listed above
         double [][] citiesLocation = {

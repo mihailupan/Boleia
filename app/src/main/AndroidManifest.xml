@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Boleia">
-        <activity android:name=".CreateVehicleActivity"></activity>
+        <activity android:name=".SearchMapActivity"></activity>
+        <activity android:name=".CreateVehicleActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -43,7 +44,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

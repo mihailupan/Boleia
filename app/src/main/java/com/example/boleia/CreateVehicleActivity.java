@@ -32,7 +32,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -64,6 +63,9 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     private FirebaseAuth mAuth;
     private FirebaseFirestore mStore;
     private String userID;
+    private String userName;
+    private String userEmail;
+    private String userPhone;
 
 
 
@@ -90,7 +92,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         createTravelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 createTravel();
                 //startActivity(new Intent(CreateVehicleActivity.this, TravelsActivity.class));
             }
@@ -123,6 +124,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         mStore = FirebaseFirestore.getInstance();
         userID = mAuth.getCurrentUser().getUid();
         storageReference = FirebaseStorage.getInstance().getReference();
+
     }
 
 
@@ -163,23 +165,72 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         String txtToDB = getData();
         Toast.makeText(CreateVehicleActivity.this, txtToDB, Toast.LENGTH_LONG).show();
 
-
+        getUserData();
         //Send data to cloud firestore and storage
         sendDataToFirebaseCloudFirestore();
 
 
     }
 
+    private void getUserData(){
+
+        DocumentReference docRef = mStore.collection("users").document(userID);
+
+        final String[] userN = new String[1];
+        final String[] userE = new String[1];
+        final String[] userP = new String[1];
+
+        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    userN[0] = documentSnapshot.getString("name");
+                    userE[0] = documentSnapshot.getString("email");
+                    userP[0] = documentSnapshot.getString("phone");
+                }
+                else{
+                    Log.d("Document", "No data "+userID);
+                }
+
+            }
+        });
+/*        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot doc = task.getResult();
+                    if(doc.exists()) {
+                        Log.d("Document", doc.getData().toString());
+
+
+                        userN[0] = doc.getString("name");
+                        userE[0] = doc.getString("email");
+                        userP[0] = doc.getString("phone");
+
+                    }
+                    else{
+                        Log.d("Document", "No data "+userID);
+                    }
+                }
+            }
+        });*/
+
+        this.userName = userN[0];
+        this.userEmail = userE[0];
+        this.userPhone = userP[0];
+    }
+
+
     private void sendDataToFirebaseCloudFirestore() {
 
         Map<String, Object> user = new HashMap<>();
         user.put("userID", userID);
 
-        String[] info;
-        info = getUserInformation();
-        user.put("name", info[0]);
-        user.put("email", info[1]);
-        user.put("phone", info[2]);
+        user.put("name", this.userName);
+        user.put("email", this.userEmail);
+        user.put("phone", this.userPhone);
+
+        //Toast.makeText(CreateVehicleActivity.this, info[0]+""+info[1]+""+info[2], Toast.LENGTH_LONG).show();
 
         user.put("from", data[0]);
         user.put("to", data[1]);
@@ -424,36 +475,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         return false;
     }
 
-    public String [] getUserInformation()
-    {
-
-        String[] aInfo = new String[3];
-
-        DocumentReference docRef = mStore.collection("users").document(userID);
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot doc = task.getResult();
-                    if(doc.exists()) {
-                        Log.d("Document", doc.getData().toString());
 
 
-                        aInfo[0] = doc.getString("name");
-                        aInfo[1] = doc.getString("email");
-                        aInfo[2] = doc.getString("phone");
-
-                        //Toast.makeText(CreateVehicleActivity.this, info[0]+""+doc.getString("email"), Toast.LENGTH_LONG).show();
-                    }
-                    else{
-                        Log.d("Document", "No data "+userID);
-                    }
-                }
-            }
-        });
-
-
-        return aInfo;
-    }
 }
