@@ -8,7 +8,7 @@
     android:layout_marginStart="8dp"
     android:layout_marginTop="8dp"
     app:cardCornerRadius="20dp"
-    app:cardBackgroundColor="@color/space_blue">
+    app:cardBackgroundColor="@color/boleias_blue">
 
     <RelativeLayout
         android:layout_width="match_parent"
