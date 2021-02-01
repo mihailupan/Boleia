@@ -41,9 +41,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -62,6 +65,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
     private FirebaseFirestore mStore;
     private StorageReference storageReference;
     private String userID;
+    String date;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -95,14 +99,15 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
     private void getInfo() {
 
         Bundle bundle = getIntent().getExtras();
-        fromCity = bundle.getString("fromCity");
-        toCity = bundle.getString("toCity");
-        day = bundle.getInt("day");
-        month = bundle.getInt("month");
-        year = bundle.getInt("year");
-        hour = bundle.getInt("hour");
-        minute = bundle.getInt("minute");
-        fromCitycoordinates = bundle.getDoubleArray("fromCityCoordinates");
+        this.fromCity = bundle.getString("fromCity");
+        this.toCity = bundle.getString("toCity");
+        this.day = bundle.getInt("day");
+        this.month = bundle.getInt("month");
+        this.year = bundle.getInt("year");
+        this.hour = bundle.getInt("hour");
+        this.minute = bundle.getInt("minute");
+        this.fromCitycoordinates = bundle.getDoubleArray("fromCityCoordinates");
+        this.date = day+"-"+month+"-"+year;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -188,31 +193,37 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
         }
     }
 
-/*    private List<Travel> getInfoFromFirestore(){
+    private List<Travel> getInfoFromFirestore(){
 
-        DocumentReference docRef = mStore.collection("travels").document(userID);
+        List<Travel> travelList = new ArrayList<>();
 
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot doc = task.getResult();
-                    if(doc.exists()) {
-                        Log.d("Document", doc.getData().toString());
+        mStore.collection("travels")
+                .whereEqualTo("from", fromCity).whereEqualTo("to",toCity).whereEqualTo("date", date)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
 
-                        String name = doc.getString("name");
-                        String email = doc.getString("email");
-                        String phone = doc.getString("phone");
+                                Travel travel = new Travel(document.getString("userID"),document.getString("name"),document.getString("email"),
+                                        document.getString("phone"),document.getString("from"),document.getString("to")
+                                        ,document.getString("date"),document.getString("time"),document.getString("meetingPointLat"),
+                                        document.getString("meetingPointLng"),document.getString("vehicleBrand"),document.getString("vehicleModel"),
+                                        document.getString("vehicleLicensePlate"),document.getString("vehiclePhotoName"));
 
+                                travelList.add(travel);
+
+                                //Toast.makeText(SearchMapActivity.this, name, Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            //Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
                     }
-                    else{
-                        Log.d("Document", "No data "+userID);
-                    }
-                }
-            }
-        });
+                });
 
-    }*/
+        return travelList;
+    }
 
 
     private void map(Location location){
@@ -221,21 +232,16 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
             @Override
             public void onMapReady(GoogleMap googleMap) {
 
-                Travel travel = new Travel("dsada","Leo","dsadas","djasjdaj","Beja","dasdas"
-                        ,"dasdasd","dasda","38.0173806","-7.8676554","dsada","dsadsa",
-                        "dsadd","dsadasd");
 
-                Travel travel1 = new Travel("dsada","Leo","dsadas","djasjdaj","Evora","dasdas"
-                        ,"dasdasd","dasda","38.014807","-7.868906","dsada","dsadsa",
-                        "dsadd","dsadasd");
+                List<Travel> travelList;
 
-                List<Travel> travelList = new ArrayList<>();
-                travelList.add(travel);
-                travelList.add(travel1);
+                travelList = getInfoFromFirestore();
 
                 for (int i=0; i< travelList.size(); i++){
                     double latMeet = Double.parseDouble(travelList.get(i).getMeetingPointLat());
                     double lngMeet = Double.parseDouble(travelList.get(i).getMeetingPointLng());
+
+                    Toast.makeText(SearchMapActivity.this, latMeet +"___" + lngMeet, Toast.LENGTH_SHORT).show();
 
                     LatLng meet = new LatLng(latMeet,lngMeet);
                     googleMap.addMarker(new MarkerOptions().position(meet).title(travelList.get(i).getFrom()));

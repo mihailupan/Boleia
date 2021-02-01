@@ -13,7 +13,7 @@ public class Travel {
     private String meetingPointLng;
     private String vehicleBrand;
     private String vehicleModel;
-    private String vehicleLicencePlate;
+    private String vehicleLicensePlate;
     private String vehiclePhotoName;
 
     public Travel(){
@@ -24,7 +24,7 @@ public class Travel {
                   String from, String to, String date, String time,
                   String meetingPointLat, String meetingPointLng,
                   String vehicleBrand, String vehicleModel,
-                  String vehicleLicencePlate, String vehiclePhotoName) {
+                  String vehicleLicensePlate, String vehiclePhotoName) {
         this.userId = userId;
         this.name = name;
         this.email = email;
@@ -37,7 +37,7 @@ public class Travel {
         this.meetingPointLng = meetingPointLng;
         this.vehicleBrand = vehicleBrand;
         this.vehicleModel = vehicleModel;
-        this.vehicleLicencePlate = vehicleLicencePlate;
+        this.vehicleLicensePlate = vehicleLicensePlate;
         this.vehiclePhotoName = vehiclePhotoName;
     }
 
@@ -137,12 +137,12 @@ public class Travel {
         this.vehicleModel = vehicleModel;
     }
 
-    public String getVehicleLicencePlate() {
-        return vehicleLicencePlate;
+    public String getVehicleLicensePlate() {
+        return vehicleLicensePlate;
     }
 
-    public void setVehicleLicencePlate(String vehicleLicencePlate) {
-        this.vehicleLicencePlate = vehicleLicencePlate;
+    public void setVehicleLicensePlate(String vehicleLicensePlate) {
+        this.vehicleLicensePlate = vehicleLicensePlate;
     }
 
     public String getVehiclePhotoName() {

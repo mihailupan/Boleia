@@ -247,19 +247,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
     }
 
-    private String getFormattedTime(String hour, String minute) {
-
-        if(hour.length() == 1){
-            hour = "0"+hour;
-        }
-
-        if(minute.length() == 1){
-            minute = "0"+minute;
-        }
-
-        return hour+":"+minute;
-    }
-
     /**
      * @param hour String hour
      * @param minute String minute
