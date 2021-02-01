@@ -197,27 +197,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             }
         });
 
-/*        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot doc = task.getResult();
-                    if(doc.exists()) {
-                        Log.d("Document", doc.getData().toString());
-
-
-                        userN[0] = doc.getString("name");
-                        userE[0] = doc.getString("email");
-                        userP[0] = doc.getString("phone");
-
-                    }
-                    else{
-                        Log.d("Document", "No data "+userID);
-                    }
-                }
-            }
-        });*/
-
     }
 
 
@@ -238,7 +217,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         String formatedDate =  data[2]+"-"+data[3]+"-"+data[4];
         user.put("date", formatedDate);
 
-        String formatedTime =  data[5]+":"+data[6];
+        String formatedTime =  getFormattedTime(data[5], data[6]);
         user.put("time", formatedTime);
 
         user.put("meetingPointLat", data[7]);
@@ -269,6 +248,23 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     }
 
 
+    /**
+     * @param hour String hour
+     * @param minute String minute
+     * @return Formatted data to be stored in Firestore
+     */
+    private String getFormattedTime(String hour, String minute) {
+
+        if(hour.length() == 1){
+            hour = "0"+hour;
+        }
+
+        if(minute.length() == 1){
+            minute = "0"+minute;
+        }
+
+        return hour+":"+minute;
+    }
 
     /**
      * Upload image to firebase storage
