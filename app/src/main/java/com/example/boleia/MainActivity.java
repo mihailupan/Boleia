@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     finish();
                 }else{
                     Toast.makeText(MainActivity.this, "Login falhou! Verifique os seus dados!", Toast.LENGTH_LONG).show();
+                    //progressBar.setVisibility(View.INVISIBLE);
                 }
             }
         });

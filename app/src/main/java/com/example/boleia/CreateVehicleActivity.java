@@ -1,4 +1,4 @@
-package com.example.boleia;
+ package com.example.boleia;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -238,7 +238,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         String formatedDate =  data[2]+"-"+data[3]+"-"+data[4];
         user.put("date", formatedDate);
 
-        String formatedTime =  data[5]+":"+data[6];
+        String formatedTime =  getFormattedTime(data[5], data[6]);
         user.put("time", formatedTime);
 
         user.put("meetingPointLat", data[7]);
@@ -268,6 +268,18 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
     }
 
+    private String getFormattedTime(String hour, String minute) {
+
+        if(hour.length() == 1){
+            hour = "0"+hour;
+        }
+
+        if(minute.length() == 1){
+            minute = "0"+minute;
+        }
+
+        return hour+":"+minute;
+    }
 
 
     /**
