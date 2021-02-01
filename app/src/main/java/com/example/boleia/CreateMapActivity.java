@@ -41,14 +41,12 @@ import com.google.protobuf.StringValue;
 
 public class CreateMapActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-
     //Initialize variable
     FusedLocationProviderClient client;
     SupportMapFragment supportMapFragment;
     Button next;
     LatLng latLng;
-    //TODO
-    //TESTING
+
     String fromCreate, toCreate;
     int myDay, myMonth, myYear, myHour, myMinute;
     double [] initLocation = new double[2];
@@ -63,8 +61,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        //TODO
-        //TESTING
+
 
         Bundle bundle = getIntent().getExtras();
         fromCreate = bundle.getString("fromCreate");
@@ -80,18 +77,23 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
         //Obtain the SupportMapFragment
         supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-        //supportMapFragment.getMapAsync(this);
+
 
         //Initialize fused location
         client = LocationServices.getFusedLocationProviderClient(this);
 
-        //Check permission and get current location
-        //getCurrentLocation();
 
         next = findViewById(R.id.choseLocationNextButton);
         next.setVisibility(View.INVISIBLE);
         next.setOnClickListener(this);
 
+        //Check permission and get current location
+        checkPermissions();
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void checkPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //When permission granted
@@ -102,7 +104,6 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             //Request permission
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
         }
-
     }
 
     @Override
