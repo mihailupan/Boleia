@@ -156,7 +156,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
             @Override
             public void onSuccess(Uri uri) {
                 // Got the download URL for 'userID/profile.png', set profile picture
-                Toast.makeText(ProfileActivity.this, "Image Uri!"+uri, Toast.LENGTH_SHORT).show();;
+                //Toast.makeText(ProfileActivity.this, "Image Uri!"+uri, Toast.LENGTH_SHORT).show();;
                 Picasso.get().load(uri).into(profilePhoto);
                 profilePhoto.setVisibility(View.VISIBLE);
             }

@@ -41,7 +41,6 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        nextButton =  findViewById(R.id.search_next_button);
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -255,5 +254,4 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
             Toast.makeText(SearchActivity.this, selectedToCity, Toast.LENGTH_SHORT).show();
         }
     }
-
 }

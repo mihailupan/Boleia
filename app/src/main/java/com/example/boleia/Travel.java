@@ -16,6 +16,10 @@ public class Travel {
     private String vehicleLicencePlate;
     private String vehiclePhotoName;
 
+    public Travel(){
+        //Empty constructor needed
+    }
+
     public Travel(String userId, String name, String email, String phone,
                   String from, String to, String date, String time,
                   String meetingPointLat, String meetingPointLng,

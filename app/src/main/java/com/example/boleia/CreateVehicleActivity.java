@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -93,6 +94,10 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             @Override
             public void onClick(View v) {
                 createTravel();
+                Intent intent = new Intent(CreateVehicleActivity.this, TravelsActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
                 //startActivity(new Intent(CreateVehicleActivity.this, TravelsActivity.class));
             }
         });
@@ -253,17 +258,22 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
         user.put("vehiclePhotoName", vehiclePhotoName);
 
+        user.put("timestamp", System.currentTimeMillis());
+
         //Access document that belongs to user
         DocumentReference documentReference = mStore.collection("travels").document(vehiclePhotoName);
         documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
+
                 Toast.makeText(CreateVehicleActivity.this, "Dados da viagem submetidos!", Toast.LENGTH_LONG).show();
             }
         });
 
         updloadImageToFirebase(vehiclePhotoName);
     }
+
+
 
     /**
      * Upload image to firebase storage

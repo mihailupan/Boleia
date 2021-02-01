@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -39,6 +40,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +58,10 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
     String fromCity, toCity;
     double [] fromCitycoordinates = new double[2];
     LatLng latLngfromCity;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore mStore;
+    private StorageReference storageReference;
+    private String userID;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -74,6 +85,11 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
 
         //Check permission for the map
         checkPermissions();
+
+        mAuth = FirebaseAuth.getInstance();
+        mStore = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
+        userID = mAuth.getCurrentUser().getUid();
     }
 
     private void getInfo() {
@@ -172,7 +188,31 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
         }
     }
 
+/*    private List<Travel> getInfoFromFirestore(){
 
+        DocumentReference docRef = mStore.collection("travels").document(userID);
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()){
+                    DocumentSnapshot doc = task.getResult();
+                    if(doc.exists()) {
+                        Log.d("Document", doc.getData().toString());
+
+                        String name = doc.getString("name");
+                        String email = doc.getString("email");
+                        String phone = doc.getString("phone");
+
+                    }
+                    else{
+                        Log.d("Document", "No data "+userID);
+                    }
+                }
+            }
+        });
+
+    }*/
 
 
     private void map(Location location){
