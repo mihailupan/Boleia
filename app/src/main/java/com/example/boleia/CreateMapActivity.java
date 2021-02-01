@@ -202,21 +202,23 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
                 googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                     @Override
-                    public void onMapClick(LatLng latLng) {
+                    public void onMapClick(LatLng latLng2) {
                         //Creating Marker
                         MarkerOptions markerOptions = new MarkerOptions();
 
                         //Set Marker Position
-                        markerOptions.position(latLng);
+                        markerOptions.position(latLng2);
 
                         //Set Latitude and Longitude on Marker
-                        markerOptions.title(latLng.latitude+" : "+latLng.longitude);
+                        markerOptions.title(latLng2.latitude+" : "+latLng2.longitude);
+                        latLng = latLng2;
+
 
                         //Clear the previously click position
                         googleMap.clear();
 
                         //Zoom the marker
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng2, 15));
 
                         //Add marker on map
                         googleMap.addMarker(markerOptions);

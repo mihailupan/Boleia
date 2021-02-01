@@ -158,7 +158,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
 
                     if(location != null){
                         //When location is not null
-                        map(location);
+                        getInfoFromFirestore(location);
 
                     }else {
                         //When location result is null
@@ -177,7 +177,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                                 //Initialize location
                                 Location location1 = locationResult.getLastLocation();
 
-                                map(location1);
+                                getInfoFromFirestore(location1);
 
                             }
                         };
@@ -193,7 +193,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
         }
     }
 
-    private List<Travel> getInfoFromFirestore(){
+    private void getInfoFromFirestore(Location location){
 
         List<Travel> travelList = new ArrayList<>();
 
@@ -214,34 +214,34 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
 
                                 travelList.add(travel);
 
+
+
                                 //Toast.makeText(SearchMapActivity.this, name, Toast.LENGTH_SHORT).show();
                             }
+                            map(location, travelList);
                         } else {
                             //Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
                 });
 
-        return travelList;
+
     }
 
 
-    private void map(Location location){
+    private void map(Location location, List<Travel> travelList){
 
         supportMapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
 
 
-                List<Travel> travelList;
-
-                travelList = getInfoFromFirestore();
 
                 for (int i=0; i< travelList.size(); i++){
                     double latMeet = Double.parseDouble(travelList.get(i).getMeetingPointLat());
                     double lngMeet = Double.parseDouble(travelList.get(i).getMeetingPointLng());
 
-                    Toast.makeText(SearchMapActivity.this, latMeet +"___" + lngMeet, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SearchMapActivity.this, i+"_"+latMeet +"___" + lngMeet, Toast.LENGTH_SHORT).show();
 
                     LatLng meet = new LatLng(latMeet,lngMeet);
                     googleMap.addMarker(new MarkerOptions().position(meet).title(travelList.get(i).getFrom()));
