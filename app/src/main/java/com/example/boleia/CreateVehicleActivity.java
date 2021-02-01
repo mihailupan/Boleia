@@ -172,7 +172,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
         getUserData();
         //Send data to cloud firestore and storage
-        sendDataToFirebaseCloudFirestore();
+        //sendDataToFirebaseCloudFirestore();
 
 
     }
@@ -181,17 +181,14 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
         DocumentReference docRef = mStore.collection("users").document(userID);
 
-        final String[] userN = new String[1];
-        final String[] userE = new String[1];
-        final String[] userP = new String[1];
-
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if(documentSnapshot.exists()){
-                    userN[0] = documentSnapshot.getString("name");
-                    userE[0] = documentSnapshot.getString("email");
-                    userP[0] = documentSnapshot.getString("phone");
+                    String name = documentSnapshot.getString("name");
+                    String email = documentSnapshot.getString("email");
+                    String phone = documentSnapshot.getString("phone");
+                    sendDataToFirebaseCloudFirestore(name,email,phone);
                 }
                 else{
                     Log.d("Document", "No data "+userID);
@@ -199,6 +196,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
             }
         });
+
 /*        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -220,20 +218,17 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             }
         });*/
 
-        this.userName = userN[0];
-        this.userEmail = userE[0];
-        this.userPhone = userP[0];
     }
 
 
-    private void sendDataToFirebaseCloudFirestore() {
+    private void sendDataToFirebaseCloudFirestore(String name1, String email1, String phone1) {
 
         Map<String, Object> user = new HashMap<>();
         user.put("userID", userID);
 
-        user.put("name", this.userName);
-        user.put("email", this.userEmail);
-        user.put("phone", this.userPhone);
+        user.put("name", name1);
+        user.put("email", email1);
+        user.put("phone", phone1);
 
         //Toast.makeText(CreateVehicleActivity.this, info[0]+""+info[1]+""+info[2], Toast.LENGTH_LONG).show();
 
@@ -267,10 +262,10 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             public void onSuccess(Void aVoid) {
 
                 Toast.makeText(CreateVehicleActivity.this, "Dados da viagem submetidos!", Toast.LENGTH_LONG).show();
+                updloadImageToFirebase(vehiclePhotoName);
             }
         });
 
-        updloadImageToFirebase(vehiclePhotoName);
     }
 
 
