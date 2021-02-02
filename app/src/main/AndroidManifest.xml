@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Boleia">
-        <activity android:name=".SearchMapActivity"></activity>
+        <activity android:name=".SearchDetailActivity"></activity>
+        <activity android:name=".SearchMapActivity" />
         <activity android:name=".CreateVehicleActivity" />
 
         <meta-data
