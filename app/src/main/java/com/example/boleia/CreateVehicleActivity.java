@@ -272,19 +272,26 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     private void updloadImageToFirebase(String name) {
 
         StorageReference image  =  storageReference.child(userID+"/"+name); //images/image.jpg
-        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(CreateVehicleActivity.this, "Upload Done!", Toast.LENGTH_SHORT).show();
 
-            }
+        try {
+            image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(CreateVehicleActivity.this, "Upload Done!", Toast.LENGTH_SHORT).show();
 
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(CreateVehicleActivity.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
-            }
-        });
+                }
+
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(CreateVehicleActivity.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        catch (SecurityException e){
+            Toast.makeText(this, "Aqui há um erro!", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
