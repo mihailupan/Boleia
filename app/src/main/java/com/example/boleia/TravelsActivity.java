@@ -40,7 +40,8 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
     private void setUpRecyclerView() {
 
         Query query = travelRef.orderBy("timestamp", Query.Direction.DESCENDING)
-                .whereEqualTo("userID", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                .whereEqualTo("userID", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .whereGreaterThanOrEqualTo("timestamp", System.currentTimeMillis());
 
         FirestoreRecyclerOptions<Travel> options = new FirestoreRecyclerOptions.Builder<Travel>()
                 .setQuery(query, Travel.class).build();

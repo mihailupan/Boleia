@@ -26,13 +26,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,6 +40,8 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -188,7 +187,11 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
                     String name = documentSnapshot.getString("name");
                     String email = documentSnapshot.getString("email");
                     String phone = documentSnapshot.getString("phone");
-                    sendDataToFirebaseCloudFirestore(name,email,phone);
+                    try {
+                        sendDataToFirebaseCloudFirestore(name,email,phone);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
                 else{
                     Log.d("Document", "No data "+userID);
@@ -200,7 +203,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     }
 
 
-    private void sendDataToFirebaseCloudFirestore(String name1, String email1, String phone1) {
+    private void sendDataToFirebaseCloudFirestore(String name1, String email1, String phone1) throws ParseException {
 
         Map<String, Object> user = new HashMap<>();
         user.put("userID", userID);
@@ -232,7 +235,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
         user.put("vehiclePhotoName", vehiclePhotoName);
 
-        user.put("timestamp", System.currentTimeMillis());
+        user.put("timestamp", dateToTimestamp(formatedDate));
 
         //Access document that belongs to user
         DocumentReference documentReference = mStore.collection("travels").document(vehiclePhotoName);
@@ -245,6 +248,13 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             }
         });
 
+    }
+
+    private long dateToTimestamp(String date) throws ParseException {
+        String str_date = date;
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date dateF = (Date)formatter.parse(str_date);
+        return dateF.getTime();
     }
 
     /**
