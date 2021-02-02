@@ -244,9 +244,11 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             public void onSuccess(Void aVoid) {
 
                 Toast.makeText(CreateVehicleActivity.this, "Dados da viagem submetidos!", Toast.LENGTH_LONG).show();
-                updloadImageToFirebase(vehiclePhotoName);
+
             }
         });
+
+        updloadImageToFirebase(vehiclePhotoName);
 
     }
 
@@ -299,7 +301,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             });
         }
         catch (SecurityException e){
-            Toast.makeText(this, "Aqui há um erro!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Há um erro de segurança|", Toast.LENGTH_SHORT).show();
         }
 
     }
