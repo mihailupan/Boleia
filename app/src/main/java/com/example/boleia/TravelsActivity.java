@@ -69,7 +69,7 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 adapter.deleteItem(viewHolder.getAdapterPosition());
-                //adapter.notifyDataSetChanged();
+                adapter.notifyDataSetChanged();
             }
         }).attachToRecyclerView(recyclerView);
     }
