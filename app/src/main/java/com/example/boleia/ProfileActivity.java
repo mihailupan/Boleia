@@ -8,8 +8,8 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -19,27 +19,19 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -49,14 +41,10 @@ import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore mStore;
-    private DatabaseReference reference;
+
     private String userID;
-    private ImageButton openGalleryButtonProfile, captureImageButtonProfile;
     private String currentPhotoPath;
     private ImageView profilePhoto;
-    private Uri contentUri;
     private StorageReference storageReference;
 
 
@@ -65,8 +53,6 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
-
-    private Button logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +63,8 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         profilePhoto = findViewById(R.id.profilePhoto);
 
         //References
-        mAuth = FirebaseAuth.getInstance();
-        mStore = FirebaseFirestore.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore mStore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         userID = mAuth.getCurrentUser().getUid();
 
@@ -86,89 +72,86 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        logoutButton = (Button) findViewById(R.id.profileLogoutButton);
+        Button logoutButton = (Button) findViewById(R.id.profileLogoutButton);
         logoutButton.setOnClickListener(this);
 
+
+
+
+
+        DocumentReference docRef = mStore.collection("users").document(userID);
+        setProfileInformation(docRef);
+
+        setProfilePhoto();
+
+
+        //Button to capture
+        ImageButton captureImageButtonProfile = findViewById(R.id.captureImageButtonProfile);
+        captureImageButtonProfile.setOnClickListener(this);
+
+        //Gallery button
+        ImageButton openGalleryButtonProfile = findViewById(R.id.openGalleryButtonProfile);
+        openGalleryButtonProfile.setOnClickListener(this);
+
+    }
+
+    /**
+     * Function to set user information on textViews
+     * @param docRef Document refence to get user information
+     */
+    private void setProfileInformation(DocumentReference docRef) {
 
         final TextView nameTextView = (TextView) findViewById(R.id.userNameProfile);
         final TextView emailTextView = (TextView) findViewById(R.id.userEmailProfile);
         final TextView phoneTextView = (TextView) findViewById(R.id.userPhoneProfile);
 
-
-        DocumentReference docRef = mStore.collection("users").document(userID);
-
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()){
-                    DocumentSnapshot doc = task.getResult();
-                    if(doc.exists()) {
-                        Log.d("Document", doc.getData().toString());
+        docRef.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                DocumentSnapshot doc = task.getResult();
+                if(doc.exists()) {
+                    Log.d("Document", doc.getData().toString());
 
 
-                        String name = doc.getString("name");
-                        String email = doc.getString("email");
-                        String phone = doc.getString("phone");
+                    String name = doc.getString("name");
+                    String email = doc.getString("email");
+                    String phone = doc.getString("phone");
 
 
-                        nameTextView.setText(name);
-                        emailTextView.setText(email);
-                        phoneTextView.setText(phone);
+                    nameTextView.setText(name);
+                    emailTextView.setText(email);
+                    phoneTextView.setText(phone);
 
-                        nameTextView.setVisibility(View.VISIBLE);
-                        emailTextView.setVisibility(View.VISIBLE);
-                        phoneTextView.setVisibility(View.VISIBLE);
-                    }
-                    else{
-                        Log.d("Document", "No data "+userID);
-                    }
+                    nameTextView.setVisibility(View.VISIBLE);
+                    emailTextView.setVisibility(View.VISIBLE);
+                    phoneTextView.setVisibility(View.VISIBLE);
+                }
+                else{
+                    Log.d("Document", "No data "+userID);
                 }
             }
         });
-
-        //TODO Carregar foto de perfil ao clicar na Acticvity
-        getProfilePhoto();
-
-
-        //Button to capture
-        captureImageButtonProfile = findViewById(R.id.captureImageButtonProfile);
-        captureImageButtonProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                askCameraPermissions();
-            }
-        });
-
-        //Gallery button
-        openGalleryButtonProfile = findViewById(R.id.openGalleryButtonProfile);
-        openGalleryButtonProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
-        });
-
-
     }
 
-    private void getProfilePhoto() {
-        storageReference.child(userID+"/"+ "profile").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'userID/profile.png', set profile picture
-                //Toast.makeText(ProfileActivity.this, "Image Uri!"+uri, Toast.LENGTH_SHORT).show();;
-                Picasso.get().load(uri).into(profilePhoto);
-                profilePhoto.setVisibility(View.VISIBLE);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-                Toast.makeText(ProfileActivity.this, "Download Failed!", Toast.LENGTH_SHORT).show();
-            }
+    /**
+     * Function to load profile photo to imageView
+     */
+    private void setProfilePhoto() {
+        storageReference.child(userID+"/"+ "profile").getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+                    // Got the download URL for 'userID/profile.png', set profile picture
+                    Picasso.get().load(uri).into(profilePhoto);
+                    profilePhoto.setVisibility(View.VISIBLE);
+        }).addOnFailureListener(exception -> {
+            // Handle any errors
+            Toast.makeText(ProfileActivity.this, "Erro ao baixar fotografia!", Toast.LENGTH_SHORT).show();
         });
     }
 
+    /**
+     * Function to get the item selected on the navigation item
+     * @param item Item selected in the menuItem
+     * @return Boolean value, will return true if any navigation item is clicked
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -179,34 +162,61 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
             return true;
 
         }
-        if (item.getItemId() == R.id.createNav) {
 
-            startActivity(new Intent(this, CreateActivity.class));
-            overridePendingTransition(0,0);
-            return true;
+        else
+        {
+            if (item.getItemId() == R.id.createNav) {
+
+                startActivity(new Intent(this, CreateActivity.class));
+                overridePendingTransition(0,0);
+                return true;
+
+            }
+            else
+            {
+                if (item.getItemId() == R.id.travelsNav) {
+
+                    startActivity(new Intent(this, TravelsActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+
+                }
+                else
+                {
+                    return item.getItemId() == R.id.profileNav;
+                }
+            }
 
         }
-        if (item.getItemId() == R.id.travelsNav) {
-
-            startActivity(new Intent(this, TravelsActivity.class));
-            overridePendingTransition(0,0);
-            return true;
-
-        }
-        if (item.getItemId() == R.id.profileNav) {
-            return true;
-        }
-        return false;
     }
 
+    /**
+     * Function to see which view was clicked and do something depending on the view clicked
+     * @param v View selected
+     */
     @Override
     public void onClick(View v) {
+
         if(v.getId()==R.id.profileLogoutButton){
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
+        }
+        else
+        {
+            if(v.getId() == R.id.captureImageButtonProfile)
+            {
+                this.askCameraPermissions();
+            }
+            else
+            {
+                if(v.getId() == R.id.openGalleryButtonProfile)
+                {
+                    this.openGallery();
+                }
+            }
         }
     }
 
@@ -250,9 +260,14 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         }
     }
 
+    /**
+     * Creates an image with a filename
+     * @return Image file
+     * @throws IOException Input ot output exception
+     */
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        @SuppressLint("SimpleDateFormat") String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES); //Do not save on gallery
         //File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES); //Save on gallery
@@ -268,20 +283,19 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
     }
 
     /**
-     * Result of apening camera to take photo or opening gallery to choose photo
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * Result of opening camera to take photo or opening gallery to choose photo
+     * @param requestCode The integer request code originally supplied to startActivityForResult(), allowing you to identify who this result came from.
+     * @param resultCode The integer result code returned by the child activity through its setResult().
+     * @param data An Intent, which can return result data to the caller (various data can be attached to Intent "extras").
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Uri contentUri;
         if (requestCode == CAMERA_REQUEST_CODE) {
             if(resultCode == Activity.RESULT_OK)
             {
                 File f = new File(currentPhotoPath);
-                //selectedImage.setImageURI(Uri.fromFile(f));
-
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 contentUri = Uri.fromFile(f);
                 mediaScanIntent.setData(contentUri);
@@ -294,8 +308,6 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
             if(resultCode == Activity.RESULT_OK)
             {
                 contentUri = data.getData();
-                String timeStap = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-                String imageFileName = "profile."+getFileExt(contentUri);
                 updlodImageToFirebase(contentUri);
             }
         }
@@ -305,44 +317,17 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
 
     /**
      * Upload image to firebase storage
-     * @param contentUri
+     * @param contentUri URI that identifies data in a provider
      */
     private void updlodImageToFirebase(Uri contentUri) {
 
-        StorageReference image  =  storageReference.child(userID+"/"+ "profile"); //images/image.jpg
-        image.putFile(contentUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    image.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Picasso.get().load(uri).into(profilePhoto);
-                            //Log.d("TAG", "onSuccess: Upload Image URl is "+uri.toString());
-                        }
-                    });
-                }
-
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                //Toast.makeText(ProfileActivity.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
-            }
-        });
+        StorageReference image  =  storageReference.child(userID+"/"+ "profile");
+        image.putFile(contentUri)
+                .addOnSuccessListener(taskSnapshot -> image.getDownloadUrl()
+                .addOnSuccessListener(uri -> Picasso.get().load(uri).into(profilePhoto)))
+                .addOnFailureListener(e -> Toast.makeText(ProfileActivity.this, "Erro ao carregar imagem de perfil!", Toast.LENGTH_SHORT).show());
     }
 
-    //
-
-
-    /**
-     * Auxiliary function to get the file extension
-     * @param contentUri
-     * @return
-     */
-    private String getFileExt(Uri contentUri) {
-        ContentResolver c = getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(c.getType(contentUri));
-    }
 
     /**
      * Open gallery to choose photo

@@ -3,7 +3,6 @@ package com.example.boleia;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
@@ -28,25 +27,19 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.protobuf.StringValue;
+
 
 public class CreateMapActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
-    //Initialize variable
+    //Initialize variables
     FusedLocationProviderClient client;
     SupportMapFragment supportMapFragment;
     Button next;
     LatLng latLng;
-
     String fromCreate, toCreate;
     int myDay, myMonth, myYear, myHour, myMinute;
     double [] initLocation = new double[2];
@@ -61,8 +54,28 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        getBundleContent();
 
+        //Obtain the SupportMapFragment
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
 
+        //Initialize fused location
+        client = LocationServices.getFusedLocationProviderClient(this);
+
+        //Next button to continue creating travel
+        next = findViewById(R.id.choseLocationNextButton);
+        next.setVisibility(View.INVISIBLE); //Only after the user select a meeting point in the map, he can see the next button and click this button
+        next.setOnClickListener(this);
+
+        //Check permission and get current location
+        checkPermissions();
+
+    }
+
+    /**
+     * Function to get the content passed to the activity
+     */
+    private void getBundleContent() {
         Bundle bundle = getIntent().getExtras();
         fromCreate = bundle.getString("fromCreate");
         toCreate = bundle.getString("toCreate");
@@ -72,53 +85,51 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         myYear = bundle.getInt("myYear");
         myHour = bundle.getInt("myHour");
         myMinute = bundle.getInt("myMinute");
-
         initLocation = bundle.getDoubleArray("location");
-
-        //Obtain the SupportMapFragment
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-
-
-        //Initialize fused location
-        client = LocationServices.getFusedLocationProviderClient(this);
-
-
-        next = findViewById(R.id.choseLocationNextButton);
-        next.setVisibility(View.INVISIBLE);
-        next.setOnClickListener(this);
-
-        //Check permission and get current location
-        checkPermissions();
-
     }
 
+    /**
+     * Check if app has permission to get user location
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkPermissions() {
+
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            //When permission granted
-            //Call method
-            getCurrentLocation();
+            //When permission is granted
+                //Call method to get current location and open map to select meeting point
+                getCurrentLocation();
         }else {
             //When permission is not granted
-            //Request permission
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
+                //Request permission
+                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION}, 100);
         }
     }
 
+    /**
+     * Function to verify the request permission result
+     * @param requestCode Request code
+     * @param permissions Array of permission
+     * @param grantResults Array of grant results
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //Check condition
         if(requestCode == 100 && (grantResults.length > 0  && (grantResults[0] + grantResults[1] == PackageManager.PERMISSION_GRANTED))){
-            //When permission are granted
-            getCurrentLocation();
+            //When permission is granted
+                //Call method to get current location and open map to select meeting point
+                getCurrentLocation();
         }else {
             //When permission is denied
-            Toast.makeText(this, "Permission denied!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permissão negada!", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Get current location and call function to open map
+     */
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
         //Initialize location manager
@@ -130,192 +141,101 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
             //When location service is enable
             //Get last location
-            client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    //Initialize location
-                    Location location = task.getResult();
+            client.getLastLocation().addOnCompleteListener(task -> {
+                //Initialize location
+                Location location = task.getResult();
 
-                    //Check condition
+                //Check condition
 
-                    if(location != null){
-                        //When location is not null
-                        map(location);
+                if(location != null){
+                    //When location is not null
+                    map(location);
 
-                    }else {
-                        //When location result is null
-                        //Initialize location request
-                        LocationRequest locationRequest = new LocationRequest()
-                                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                                .setInterval(10000)
-                                .setFastestInterval(1000)
-                                .setNumUpdates(1);
+                }else {
+                    //When location result is null
+                    //Initialize location request
+                    LocationRequest locationRequest = new LocationRequest()
+                            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                            .setInterval(10000)
+                            .setFastestInterval(1000)
+                            .setNumUpdates(1);
 
-                        //Initialize location callback
+                    //Initialize location callback
 
-                        LocationCallback locationCallback = new LocationCallback(){
-                            @Override
-                            public void onLocationResult(LocationResult locationResult) {
-                                //Initialize location
-                                Location location1 = locationResult.getLastLocation();
+                    LocationCallback locationCallback = new LocationCallback(){
+                        @Override
+                        public void onLocationResult(LocationResult locationResult) {
+                            //Initialize location
+                            Location location1 = locationResult.getLastLocation();
 
-                                map(location1);
+                            map(location1);
 
-                            }
-                        };
-                        //Request location updates
-                        client.requestLocationUpdates(locationRequest,locationCallback, Looper.myLooper());
-                    }
+                        }
+                    };
+                    //Request location updates
+                    client.requestLocationUpdates(locationRequest,locationCallback, Looper.myLooper());
                 }
             });
         }else {
             //When location service is not enable
-            //Open location setting
-            startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                //Open location setting
+                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK));
         }
     }
 
 
+    /**
+     * Open and show map
+     * @param location Location to zoom when the map fragment opens
+     */
     private void map(Location location){
 
-        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap googleMap) {
-                //Initialize lat lng
-                location.setLatitude(initLocation[0]);
-                location.setLongitude(initLocation[1]);
-                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        supportMapFragment.getMapAsync(googleMap -> {
+            //Initialize lat lng
+            location.setLatitude(initLocation[0]);
+            location.setLongitude(initLocation[1]);
+            latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
+            //Zoom map
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
-                //TODO
-                //latLng = getLocationFrom();
+            //Add marker on map
+            //googleMap.addMarker(options);
 
-                //Create marker
-                MarkerOptions options = new MarkerOptions().position(latLng)
-                        .title("HERE");
-
-                //Zoom map
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-                //Add marker on map
-                //googleMap.addMarker(options);
-
-                googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng2) {
-                        //Creating Marker
-                        MarkerOptions markerOptions = new MarkerOptions();
-
-                        //Set Marker Position
-                        markerOptions.position(latLng2);
-
-                        //Set Latitude and Longitude on Marker
-                        markerOptions.title(latLng2.latitude+" : "+latLng2.longitude);
-                        latLng = latLng2;
-
-
-                        //Clear the previously click position
-                        googleMap.clear();
-
-                        //Zoom the marker
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng2, 15));
-
-                        //Add marker on map
-                        googleMap.addMarker(markerOptions);
-
-                        //Set button visible
-                        next.setVisibility(View.VISIBLE);
-
-                        //TODO
-                         //TESTING
-                        Toast.makeText(CreateMapActivity.this, fromCreate+" "+toCreate, Toast.LENGTH_SHORT).show();
-                    }
-                });
-
-            }
-        });
-    }
-
-    /*private void getCurrentLocation() {
-        //check permission
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                {
-            //When permission grated
-            //Initialize task location
-            Task<Location> task = client.getLastLocation();
-
-            task.addOnSuccessListener(new OnSuccessListener<Location>() {
-                @Override
-                public void onSuccess(Location location) {
-                    //When success
-                    if (location != null) {
-                        //Sync map
-                        supportMapFragment.getMapAsync(new OnMapReadyCallback() {
-                            @Override
-                            public void onMapReady(GoogleMap googleMap) {
-                                //Initialize lat lng
-                                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
-                                //Create marker
-                                MarkerOptions options = new MarkerOptions().position(latLng)
-                                        .title("HERE");
-
-                                //Zoom map
-                                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
-                                //Add marker on map
-                                googleMap.addMarker(options);
-
-                                Toast.makeText(CreateMapActivity.this, "2", Toast.LENGTH_LONG).show();
-
-                            }
-                        });
-                    }else{
-                        return;
-                    }
-                }
-            });
-        }else {
-            //When permission denied
-            //Request permission
-            ActivityCompat.requestPermissions(CreateMapActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
-    }*/
-
-
-
-/*    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        //Assign variable
-        gMap = googleMap;
-
-
-
-        gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
+            googleMap.setOnMapClickListener(latLng2 -> {
                 //Creating Marker
                 MarkerOptions markerOptions = new MarkerOptions();
 
                 //Set Marker Position
-                markerOptions.position(latLng);
+                markerOptions.position(latLng2);
 
                 //Set Latitude and Longitude on Marker
-                markerOptions.title(latLng.latitude+" : "+latLng.longitude);
+                markerOptions.title(latLng2.latitude+" : "+latLng2.longitude);
+                latLng = latLng2;
 
                 //Clear the previously click position
-                gMap.clear();
+                googleMap.clear();
 
                 //Zoom the marker
-                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng2, 15));
 
                 //Add marker on map
-                gMap.addMarker(markerOptions);
-            }
+                googleMap.addMarker(markerOptions);
+
+                //Set button visible so the user can continue to new activity
+                next.setVisibility(View.VISIBLE);
+
+            });
+
         });
-    }*/
+    }
 
 
+    /**
+     * Function to get the item selected on the navigation item
+     * @param item Item selected in the menuItem
+     * @return Boolean value, will return true if any navigation item is clicked
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -326,35 +246,50 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             return true;
 
         }
-        if (item.getItemId() == R.id.createNav) {
+        else
+        {
+            if (item.getItemId() == R.id.createNav) {
 
-            startActivity(new Intent(this, CreateActivity.class));
-            overridePendingTransition(0,0);
-            return true;
+                startActivity(new Intent(this, CreateActivity.class));
+                overridePendingTransition(0,0);
+                return true;
 
+            }
+            else{
+
+                if (item.getItemId() == R.id.travelsNav) {
+
+                    startActivity(new Intent(this, TravelsActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+
+                }
+                else
+                {
+                    if (item.getItemId() == R.id.profileNav) {
+
+                        startActivity(new Intent(this, ProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    }
+                }
+            }
         }
-        if (item.getItemId() == R.id.travelsNav) {
 
-            startActivity(new Intent(this, TravelsActivity.class));
-            overridePendingTransition(0,0);
-            return true;
 
-        }
-        if (item.getItemId() == R.id.profileNav) {
-
-            startActivity(new Intent(this, ProfileActivity.class));
-            overridePendingTransition(0,0);
-            return true;
-        }
         return false;
     }
 
+    /**
+     * Function to see which view was clicked and do something depending on the view clicked
+     * @param v View selected
+     */
     @Override
     public void onClick(View v) {
+
+        //Next button to coontinue to new activity and pass data as an array
         if (v.getId() == R.id.choseLocationNextButton) {
 
-
-            //TODO
             String [] data = {
                     fromCreate,
                     toCreate,
