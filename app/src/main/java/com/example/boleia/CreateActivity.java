@@ -21,9 +21,13 @@ import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class CreateActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -98,6 +102,18 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
                 //TODO
                 if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {
                     Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show(); return;}
+
+                //Check if data is valid
+                java.util.Date date= new Date();
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(date);
+                int currentYear = cal.get(Calendar.YEAR);
+                int currentMonth = cal.get(Calendar.MONTH);
+                int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+                if (myYear < currentYear || myMonth < currentMonth || myDay < currentDay)
+                {Toast.makeText(CreateActivity.this, "Data inválida, por favor selecione nova data!", Toast.LENGTH_LONG).show(); return;}
+
 
                 Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
 

@@ -36,6 +36,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -49,7 +50,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -244,7 +247,30 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                     Toast.makeText(SearchMapActivity.this, i+"_"+latMeet +"___" + lngMeet, Toast.LENGTH_SHORT).show();
 
                     LatLng meet = new LatLng(latMeet,lngMeet);
-                    googleMap.addMarker(new MarkerOptions().position(meet).title(travelList.get(i).getFrom()));
+
+
+                    String infoTitle = "Hora: "+travelList.get(i).getTime();
+
+                    String driverNumber = String.valueOf(i + 1);
+                    googleMap.addMarker(new MarkerOptions().position(meet).title(infoTitle).snippet("Motorista: "+ driverNumber));
+                    googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(Marker marker) {
+
+                            String[] segments = marker.getSnippet().split(" ");
+                            String sIndex = segments[1]; //Second string after space (the number)
+                            int index = Integer.parseInt(sIndex) - 1; //Number - 1 (arrays start at 0)
+
+                            //Pass object to another activity
+
+                            Intent intent = new Intent(SearchMapActivity.this, SearchDetailActivity.class);
+                            Gson gson = new Gson();
+                            String myJson = gson.toJson(travelList.get(index));
+                            intent.putExtra("myjson", myJson);
+                            startActivity(intent);
+                            Toast.makeText(SearchMapActivity.this, ""+travelList.get(index).getName(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
 
 

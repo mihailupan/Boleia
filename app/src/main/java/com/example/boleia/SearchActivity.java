@@ -96,16 +96,23 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
                         Toast.makeText(SearchActivity.this, "Ano: "+(myYear)+" Mes: "+(myMonth)+" Dia: "+(myDay), Toast.LENGTH_LONG).show();
 
                         //Show selected date and time
-                        dateTimeTextView.setText(simpleDateFormat.format(calendar.getTime()));
-                        dateTimeTextView.setVisibility(View.VISIBLE);
+                        //dateTimeTextView.setText(simpleDateFormat.format(calendar.getTime()));
+                        //dateTimeTextView.setVisibility(View.VISIBLE);
 
                         //Toast.makeText(CreateActivity.this, "Data: "+simpleDateFormat.format(calendar.getTime()), Toast.LENGTH_LONG).show();
 
                     }
                 };
 
-                new TimePickerDialog(SearchActivity.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
+
+                String date = myDay+"-"+myMonth+"-"+myYear;
+                dateTimeTextView.setText(date);
+                dateTimeTextView.setVisibility(View.VISIBLE);
+
+                new TimePickerDialog(SearchActivity.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
             }
+
+
         };
 
         new DatePickerDialog(SearchActivity.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();

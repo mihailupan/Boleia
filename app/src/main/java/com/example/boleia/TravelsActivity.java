@@ -3,6 +3,7 @@ package com.example.boleia;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,7 +34,7 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-
+        Toast.makeText(this, "Sim", Toast.LENGTH_SHORT).show();
         setUpRecyclerView();
     }
 
@@ -43,8 +44,13 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
                 .whereEqualTo("userID", FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .whereGreaterThanOrEqualTo("timestamp", System.currentTimeMillis());
 
+
+
+
         FirestoreRecyclerOptions<Travel> options = new FirestoreRecyclerOptions.Builder<Travel>()
                 .setQuery(query, Travel.class).build();
+
+        //Toast.makeText(this, "Options: "+options.toString().length() , Toast.LENGTH_SHORT).show();
 
         adapter = new TravelAdapter(options);
 
