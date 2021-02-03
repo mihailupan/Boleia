@@ -136,8 +136,8 @@
 
         <ImageView
             android:id="@+id/search_detail_driver_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_driver_email_label_text_view"
@@ -234,8 +234,8 @@
 
         <ImageView
             android:id="@+id/search_detail_vehicle_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_vehicle_license_plate_label_text_view"
