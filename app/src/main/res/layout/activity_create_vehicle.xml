@@ -151,9 +151,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
-        app:itemBackground="@color/black_transparent"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
+        app:itemBackground="@color/white"
+        app:itemIconTint="@color/boleias_blue"
+        app:itemTextColor="@color/boleias_blue"
         app:menu="@menu/menu_navigation"
         app:labelVisibilityMode="labeled"/>
 
