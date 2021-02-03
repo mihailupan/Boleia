@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".TravelsActivity">
+    tools:context=".TravelsActivity"
+    android:background="@drawable/gradient_background">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -28,7 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
-        app:itemBackground="@color/white"
+        android:background="@drawable/rounded_nav"
+
         app:itemIconTint="@color/boleias_blue"
         app:itemTextColor="@color/boleias_blue"
         app:menu="@menu/menu_navigation"
