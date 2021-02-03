@@ -85,55 +85,15 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
 
         //Button to choose date
         chooseDateBtn = findViewById(R.id.create_trip_date_picker);
-        chooseDateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDateDialog();
-            }
-        });
+        chooseDateBtn.setOnClickListener(this);
 
         //VButton advance
         advanceBtn = findViewById(R.id.advance_create_trip);
         advanceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                goToActivity();
 
-                //Check if date was selected
-                //TODO
-                if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {
-                    Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show(); return;}
-
-                //Check if data is valid
-                java.util.Date date= new Date();
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(date);
-                int currentYear = cal.get(Calendar.YEAR);
-                int currentMonth = cal.get(Calendar.MONTH);
-                int currentDay = cal.get(Calendar.DAY_OF_MONTH);
-
-                if (myYear < currentYear || myMonth < currentMonth || myDay < currentDay)
-                {Toast.makeText(CreateActivity.this, "Data inválida, por favor selecione nova data!", Toast.LENGTH_LONG).show(); return;}
-
-
-                Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
-
-                //Pass from and to
-                intent.putExtra("fromCreate", fromCreate);
-                intent.putExtra("toCreate", toCreate);
-
-                //Pass date and time
-                intent.putExtra("myDay", myDay);
-                intent.putExtra("myMonth", myMonth);
-                intent.putExtra("myYear", myYear);
-                intent.putExtra("myHour", myHour);
-                intent.putExtra("myMinute", myMinute);
-
-                //Pass initial latitude and longitude
-
-                double [] location = new double[2];
-                location = getInitialLoc(fromCreate);
-                intent.putExtra("location", location);
-                startActivity(intent);
             }
         });
 
@@ -143,6 +103,47 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
 
         //ShowDateTime textView
         showDateTime = findViewById(R.id.showCreateDateTextView);
+    }
+
+    private void goToActivity() {
+
+        
+        //Check if date was selected
+        //TODO
+        if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {
+            Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show(); return;}
+
+        //Check if data is valid
+        Date date= new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentMonth = cal.get(Calendar.MONTH);
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+
+        if (myYear < currentYear || myMonth < currentMonth || myDay < currentDay)
+        {Toast.makeText(CreateActivity.this, "Data inválida, por favor selecione nova data!", Toast.LENGTH_LONG).show(); return;}
+
+
+        Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
+
+        //Pass from and to
+        intent.putExtra("fromCreate", fromCreate);
+        intent.putExtra("toCreate", toCreate);
+
+        //Pass date and time
+        intent.putExtra("myDay", myDay);
+        intent.putExtra("myMonth", myMonth);
+        intent.putExtra("myYear", myYear);
+        intent.putExtra("myHour", myHour);
+        intent.putExtra("myMinute", myMinute);
+
+        //Pass initial latitude and longitude
+
+        double [] location = new double[2];
+        location = getInitialLoc(fromCreate);
+        intent.putExtra("location", location);
+        startActivity(intent);
     }
 
 
@@ -272,6 +273,15 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     @Override
     public void onClick(View v) {
 
+        //Date button
+        if(v.getId() == R.id.create_trip_date_picker){
+            showDateDialog();
+        }
+
+        //Create button
+        if(v.getId() == R.id.advance_create_trip){
+            goToActivity();
+        }
     }
 
 
