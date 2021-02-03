@@ -191,6 +191,9 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     }
 
 
+    /**
+     * Function to show the date and time dialog
+     */
     private void showDateDialog() {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {

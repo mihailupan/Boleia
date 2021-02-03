@@ -45,6 +45,8 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
                 .whereGreaterThanOrEqualTo("timestamp", System.currentTimeMillis());
 
 
+
+
         FirestoreRecyclerOptions<Travel> options = new FirestoreRecyclerOptions.Builder<Travel>()
                 .setQuery(query, Travel.class).build();
 
@@ -67,10 +69,9 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 adapter.deleteItem(viewHolder.getAdapterPosition());
-
+                adapter.notifyDataSetChanged();
             }
         }).attachToRecyclerView(recyclerView);
-        adapter.notifyDataSetChanged();
     }
 
     @Override
