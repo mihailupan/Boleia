@@ -20,8 +20,8 @@ import com.google.firebase.firestore.Query;
 
 public class TravelsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference travelRef = db.collection("travels");
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final CollectionReference travelRef = db.collection("travels");
 
     private TravelAdapter adapter;
 
@@ -38,6 +38,9 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
         setUpRecyclerView();
     }
 
+    /**
+     * Function to setUp the recycler view
+     */
     private void setUpRecyclerView() {
 
         Query query = travelRef.orderBy("timestamp", Query.Direction.DESCENDING)
@@ -47,8 +50,6 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
 
         FirestoreRecyclerOptions<Travel> options = new FirestoreRecyclerOptions.Builder<Travel>()
                 .setQuery(query, Travel.class).build();
-
-        //Toast.makeText(this, "Options: "+options.toString().length() , Toast.LENGTH_SHORT).show();
 
         adapter = new TravelAdapter(options);
 
@@ -73,18 +74,29 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Function to make adapter start listening any changes when activity is being used
+     */
     @Override
     protected void onStart() {
         super.onStart();
         adapter.startListening();
     }
 
+    /**
+     * Function to make adapter stop listening any changes when activity is not being used
+     */
     @Override
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
     }
 
+    /**
+     * Function to get the item selected on the navigation item
+     * @param item Item selected in the menuItem
+     * @return Boolean value, will return true if any navigation item is clicked
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 

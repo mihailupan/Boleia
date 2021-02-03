@@ -3,6 +3,7 @@ package com.example.boleia;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -12,91 +13,57 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TimeZone;
 
 public class CreateActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    private static final int N_OF_CITIES = 5;
     String fromCreate, toCreate;
-
+    Spinner createCitiesSpinnerFrom, createCitiesSpinnerTo;
     Button chooseDateBtn, advanceBtn;
     int myDay, myMonth, myYear, myHour, myMinute;
     TextView showDateTime;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        //SpinneFrom
-        Spinner createCitiesSpinnerFrom = findViewById(R.id.createCitiesSpinnerFrom);
+        //SpinnerFrom
+        createCitiesSpinnerFrom = findViewById(R.id.createCitiesSpinnerFrom);
         ArrayAdapter<CharSequence> createCitiesSpinnerFromAdapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
         createCitiesSpinnerFromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         createCitiesSpinnerFrom.setAdapter(createCitiesSpinnerFromAdapter);
-        createCitiesSpinnerFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        createCitiesSpinnerFrom.setOnItemSelectedListener(this);
 
-                //Save selected value
-                fromCreate= createCitiesSpinnerFrom.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         //SpinnerTo
-        Spinner createCitiesSpinnerTo = findViewById(R.id.createCitiesSpinnerTo);
+        createCitiesSpinnerTo = findViewById(R.id.createCitiesSpinnerTo);
         ArrayAdapter<CharSequence> createCitiesSpinnerToAdapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
         createCitiesSpinnerToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         createCitiesSpinnerTo.setAdapter(createCitiesSpinnerToAdapter);
-        createCitiesSpinnerTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                //Save selected value
-                toCreate= createCitiesSpinnerTo.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
+        createCitiesSpinnerTo.setOnItemSelectedListener(this);
 
 
         //Button to choose date
         chooseDateBtn = findViewById(R.id.create_trip_date_picker);
         chooseDateBtn.setOnClickListener(this);
 
-        //VButton advance
+        //Button to go to another activity and continue creating travel
         advanceBtn = findViewById(R.id.advance_create_trip);
-        advanceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToActivity();
+        advanceBtn.setOnClickListener(this);
 
-            }
-        });
-
+        //Bottom navigation view
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -105,15 +72,11 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         showDateTime = findViewById(R.id.showCreateDateTextView);
     }
 
+    /**
+     * Function that will start new activity
+     */
     private void goToActivity() {
 
-        
-        //Check if date was selected
-        //TODO
-        if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {
-            Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show(); return;}
-
-        //Check if data is valid
         Date date= new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -121,12 +84,20 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         int currentMonth = cal.get(Calendar.MONTH);
         int currentDay = cal.get(Calendar.DAY_OF_MONTH);
 
-        if (myYear < currentYear || myMonth < currentMonth || myDay < currentDay)
-        {Toast.makeText(CreateActivity.this, "Data inválida, por favor selecione nova data!", Toast.LENGTH_LONG).show(); return;}
-
+        if (dateIsNotValid(currentYear, currentMonth, currentDay)) return;
 
         Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
 
+        passValuesToActivity(intent);
+
+        startActivity(intent);
+    }
+
+    /**
+     * Function to pass values to another activity
+     * @param intent Contains the activity which will receive the data
+     */
+    private void passValuesToActivity(Intent intent) {
         //Pass from and to
         intent.putExtra("fromCreate", fromCreate);
         intent.putExtra("toCreate", toCreate);
@@ -139,11 +110,30 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         intent.putExtra("myMinute", myMinute);
 
         //Pass initial latitude and longitude
-
-        double [] location = new double[2];
-        location = getInitialLoc(fromCreate);
+        double [] location = getInitialLoc(fromCreate);
         intent.putExtra("location", location);
-        startActivity(intent);
+    }
+
+    /**
+     * Validate the date the user selected, check if user selected any date and if the date wasn't in the past
+     * @param currentYear Actual year when running the app
+     * @param currentMonth Actual month when running the app
+     * @param currentDay Actual day when running the app
+     * @return Boolean value, returns false if date is not valid
+     */
+    private boolean dateIsNotValid(int currentYear, int currentMonth, int currentDay) {
+        //Check if date was selected
+        if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {
+            Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show();
+            return true;
+        }
+
+        //Check if data selected is valid
+        if (myYear < currentYear || myMonth < currentMonth || myDay < currentDay)
+        {Toast.makeText(CreateActivity.this, "Data inválida, por favor selecione nova data!", Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
     }
 
 
@@ -152,14 +142,9 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
      */
     private double[] getInitialLoc(String fromCreate) {
 
-/*        Map<String, double []> citiesLocation= new HashMap<String, double []>();
-        citiesLocation.put( "Beja", new double[] {38.0173806, -7.8676554});
-        citiesLocation.put( "Evora", new double[] {38.5743528,-7.9163379});
-        citiesLocation.put( "Faro", new double[] {37.0177845,-7.9749516});
-        citiesLocation.put( "Lisboa", new double[] {38.741348,-9.1694114});
-        citiesLocation.put( "Porto", new double[] {41.5487301,-8.4389198});*/
-
         int locPosition = 0;
+
+        //Array of each city name
         String [] cities = {
                 "Beja",
                 "Evora",
@@ -177,6 +162,7 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
                 {41.5487301,-8.4389198}
         };
 
+        //For cycle to get the location of the city selected on from spinner
         for (int i = 0; i < cities.length; i++)
         {
             if(fromCreate.equals(cities[i]))
@@ -192,53 +178,53 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     }
 
 
+    /**
+     * Function to show the user the date dialog
+     */
     private void showDateDialog() {
         Calendar calendar = Calendar.getInstance();
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                myYear = year;
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR, year);
+            myYear = year;
 
-                calendar.set(Calendar.MONTH, month);
-                myMonth = month;
+            calendar.set(Calendar.MONTH, month);
+            myMonth = month;
 
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                myDay = dayOfMonth;
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            myDay = dayOfMonth;
 
-                TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        myHour = hourOfDay;
+            TimePickerDialog.OnTimeSetListener timeSetListener = (view1, hourOfDay, minute) -> {
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                myHour = hourOfDay;
 
-                        calendar.set(Calendar.MINUTE, minute);
-                        myMinute = minute;
+                calendar.set(Calendar.MINUTE, minute);
+                myMinute = minute;
 
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                        simpleDateFormat.format(calendar.getTime());
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                simpleDateFormat.format(calendar.getTime());
 
-                        myMonth+= 1;
+                myMonth+= 1;
 
-                        Toast.makeText(CreateActivity.this, "Ano: "+(myYear)+" Mes: "+(myMonth)+" Dia: "+(myDay), Toast.LENGTH_LONG).show();
+                //Show selected date and time
+                showDateTime.setText(simpleDateFormat.format(calendar.getTime()));
+                showDateTime.setVisibility(View.VISIBLE);
 
-                        //Show selected date and time
-                        showDateTime.setText(simpleDateFormat.format(calendar.getTime()));
-                        showDateTime.setVisibility(View.VISIBLE);
+                //Toast.makeText(CreateActivity.this, "Data: "+simpleDateFormat.format(calendar.getTime()), Toast.LENGTH_LONG).show();
 
-                        //Toast.makeText(CreateActivity.this, "Data: "+simpleDateFormat.format(calendar.getTime()), Toast.LENGTH_LONG).show();
+            };
 
-                    }
-                };
-
-                new TimePickerDialog(CreateActivity.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
-            }
+            new TimePickerDialog(CreateActivity.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
         };
 
         new DatePickerDialog(CreateActivity.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
 
+    /**
+     * Function to get the item selected on the navigation item
+     * @param item Item selected in the menuItem
+     * @return Boolean value, will return true if any navigation item is clicked
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.searchNav) {
@@ -248,28 +234,43 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
             return true;
 
         }
-        if (item.getItemId() == R.id.createNav) {
 
-            return true;
+        else
+        {
+            if (item.getItemId() == R.id.createNav) {
 
+                return true;
+
+            }
+            else
+            {
+                if (item.getItemId() == R.id.travelsNav) {
+
+                    startActivity(new Intent(this, TravelsActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+
+                }
+                else
+                {
+                    if (item.getItemId() == R.id.profileNav) {
+
+                        startActivity(new Intent(this, ProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+
+                    }
+                }
+            }
         }
-        if (item.getItemId() == R.id.travelsNav) {
 
-            startActivity(new Intent(this, TravelsActivity.class));
-            overridePendingTransition(0,0);
-            return true;
-
-        }
-        if (item.getItemId() == R.id.profileNav) {
-
-            startActivity(new Intent(this, ProfileActivity.class));
-            overridePendingTransition(0,0);
-            return true;
-
-        }
         return false;
     }
 
+    /**
+     * Function to see which view was clicked and do something depending on the view clicked
+     * @param v View selected
+     */
     @Override
     public void onClick(View v) {
 
@@ -277,22 +278,46 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         if(v.getId() == R.id.create_trip_date_picker){
             showDateDialog();
         }
+        else {
 
-        //Create button
-        if(v.getId() == R.id.advance_create_trip){
-            goToActivity();
+            //Create button
+            if(v.getId() == R.id.advance_create_trip){
+                goToActivity();
+            }
         }
+
     }
 
 
-    //Spinner
+    /**
+     * Callback function to be invoked when an item in this view has been selected
+     * @param parent The AdapterView where the selection happened
+     * @param view The view within the AdapterView that was clicked
+     * @param position The position of the view in the adapter
+     * @param id The row id of the item that is selected
+     */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        String text = parent.getItemAtPosition(position).toString();
-        Toast.makeText(parent.getContext(), text, Toast.LENGTH_SHORT).show();
+
+        //Spinner from
+       if(parent.getId() == R.id.createCitiesSpinnerFrom){
+            fromCreate= parent.getItemAtPosition(position).toString();
+        }
+
+
+        else {
+            //Spinner to
+            if (parent.getId() == R.id.createCitiesSpinnerTo) {
+                   toCreate = parent.getItemAtPosition(position).toString();
+            }
+       }
     }
 
-    //Spinner
+
+    /**
+     * Callback function to be invoked when the selection disappears from this view
+     * @param parent The AdapterView that now contains no selected item.
+     */
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 

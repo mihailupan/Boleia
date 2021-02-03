@@ -1,7 +1,5 @@
 package com.example.boleia;
 
-import java.io.Serializable;
-
 public class Travel {
     private String userId;
     private String name;

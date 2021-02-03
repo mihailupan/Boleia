@@ -4,16 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -82,39 +78,35 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
         vehiclePhoto(travel);
     }
 
+    /**
+     * Set vehicle photo
+     * @param travel Travel object
+     */
     private void vehiclePhoto(Travel travel) {
-        storageReference.child(travel.getUserId() + "/" +travel.getVehiclePhotoName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'userID/profile.png', set profile picture
-                //Toast.makeText(ProfileActivity.this, "Image Uri!"+uri, Toast.LENGTH_SHORT).show();;
-                Picasso.get().load(uri).into(vehiclePhotoImageView);
+        storageReference.child(travel.getUserId() + "/" +travel.getVehiclePhotoName()).getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+            // Got the download URL for 'userID/profile.png', set profile picture
+            Picasso.get().load(uri).into(vehiclePhotoImageView);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-                Toast.makeText(SearchDetailActivity.this, "Download Failed!", Toast.LENGTH_SHORT).show();
-            }
+        }).addOnFailureListener(exception -> {
+            // Handle any errors
+            Toast.makeText(SearchDetailActivity.this, "Erro ao baixar fotografia do veículo!", Toast.LENGTH_SHORT).show();
         });
     }
 
+    /**
+     * Set driver photo
+     * @param travel Travel object
+     */
     private void driverPhoto(Travel travel) {
-        storageReference.child(travel.getUserId() + "/" + "profile").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                // Got the download URL for 'userID/profile.png', set profile picture
-                //Toast.makeText(ProfileActivity.this, "Image Uri!"+uri, Toast.LENGTH_SHORT).show();;
-                Picasso.get().load(uri).into(driverPhotoImageView);
+        storageReference.child(travel.getUserId() + "/" + "profile").getDownloadUrl()
+                .addOnSuccessListener(uri -> {
+            // Got the download URL for 'userID/profile.png', set profile picture
+            Picasso.get().load(uri).into(driverPhotoImageView);
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception exception) {
-                // Handle any errors
-                Toast.makeText(SearchDetailActivity.this, "Download Failed!", Toast.LENGTH_SHORT).show();
-            }
+        }).addOnFailureListener(exception -> {
+            // Handle any errors
+            Toast.makeText(SearchDetailActivity.this, "Erro ao baixar fotografia do condutor!", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -136,6 +128,11 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
         vehicleLicensePlateTextView.setText(travel.getVehicleLicensePlate());
     }
 
+    /**
+     * Function to get the item selected on the navigation item
+     * @param item Item selected in the menuItem
+     * @return Boolean value, will return true if any navigation item is clicked
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -146,26 +143,39 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
             return true;
 
         }
-        if (item.getItemId() == R.id.createNav) {
+        else
+        {
+            if (item.getItemId() == R.id.createNav) {
 
-            startActivity(new Intent(this, CreateActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
+                startActivity(new Intent(this, CreateActivity.class));
+                overridePendingTransition(0, 0);
+                return true;
+
+            }
+            else
+            {
+                if (item.getItemId() == R.id.travelsNav) {
+
+                    startActivity(new Intent(this, TravelsActivity.class));
+                    overridePendingTransition(0, 0);
+                    return true;
+
+                }
+                else
+                {
+                    if (item.getItemId() == R.id.profileNav) {
+
+                        startActivity(new Intent(this, ProfileActivity.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    }
+                }
+            }
 
         }
-        if (item.getItemId() == R.id.travelsNav) {
 
-            startActivity(new Intent(this, TravelsActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
 
-        }
-        if (item.getItemId() == R.id.profileNav) {
 
-            startActivity(new Intent(this, ProfileActivity.class));
-            overridePendingTransition(0, 0);
-            return true;
-        }
         return false;
     }
 }

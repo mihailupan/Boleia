@@ -23,6 +23,12 @@ public class TravelAdapter extends FirestoreRecyclerAdapter<Travel,TravelAdapter
         super(options);
     }
 
+    /**
+     * Called by RecyclerView to display the data at the specified position. This method should update the contents of the RecyclerView.ViewHolder.itemView to reflect the item at the given position.
+     * @param holder The ViewHolder which should be updated to represent the contents of the item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     * @param model Travel object
+     */
     @Override
     protected void onBindViewHolder(@NonNull TravelHolder holder, int position, @NonNull Travel model) {
         holder.fromTextView.setText(String.valueOf(model.getFrom()));
@@ -31,6 +37,12 @@ public class TravelAdapter extends FirestoreRecyclerAdapter<Travel,TravelAdapter
         holder.timeTextView.setText(String.valueOf(model.getTime()));
     }
 
+    /**
+     * Called when RecyclerView needs a new RecyclerView.ViewHolder of the given type to represent an item.
+     * @param parent The ViewGroup into which the new View will be added after it is bound to an adapter position.
+     * @param viewType The view type of the new View.
+     * @return A new ViewHolder that holds a View of the given view type.
+     */
     @NonNull
     @Override
     public TravelHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -39,6 +51,10 @@ public class TravelAdapter extends FirestoreRecyclerAdapter<Travel,TravelAdapter
         return new TravelHolder(v);
     }
 
+    /**
+     * Function called to delete recycler view item
+     * @param position Item position
+     */
     public void deleteItem(int position){
         getSnapshots().getSnapshot(position).getReference().delete();
     }

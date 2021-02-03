@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -13,10 +14,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -24,9 +23,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class SearchActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class SearchActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener, AdapterView.OnItemSelectedListener {
 
-    private Button nextButton;
     Spinner fromSpinner;
     Spinner toSpinner;
     String selectedFromCity;
@@ -57,7 +55,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         dateButton.setOnClickListener(this);
 
         //Next Button
-        nextButton= findViewById(R.id.search_next_button);
+        Button nextButton = findViewById(R.id.search_next_button);
         nextButton.setOnClickListener(this);
 
         //Shows the date and time in a textView
@@ -65,95 +63,66 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
 
     }
 
+    /**
+     * Function to show the user the date dialog
+     */
     private void showDateDialog() {
         Calendar calendar = Calendar.getInstance();
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                myYear = year;
+        DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
+            calendar.set(Calendar.YEAR, year);
+            myYear = year;
 
-                calendar.set(Calendar.MONTH, month);
-                myMonth = month;
+            calendar.set(Calendar.MONTH, month);
+            myMonth = month;
 
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                myDay = dayOfMonth;
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            myDay = dayOfMonth;
 
-                TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        myHour = hourOfDay;
+            TimePickerDialog.OnTimeSetListener timeSetListener = (view1, hourOfDay, minute) -> {
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                myHour = hourOfDay;
 
-                        calendar.set(Calendar.MINUTE, minute);
-                        myMinute = minute;
+                calendar.set(Calendar.MINUTE, minute);
+                myMinute = minute;
 
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                        simpleDateFormat.format(calendar.getTime());
+                @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                simpleDateFormat.format(calendar.getTime());
 
-                        myMonth += 1;
+                myMonth += 1;
 
-                        Toast.makeText(SearchActivity.this, "Ano: "+(myYear)+" Mes: "+(myMonth)+" Dia: "+(myDay), Toast.LENGTH_LONG).show();
-
-                        //Show selected date and time
-                        //dateTimeTextView.setText(simpleDateFormat.format(calendar.getTime()));
-                        //dateTimeTextView.setVisibility(View.VISIBLE);
-
-                        //Toast.makeText(CreateActivity.this, "Data: "+simpleDateFormat.format(calendar.getTime()), Toast.LENGTH_LONG).show();
-
-                    }
-                };
+            };
 
 
-                String date = myDay+"-"+myMonth+"-"+myYear;
-                dateTimeTextView.setText(date);
-                dateTimeTextView.setVisibility(View.VISIBLE);
+            String date = myDay+"-"+myMonth+"-"+myYear;
+            dateTimeTextView.setText(date);
+            dateTimeTextView.setVisibility(View.VISIBLE);
 
-                new TimePickerDialog(SearchActivity.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
-            }
-
-
+            new TimePickerDialog(SearchActivity.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
         };
 
         new DatePickerDialog(SearchActivity.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
 
+    /**
+     * Function to create spinner adapters and set the adapter functions
+     */
     private void selectFromSpinners(){
 
         ArrayAdapter<CharSequence> fromAdapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
         fromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fromSpinner.setAdapter(fromAdapter);
-        fromSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Save selected value
-                selectedFromCity = fromSpinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        fromSpinner.setOnItemSelectedListener(this);
 
         ArrayAdapter<CharSequence> toAdapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
         toAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         toSpinner.setAdapter(toAdapter);
-        toSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //Save selected value
-                selectedToCity = toSpinner.getSelectedItem().toString();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+        toSpinner.setOnItemSelectedListener(this);
     }
 
+    /**
+     * Function to pass data to another activity
+     */
     private void sendData() {
 
         if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {
@@ -176,8 +145,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
 
 
         //Pass initial latitude and longitude
-        double [] coordinates = new double[2];
-        coordinates = getCityCoordinates(selectedFromCity);
+        double [] coordinates = getCityCoordinates(selectedFromCity);
         intent.putExtra("fromCityCoordinates", coordinates);
         startActivity(intent);
     }
@@ -205,6 +173,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
                 {41.5487301,-8.4389198}
         };
 
+        //For cycle to get the location of the city selected on from spinner
         for (int i = 0; i < cities.length; i++)
         {
             if(fromCreate.equals(cities[i]))
@@ -219,6 +188,11 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
     }
 
 
+    /**
+     * Function to get the item selected on the navigation item
+     * @param item Item selected in the menuItem
+     * @return Boolean value, will return true if any navigation item is clicked
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -226,31 +200,46 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
             return true;
 
         }
-        if (item.getItemId() == R.id.createNav) {
+        else
+        {
+            if (item.getItemId() == R.id.createNav) {
 
-            startActivity(new Intent(this, CreateActivity.class));
-            overridePendingTransition(0,0);
-            return true;
+                startActivity(new Intent(this, CreateActivity.class));
+                overridePendingTransition(0,0);
+                return true;
 
+            }
+            else
+            {
+                if (item.getItemId() == R.id.travelsNav) {
+
+                    startActivity(new Intent(this, TravelsActivity.class));
+                    overridePendingTransition(0,0);
+                    return true;
+
+                }
+                else
+                {
+                    if (item.getItemId() == R.id.profileNav) {
+
+                        startActivity(new Intent(this, ProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+
+                    }
+                }
+            }
         }
-        if (item.getItemId() == R.id.travelsNav) {
 
-            startActivity(new Intent(this, TravelsActivity.class));
-            overridePendingTransition(0,0);
-            return true;
 
-        }
-        if (item.getItemId() == R.id.profileNav) {
 
-            startActivity(new Intent(this, ProfileActivity.class));
-            overridePendingTransition(0,0);
-            return true;
-
-        }
         return false;
     }
 
-
+    /**
+     * Function to see which view was clicked and do something depending on the view clicked
+     * @param v View selected
+     */
     @Override
     public void onClick(View v) {
         if (v.getId()== R.id.search_date_picker_button){
@@ -258,7 +247,39 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         }
         if (v.getId()== R.id.search_next_button){
             sendData();
-            Toast.makeText(SearchActivity.this, selectedToCity, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    /**
+     * Callback function to be invoked when an item in this view has been selected
+     * @param parent The AdapterView where the selection happened
+     * @param view The view within the AdapterView that was clicked
+     * @param position The position of the view in the adapter
+     * @param id The row id of the item that is selected
+     */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+        //Spinner from
+        if(parent.getId() == R.id.search_from_spinner){
+            selectedFromCity= parent.getItemAtPosition(position).toString();
+        }
+
+
+        else {
+            //Spinner to
+            if (parent.getId() == R.id.search_to_spinner) {
+                selectedToCity = parent.getItemAtPosition(position).toString();
+            }
+        }
+    }
+
+    /**
+     * Callback function to be invoked when the selection disappears from this view
+     * @param parent The AdapterView that now contains no selected item.
+     */
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
