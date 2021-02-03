@@ -4,75 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateVehicleActivity">
+    tools:context=".CreateVehicleActivity"
+    android:background="@drawable/gradient_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation"
-        >
+        android:layout_above="@+id/bottom_navigation">
 
         <TextView
             android:id="@+id/registerVehicleTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="85dp"
-            android:layout_marginLeft="85dp"
-            android:layout_marginTop="70dp"
-            android:layout_marginEnd="85dp"
-            android:layout_marginRight="85dp"
+            android:layout_marginTop="60dp"
             android:text="Veículo da viagem"
+            android:textColor="@color/boleias_blue"
+            android:textStyle="bold"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editBrandVehicle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="100dp"
+            android:background="@drawable/rectangle_background"
+            android:drawableStart="@drawable/ic_car"
+            android:drawablePadding="16dp"
+            android:paddingLeft="16dp"
+            android:textColor="@color/boleias_blue"
+            android:textColorHint="@color/boleias_blue"
             android:ems="10"
+            android:hint="Marca"
             android:inputType="textPersonName"
-            android:hint="Modelo"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registerVehicleTitleTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/registerVehicleTitleTextView"
+            android:drawableLeft="@drawable/ic_car" />
 
         <EditText
             android:id="@+id/editModelVehicle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="100dp"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rectangle_background"
+            android:drawableStart="@drawable/ic_car"
+            android:drawableLeft="@drawable/ic_car"
+            android:drawablePadding="16dp"
+            android:paddingLeft="16dp"
+            android:textColor="@color/boleias_blue"
+            android:textColorHint="@color/boleias_blue"
             android:ems="10"
+            android:hint="Modelo"
             android:inputType="textPersonName"
-            android:hint="Marca"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editBrandVehicle" />
 
 
         <EditText
             android:id="@+id/editLicensePlateVehicle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="100dp"
-            android:layout_marginRight="100dp"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/rectangle_background"
+            android:drawableStart="@drawable/ic_license_plate"
+            android:drawableLeft="@drawable/ic_license_plate"
+            android:drawablePadding="16dp"
+            android:paddingLeft="16dp"
+            android:textColor="@color/boleias_blue"
+            android:textColorHint="@color/boleias_blue"
             android:ems="10"
-            android:inputType="textPersonName"
             android:hint="Matricula"
+            android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editModelVehicle" />
 
@@ -81,44 +92,59 @@
             android:id="@+id/loadPhotoVehicleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="118dp"
-            android:layout_marginLeft="118dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="118dp"
-            android:layout_marginRight="118dp"
             android:text="Carregar fotografia do veículo"
             android:textSize="20sp"
+            android:textColor="@color/boleias_blue"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editLicensePlateVehicle" />
 
-        <ImageButton
-            android:id="@+id/captureImageButtonVehicle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginStart="120dp"
             android:layout_marginLeft="120dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
+            app:srcCompat="@drawable/rectangle_background" />
 
-        <ImageButton
-            android:id="@+id/openGalleryButtonVehicle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="57dp"
-            android:layout_marginLeft="57dp"
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="120dp"
             android:layout_marginRight="120dp"
-            app:layout_constraintBottom_toBottomOf="@+id/captureImageButtonVehicle"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/captureImageButtonVehicle"
             app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView"
-            app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            app:srcCompat="@drawable/rectangle_background" />
+
+        <ImageButton
+            android:id="@+id/captureImageButtonVehicle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_camera"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView" />
+
+        <ImageButton
+            android:id="@+id/openGalleryButtonVehicle"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="120dp"
+            android:layout_marginRight="120dp"
+            android:background="@drawable/ic_gallery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView" />
 
         <Button
             android:id="@+id/createTravelButton"
@@ -128,13 +154,14 @@
             android:layout_marginRight="24dp"
             android:layout_marginBottom="24dp"
             android:text="Criar Viagem"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
             android:id="@+id/carPhoto"
-            android:layout_width="112dp"
-            android:layout_height="116dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="90dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -151,10 +178,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
-        app:itemBackground="@color/white"
+        android:background="@drawable/rounded_nav"
         app:itemIconTint="@color/boleias_blue"
         app:itemTextColor="@color/boleias_blue"
         app:menu="@menu/menu_navigation"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled" />
 
 </RelativeLayout>

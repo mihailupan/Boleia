@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
+    tools:context=".ProfileActivity"
+    android:background="@drawable/gradient_background">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,13 +17,50 @@
             android:id="@+id/profileTitleTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="68dp"
+            android:layout_marginTop="60dp"
             android:text="Perfil"
-            android:textSize="30sp"
+            android:textColor="@color/boleias_blue"
+            android:textSize="40sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="350dp"
+            android:layout_height="130dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileTitleTextView"
+            app:srcCompat="@drawable/rectangle_background" />
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editPhotoInfoTextView"
+            app:srcCompat="@drawable/rectangle_background" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="140dp"
+            android:layout_marginRight="140dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editPhotoInfoTextView"
+            app:srcCompat="@drawable/rectangle_background" />
 
         <Button
             android:id="@+id/profileLogoutButton"
@@ -42,6 +80,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:text="Nome"
+            android:textSize="20sp"
+            android:textColor="@color/boleias_blue"
+            android:textStyle="bold"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/nameInfoTextView"
             app:layout_constraintStart_toEndOf="@+id/nameInfoTextView"
@@ -54,6 +95,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:text="Email"
+            android:textSize="20sp"
+            android:textColor="@color/boleias_blue"
+            android:textStyle="bold"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/emailInfoTextView"
             app:layout_constraintStart_toEndOf="@+id/emailInfoTextView"
@@ -66,6 +110,9 @@
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
             android:text="Phone"
+            android:textSize="20sp"
+            android:textColor="@color/boleias_blue"
+            android:textStyle="bold"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/phoneInfoTextView"
             app:layout_constraintStart_toEndOf="@+id/phoneInfoTextView"
@@ -75,10 +122,12 @@
             android:id="@+id/nameInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="63dp"
-            android:layout_marginLeft="63dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="16dp"
             android:text="Nome:"
+            android:textColor="@color/boleias_blue"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profileTitleTextView" />
 
@@ -86,10 +135,12 @@
             android:id="@+id/emailInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="63dp"
-            android:layout_marginLeft="63dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="24dp"
             android:text="E-mail:"
+            android:textColor="@color/boleias_blue"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameInfoTextView" />
 
@@ -97,10 +148,12 @@
             android:id="@+id/phoneInfoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="63dp"
-            android:layout_marginLeft="63dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="24dp"
             android:text="Telemóvel:"
+            android:textColor="@color/boleias_blue"
+            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailInfoTextView" />
 
@@ -110,42 +163,45 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Editar foto de perfil"
+            android:textColor="@color/boleias_blue"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/profilePhoto"
             app:layout_constraintStart_toStartOf="@+id/profilePhoto"
             app:layout_constraintTop_toBottomOf="@+id/profilePhoto" />
 
         <ImageView
             android:id="@+id/profilePhoto"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phoneInfoTextView"
-            tools:srcCompat="@tools:sample/avatars"
-            />
+            tools:srcCompat="@tools:sample/avatars" />
 
         <ImageButton
             android:id="@+id/openGalleryButtonProfile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_marginTop="16dp"
-            app:layout_constraintStart_toEndOf="@+id/captureImageButtonProfile"
-            app:layout_constraintTop_toBottomOf="@+id/editPhotoInfoTextView"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            android:layout_marginEnd="140dp"
+            android:layout_marginRight="140dp"
+            android:background="@drawable/ic_gallery"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editPhotoInfoTextView" />
 
         <ImageButton
             android:id="@+id/captureImageButtonProfile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="155dp"
-            android:layout_marginLeft="155dp"
-            app:layout_constraintBottom_toBottomOf="@+id/openGalleryButtonProfile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="140dp"
+            android:layout_marginLeft="140dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ic_camera"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
+            app:layout_constraintTop_toBottomOf="@+id/editPhotoInfoTextView" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -156,10 +212,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
-        app:itemBackground="@color/white"
+        android:background="@drawable/rounded_nav"
         app:itemIconTint="@color/boleias_blue"
         app:itemTextColor="@color/boleias_blue"
         app:menu="@menu/menu_navigation"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled" />
 
 </RelativeLayout>

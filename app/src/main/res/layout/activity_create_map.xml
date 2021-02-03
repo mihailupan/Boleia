@@ -11,32 +11,40 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/bottom_navigation">
 
-        <TextView
-            android:id="@+id/createMapTitleTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="85dp"
-            android:layout_marginLeft="85dp"
-            android:layout_marginTop="68dp"
-            android:layout_marginEnd="85dp"
-            android:layout_marginRight="85dp"
-            android:text="Escolha o ponto de encontro:"
-            android:textSize="25sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <fragment
             android:id="@+id/google_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="120dp"
-            android:layout_marginBottom="90dp"
-            app:layout_constraintBottom_toTopOf="@+id/advance_create_trip"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="350dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profileTitleTextView" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/rectangle_background" />
+
+        <TextView
+
+            android:id="@+id/createMapTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:text="Escolha o ponto de encontro!"
+            android:textSize="25sp"
+            android:textColor="@color/boleias_blue"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/choseLocationNextButton"
@@ -50,8 +58,6 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
 
-
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -60,9 +66,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
-        app:itemBackground="@color/white"
+        android:background="@color/white"
         app:itemIconTint="@color/boleias_blue"
         app:itemTextColor="@color/boleias_blue"
         app:menu="@menu/menu_navigation"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled" />
 </RelativeLayout>

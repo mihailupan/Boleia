@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@drawable/gradient_background">
 
     <Button
         android:id="@+id/loginMainButton"
@@ -27,6 +28,7 @@
         android:layout_marginBottom="32dp"
         android:text="Ainda não és membro?"
         android:textSize="17dp"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/registerMainTextView"
         app:layout_constraintStart_toStartOf="parent" />
@@ -41,7 +43,7 @@
         android:layout_marginRight="169dp"
         android:layout_marginBottom="32dp"
         android:text="Registar"
-        android:textColor="@color/space_blue"
+        android:textColor="@color/white"
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,9 +52,15 @@
 
     <EditText
         android:id="@+id/emailMainEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_marginTop="32dp"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="16dp"
+        android:paddingLeft="16dp"
+        android:background="@drawable/rectangle_background"
+        android:textColorHint="@color/boleias_blue"
+        android:textColor="@color/boleias_blue"
         android:ems="10"
         android:hint="E-mail"
         android:inputType="textPersonName"
@@ -63,13 +71,19 @@
 
     <EditText
         android:id="@+id/passwordMainEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
         android:layout_marginTop="32dp"
+        android:drawableStart="@drawable/ic_password"
+        android:drawablePadding="16dp"
+        android:paddingLeft="16dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         android:textSize="20dp"
+        android:textColor="@color/boleias_blue"
+        android:textColorHint="@color/boleias_blue"
+        android:background="@drawable/rectangle_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,6 +110,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/logo" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,12 +10,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_navigation">
 
 
         <ImageView
             android:id="@+id/white_background_travel"
-            android:layout_width="379dp"
+            android:layout_width="380dp"
             android:layout_height="153dp"
             android:layout_marginTop="48dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -25,7 +26,7 @@
 
         <ImageView
             android:id="@+id/white_background_driver"
-            android:layout_width="384dp"
+            android:layout_width="380dp"
             android:layout_height="190dp"
             android:layout_marginTop="170dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +37,7 @@
 
         <ImageView
             android:id="@+id/white_background_vehicle"
-            android:layout_width="385dp"
+            android:layout_width="380dp"
             android:layout_height="190dp"
             android:layout_marginTop="130dp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +163,7 @@
             android:id="@+id/search_detail_driver_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="132dp"
             android:text="Motorista"
             android:textColor="@color/boleias_blue"
             android:textSize="30sp"
@@ -262,7 +263,7 @@
             android:id="@+id/search_detail_vehicle_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="170dp"
+            android:layout_marginTop="173dp"
             android:text="Veículo"
             android:textColor="@color/boleias_blue"
             android:textSize="30sp"
@@ -364,11 +365,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
         android:background="@drawable/rounded_nav"
-
         app:itemIconTint="@color/boleias_blue"
         app:itemTextColor="@color/boleias_blue"
         app:menu="@menu/menu_navigation"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled" />
 
 
 
