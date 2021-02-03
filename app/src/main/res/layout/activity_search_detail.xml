@@ -4,15 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SearchDetailActivity">
+    tools:context=".SearchDetailActivity"
+    android:background="@drawable/gradient_background">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation">
+        android:layout_height="match_parent">
 
 
+        <ImageView
+            android:id="@+id/white_background_travel"
+            android:layout_width="379dp"
+            android:layout_height="153dp"
+            android:layout_marginTop="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/rectangle_background" />
+
+        <ImageView
+            android:id="@+id/white_background_driver"
+            android:layout_width="384dp"
+            android:layout_height="190dp"
+            android:layout_marginTop="170dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_detail_driver_title_text_view"
+            app:srcCompat="@drawable/rectangle_background" />
+
+        <ImageView
+            android:id="@+id/white_background_vehicle"
+            android:layout_width="385dp"
+            android:layout_height="190dp"
+            android:layout_marginTop="130dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_detail_title_text_view"
+            app:srcCompat="@drawable/rectangle_background" />
         <!-- TRAVEL DETAILS -->
+
         <TextView
             android:id="@+id/search_detail_title_text_view"
             android:layout_width="wrap_content"
@@ -23,6 +55,7 @@
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,9 +65,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="De:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_detail_title_text_view" />
 
@@ -42,9 +75,10 @@
             android:id="@+id/search_detail_from_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_from_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_from_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_from_label_text_view" />
@@ -53,9 +87,9 @@
             android:id="@+id/search_detail_to_label_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:text="Para:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/search_detail_from_label_text_view"
@@ -65,9 +99,10 @@
             android:id="@+id/search_detail_to_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_to_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_to_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_to_label_text_view" />
@@ -78,7 +113,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="Hora:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/search_detail_from_label_text_view"
@@ -88,9 +123,10 @@
             android:id="@+id/search_detail_time_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_time_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_time_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_time_label_text_view" />
@@ -103,7 +139,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:text="Data:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_detail_from_label_text_view" />
 
@@ -111,9 +147,10 @@
             android:id="@+id/search_detail_date_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_date_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_date_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_date_label_text_view" />
@@ -125,14 +162,14 @@
             android:id="@+id/search_detail_driver_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="130dp"
             android:text="Motorista"
             android:textColor="@color/boleias_blue"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_detail_time_label_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/search_detail_title_text_view" />
 
         <ImageView
             android:id="@+id/search_detail_driver_photo"
@@ -153,7 +190,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:text="Nome:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_detail_driver_title_text_view" />
 
@@ -161,9 +198,10 @@
             android:id="@+id/search_detail_driver_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_driver_name_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_driver_name_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_driver_name_label_text_view" />
@@ -176,7 +214,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:text="Telemóvel:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_detail_driver_name_label_text_view" />
 
@@ -184,13 +222,14 @@
             android:id="@+id/search_detail_driver_phone_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_driver_phone_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_driver_phone_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_driver_phone_label_text_view"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.49" />
 
         <TextView
             android:id="@+id/search_detail_driver_email_label_text_view"
@@ -200,7 +239,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:text="E-mail:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_detail_driver_phone_label_text_view" />
 
@@ -208,10 +247,10 @@
             android:id="@+id/search_detail_driver_email_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_driver_email_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_driver_email_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_driver_email_label_text_view" />
@@ -223,14 +262,14 @@
             android:id="@+id/search_detail_vehicle_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="170dp"
             android:text="Veículo"
             android:textColor="@color/boleias_blue"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_detail_driver_email_label_text_view" />
+            app:layout_constraintTop_toBottomOf="@+id/search_detail_driver_title_text_view" />
 
         <ImageView
             android:id="@+id/search_detail_vehicle_photo"
@@ -251,7 +290,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:text="Marca:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_detail_vehicle_title_text_view" />
 
@@ -259,9 +298,10 @@
             android:id="@+id/search_detail_vehicle_brand_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_vehicle_brand_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_vehicle_brand_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_vehicle_brand_label_text_view" />
@@ -274,7 +314,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:text="Modelo:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_detail_vehicle_brand_label_text_view" />
 
@@ -282,9 +322,10 @@
             android:id="@+id/search_detail_vehicle_model_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_vehicle_model_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_vehicle_model_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_vehicle_model_label_text_view" />
@@ -297,7 +338,7 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="16dp"
             android:text="Matrícula:"
-            android:textSize="20sp"
+            android:textSize="15sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_detail_vehicle_model_label_text_view" />
 
@@ -305,9 +346,10 @@
             android:id="@+id/search_detail_vehicle_license_plate_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:textSize="20sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_vehicle_license_plate_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_vehicle_license_plate_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_vehicle_license_plate_label_text_view" />
@@ -321,10 +363,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="0dp"
-        app:itemBackground="@color/boleias_blue"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
+        android:background="@drawable/rounded_nav"
+
+        app:itemIconTint="@color/boleias_blue"
+        app:itemTextColor="@color/boleias_blue"
         app:menu="@menu/menu_navigation"
         app:labelVisibilityMode="labeled"/>
+
+
 
 </RelativeLayout>
