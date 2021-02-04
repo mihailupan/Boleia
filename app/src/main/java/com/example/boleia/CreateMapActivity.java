@@ -10,6 +10,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -28,7 +31,10 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -191,16 +197,28 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
     private void map(Location location){
 
         supportMapFragment.getMapAsync(googleMap -> {
-            //Initialize lat lng
+            //CurrentLocation
+            double currentLocationLat =  location.getLatitude();
+            double currentLocationLng = location.getLongitude();
+
+            //Location of the "from" city
             location.setLatitude(initLocation[0]);
             location.setLongitude(initLocation[1]);
             latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
-            //Zoom map
+            //Zoom map to the "from" city
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
-            //Add marker on map
-            //googleMap.addMarker(options);
+
+            LatLng latLngCurrentLocation = new LatLng(currentLocationLat,currentLocationLng);
+
+
+            //Add Marker in the "from city"
+            googleMap.addMarker(new MarkerOptions()
+                    .position(latLngCurrentLocation).title("Localização atual!")
+                    .icon(bitmapDescriptorFromVector(getApplicationContext(),
+                            R.drawable.ic_current_location)));
+
 
             googleMap.setOnMapClickListener(latLng2 -> {
                 //Creating Marker
@@ -228,6 +246,21 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             });
 
         });
+    }
+
+    /**
+     * Function to put vector image in marker
+     * @param context Application context
+     * @param vectorResId Drawable id
+     * @return Bitmap Image
+     */
+    private BitmapDescriptor bitmapDescriptorFromVector(Context context, int vectorResId) {
+        Drawable vectorDrawable = ContextCompat.getDrawable(context, vectorResId);
+        vectorDrawable.setBounds(0, 0, vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight());
+        Bitmap bitmap = Bitmap.createBitmap(vectorDrawable.getIntrinsicWidth(), vectorDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        vectorDrawable.draw(canvas);
+        return BitmapDescriptorFactory.fromBitmap(bitmap);
     }
 
 
