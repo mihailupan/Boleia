@@ -93,7 +93,7 @@
     <string name="invalid_email">E-mail invalid!</string>
     <string name="password_required">Password required!</string>
     <string name="password_min_caract">Password with minimum 6 characters!</string>
-    <string name="photo_download_error">Error downloading vehicle photo!</string>
+    <string name="photo_download_error">Error downloading photo!</string>
     <string name="profile_photo_load_error">Error loading profile photo!</string>
     <string name="name_required">Name required!</string>
     <string name="phone_required">Phone required!</string>

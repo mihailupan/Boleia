@@ -143,8 +143,12 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             return;
         }
 
-
         getUserData();
+
+        Intent intent = new Intent(CreateVehicleActivity.this, TravelsActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
 
     }
 
@@ -359,6 +363,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
                 {
                     contentUri = data.getData();
                     Picasso.get().load(contentUri).into(vehiclePhoto);
+                    vehiclePhoto.setVisibility(View.VISIBLE);
                 }
             }
         }
@@ -478,10 +483,6 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         //Create travel button
         if (v.getId() == R.id.create_register_vehicle_create_travel_button) {
             this.createTravel();
-            Intent intent = new Intent(CreateVehicleActivity.this, TravelsActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            finish();
         }
         else
         {
