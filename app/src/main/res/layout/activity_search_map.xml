@@ -43,7 +43,7 @@
             android:layout_marginTop="50dp"
             android:layout_marginEnd="85dp"
             android:layout_marginRight="85dp"
-            android:text="Selecione uma viagem!"
+            android:text="@string/search_map_title_text_view"
             android:textColor="@color/boleias_blue"
             android:textSize="30sp"
             android:textStyle="bold"

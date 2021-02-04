@@ -75,12 +75,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         String name = nameEdit.getText().toString().trim();
         String phone = phoneEdit.getText().toString().trim();
 
-        if (checkField(email.isEmpty(), emailEdit, "É necessário o e-mail!")) return;
-        if (checkField(!Patterns.EMAIL_ADDRESS.matcher(email).matches(), emailEdit, "E-mail não é válido!")) return;
-        if (checkField(password.isEmpty(), passwordEdit, "É necessária a password!")) return;
-        if (checkField(password.length() < 6, passwordEdit, "Mínimo de 6 caracteres!")) return;
-        if (checkField(name.isEmpty(), nameEdit, "É necessário o nome!")) return;
-        if (checkField(phone.isEmpty(), phoneEdit, "É necessário o telemóvel!")) return;
+        if (checkField(email.isEmpty(), emailEdit, getString(R.string.email_required))) return;
+        if (checkField(!Patterns.EMAIL_ADDRESS.matcher(email).matches(), emailEdit, getString(R.string.invalid_email))) return;
+        if (checkField(password.isEmpty(), passwordEdit, getString(R.string.password_required))) return;
+        if (checkField(password.length() < 6, passwordEdit, getString(R.string.password_min_caract))) return;
+        if (checkField(name.isEmpty(), nameEdit, getString(R.string.name_required))) return;
+        if (checkField(phone.isEmpty(), phoneEdit, getString(R.string.phone_required))) return;
 
         progressBar.setVisibility(View.VISIBLE);
         mAuth.createUserWithEmailAndPassword(email,password)
@@ -95,12 +95,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         user.put("name", name);
                         user.put("email", email);
                         user.put("phone", phone);
-                        documentReference.set(user).addOnSuccessListener(aVoid -> Toast.makeText(RegisterActivity.this, "Utilizador foi registado!", Toast.LENGTH_LONG).show());
+                        documentReference.set(user).addOnSuccessListener(aVoid -> Toast.makeText(RegisterActivity.this, R.string.user_registered, Toast.LENGTH_LONG).show());
                         startActivity(new Intent(RegisterActivity.this, MainActivity.class));
                         finish();
                     }
                     else {
-                        Toast.makeText(RegisterActivity.this, "Registo falhou! Tente novamente!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegisterActivity.this, R.string.register_failed, Toast.LENGTH_LONG).show();
                     }
 
                     progressBar.setVisibility(View.GONE);

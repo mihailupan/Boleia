@@ -47,7 +47,7 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         toCreatePos = 0;
 
         //SpinnerFrom
-        createCitiesSpinnerFrom = findViewById(R.id.createCitiesSpinnerFrom);
+        createCitiesSpinnerFrom = findViewById(R.id.create_from_cities_spinner);
         ArrayAdapter<CharSequence> createCitiesSpinnerFromAdapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
         createCitiesSpinnerFromAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         createCitiesSpinnerFrom.setAdapter(createCitiesSpinnerFromAdapter);
@@ -55,7 +55,7 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
 
 
         //SpinnerTo
-        createCitiesSpinnerTo = findViewById(R.id.createCitiesSpinnerTo);
+        createCitiesSpinnerTo = findViewById(R.id.create_to_cities_spinner);
         ArrayAdapter<CharSequence> createCitiesSpinnerToAdapter = ArrayAdapter.createFromResource(this, R.array.cities, android.R.layout.simple_spinner_item);
         createCitiesSpinnerToAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         createCitiesSpinnerTo.setAdapter(createCitiesSpinnerToAdapter);
@@ -63,11 +63,11 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
 
 
         //Button to choose date
-        chooseDateBtn = findViewById(R.id.create_trip_date_picker);
+        chooseDateBtn = findViewById(R.id.create_trip_date_picker_button);
         chooseDateBtn.setOnClickListener(this);
 
         //Button to go to another activity and continue creating travel
-        advanceBtn = findViewById(R.id.advance_create_trip);
+        advanceBtn = findViewById(R.id.create_next_button);
         advanceBtn.setOnClickListener(this);
 
         //Bottom navigation view
@@ -76,7 +76,7 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         //ShowDateTime textView
-        showDateTime = findViewById(R.id.showCreateDateTextView);
+        showDateTime = findViewById(R.id.create_data_time_label_text_view);
     }
 
     /**
@@ -95,7 +95,7 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         //Check if any city was selected using selected pos and user didn't selected same city
         if((fromCreatePos == 0 || toCreatePos == 0) || fromCreate.equals(toCreate))
         {
-            Toast.makeText(this, "Por favor, selecione uma cidade válida!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.select_valid_city, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -137,13 +137,13 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     private boolean dateIsNotValid(int currentYear, int currentMonth, int currentDay) {
         //Check if date was selected
         if (myYear == 0 && myMonth == 0 && myDay == 0 && myHour == 0 && myMinute == 0) {
-            Toast.makeText(CreateActivity.this, "É necessário escolher uma data para a viagem!", Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateActivity.this, R.string.date_required, Toast.LENGTH_LONG).show();
             return true;
         }
 
         //Check if data selected is valid
         if (myYear < currentYear || myMonth < currentMonth || myDay < currentDay)
-        {Toast.makeText(CreateActivity.this, "Data inválida, por favor selecione nova data!", Toast.LENGTH_LONG).show();
+        {Toast.makeText(CreateActivity.this, R.string.invalid_date, Toast.LENGTH_LONG).show();
             return true;
         }
         return false;
@@ -288,13 +288,13 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     public void onClick(View v) {
 
         //Date button
-        if(v.getId() == R.id.create_trip_date_picker){
+        if(v.getId() == R.id.create_trip_date_picker_button){
             showDateDialog();
         }
         else {
 
             //Create button
-            if(v.getId() == R.id.advance_create_trip){
+            if(v.getId() == R.id.create_next_button){
                 goToActivity();
             }
         }
@@ -313,7 +313,7 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
             //Spinner from
-            if(parent.getId() == R.id.createCitiesSpinnerFrom){
+            if(parent.getId() == R.id.create_from_cities_spinner){
 
                 if(position != 0)
                 {
@@ -324,14 +324,12 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
                 {
                     fromCreatePos = 0;
                 }
-
-
             }
 
 
             else {
                 //Spinner to
-                if (parent.getId() == R.id.createCitiesSpinnerTo) {
+                if (parent.getId() == R.id.create_to_cities_spinner) {
 
                     if(position != 0){
                         toCreate = parent.getItemAtPosition(position).toString();

@@ -52,8 +52,8 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         selectedToCityPos = 0;
 
         //Initializes the spinners
-        fromSpinner = findViewById(R.id.search_from_spinner);
-        toSpinner = findViewById(R.id.search_to_spinner);
+        fromSpinner = findViewById(R.id.search_from_cities_spinner);
+        toSpinner = findViewById(R.id.search_to_cities_spinner);
 
         //Saves the values from spinners
         selectFromSpinners();
@@ -275,8 +275,10 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+
+
         //Spinner from
-        if(parent.getId() == R.id.search_from_spinner){
+        if(parent.getId() == R.id.search_from_cities_spinner){
 
 
                 if(position != 0)
@@ -295,7 +297,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
 
         else {
             //Spinner to
-            if (parent.getId() == R.id.search_to_spinner) {
+            if (parent.getId() == R.id.search_to_cities_spinner) {
 
 
                 if(position != 0) {

@@ -14,11 +14,11 @@
 
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/create_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="151dp"
-            android:text="Create a travel!"
+            android:text="@string/create_title_text_view"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,21 +26,21 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/create_from_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="312dp"
             android:layout_marginRight="312dp"
-            android:text="De"
+            android:text="@string/create_from_title_text_view"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView" />
+            app:layout_constraintTop_toBottomOf="@+id/create_title_text_view" />
 
 
         <Spinner
-            android:id="@+id/createCitiesSpinnerFrom"
+            android:id="@+id/create_from_cities_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="65dp"
@@ -49,11 +49,11 @@
             android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/create_from_title_text_view"
             android:layout_marginRight="60dp" />
 
         <Spinner
-            android:id="@+id/createCitiesSpinnerTo"
+            android:id="@+id/create_to_cities_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="65dp"
@@ -64,20 +64,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            app:layout_constraintTop_toBottomOf="@+id/create_to_title_text_view" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/create_to_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="292dp"
             android:layout_marginRight="292dp"
-            android:text="Para"
+            android:text="@string/create_to_title_text_view"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerFrom" />
+            app:layout_constraintTop_toBottomOf="@+id/create_from_cities_spinner" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
@@ -87,41 +87,42 @@
             app:layout_constraintGuide_begin="64dp" />
 
         <Button
-            android:id="@+id/advance_create_trip"
+            android:id="@+id/create_next_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="150dp"
             android:layout_marginEnd="25dp"
             android:layout_marginRight="25dp"
-            android:text="AVANÇAR"
+            android:text="@string/create_next_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerTo" />
+            app:layout_constraintTop_toBottomOf="@+id/create_to_cities_spinner" />
 
         <Button
-            android:id="@+id/create_trip_date_picker"
+            android:id="@+id/create_trip_date_picker_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="77dp"
             android:layout_marginLeft="77dp"
             android:layout_marginTop="60dp"
-            android:text="DATA"
+            android:text="@string/create_trip_date_picker_button"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerTo" />
+            app:layout_constraintTop_toBottomOf="@+id/create_to_cities_spinner" />
 
         <TextView
-            android:id="@+id/showCreateDateTextView"
+            android:id="@+id/create_data_time_label_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
             android:layout_marginLeft="40dp"
             android:layout_marginTop="60dp"
             android:layout_marginBottom="2dp"
-            android:text="TextView"
-            android:textSize="15sp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/boleias_blue"
             android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="@+id/create_trip_date_picker"
-            app:layout_constraintStart_toEndOf="@+id/create_trip_date_picker"
-            app:layout_constraintTop_toBottomOf="@+id/createCitiesSpinnerTo" />
+            app:layout_constraintBottom_toBottomOf="@+id/create_trip_date_picker_button"
+            app:layout_constraintStart_toEndOf="@+id/create_trip_date_picker_button"
+            app:layout_constraintTop_toBottomOf="@+id/create_to_cities_spinner" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

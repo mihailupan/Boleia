@@ -100,7 +100,7 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
 
         }).addOnFailureListener(exception -> {
             // Handle any errors
-            Toast.makeText(SearchDetailActivity.this, "Erro ao baixar fotografia do veículo!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SearchDetailActivity.this, R.string.car_photo_load_error, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -116,7 +116,7 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
 
         }).addOnFailureListener(exception -> {
             // Handle any errors
-            Toast.makeText(SearchDetailActivity.this, "Erro ao baixar fotografia do condutor!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SearchDetailActivity.this, R.string.driver_photo_load_error, Toast.LENGTH_SHORT).show();
         });
     }
 

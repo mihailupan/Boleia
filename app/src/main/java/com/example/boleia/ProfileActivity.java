@@ -143,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
                     profilePhoto.setVisibility(View.VISIBLE);
         }).addOnFailureListener(exception -> {
             // Handle any errors
-            Toast.makeText(ProfileActivity.this, "Erro ao baixar fotografia!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ProfileActivity.this, R.string.photo_download_error, Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -325,7 +325,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         image.putFile(contentUri)
                 .addOnSuccessListener(taskSnapshot -> image.getDownloadUrl()
                 .addOnSuccessListener(uri -> Picasso.get().load(uri).into(profilePhoto)))
-                .addOnFailureListener(e -> Toast.makeText(ProfileActivity.this, "Erro ao carregar imagem de perfil!", Toast.LENGTH_SHORT).show());
+                .addOnFailureListener(e -> Toast.makeText(ProfileActivity.this, R.string.profile_photo_load_error, Toast.LENGTH_SHORT).show());
     }
 
 

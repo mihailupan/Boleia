@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="defaul_spinner_value">Seleciona uma cidade:</string>
+
+    <string-array name="cities">
+        <item>@string/defaul_spinner_value</item>
+        <item>Beja</item>
+        <item>Évora</item>
+        <item>Faro</item>
+        <item>Lisboa</item>
+        <item>Braga</item>
+    </string-array>
+
+    <string name="search_title_text_view">Para onde deseja ir?</string>
+    <string name="create_title_text_view">Cria a tua viagem!</string>
+    <string name="create_from_title_text_view">De:</string>
+    <string name="create_to_title_text_view">Para:</string>
+    <string name="create_next_button">Avançar</string>
+    <string name="create_trip_date_picker_button">Data</string>
+
+    <string name="create_map_title_text_view">Escolha o ponto de encontro!</string>
+    <string name="create_map_chose_location_next_button">Avançar</string>
+
+    <string name="create_register_vehicle_title_text_view">Veículo da viagem</string>
+    <string name="create_register_vehicle_brand_edit_text">Marca</string>
+    <string name="create_register_vehicle_vehicle_model_edit_text">Modelo</string>
+    <string name="create_register_vehicle_vehicle_license_plate_edit_text">Matricula</string>
+    <string name="create_register_vehicle_create_travel_button">Criar Viagem</string>
+
+    <string name="main_login_button">Login</string>
+    <string name="main_question_text_view">Ainda não és membro?</string>
+    <string name="main_register_text_view">Registar</string>
+    <string name="main_email_edit_text">E-mail</string>
+    <string name="main_password_edit_text">Palavra-passe</string>
+
+    <string name="profile_title_text_view">Perfil</string>
+    <string name="profile_logout_button">Logout</string>
+    <string name="profile_label_name_text_view">Nome:</string>
+    <string name="profile_label_email_text_view">E-mail:</string>
+    <string name="profile_label_phone_text_view">Telemóvel:</string>
+    <string name="profile_edit_photo_text_view">Editar foto de perfil</string>
+
+    <string name="register_title_text_view">Registo</string>
+    <string name="register_email_edit_text">E-mail</string>
+    <string name="register_name_edit_text">Nome</string>
+    <string name="register_phone_edit_text">Telemóvel</string>
+    <string name="register_register_button">Registar</string>
+
+    <string name="search_from_title_text_view">De:</string>
+    <string name="search_to_title_text_view">Para:</string>
+    <string name="search_next_button">Pesquisar</string>
+    <string name="search_date_picker_button">Data</string>
+
+    <string name="search_detail_title_text_view">Detalhes da viagem</string>
+    <string name="search_detail_from_label_text_view">De:</string>
+    <string name="search_detail_to_label_text_view">Para:</string>
+    <string name="search_detail_time_label_text_view">Hora:</string>
+    <string name="search_detail_date_label_text_view">Data:</string>
+    <string name="search_detail_driver_title_text_view">Motorista</string>
+    <string name="search_detail_driver_name_label_text_view">Nome:</string>
+    <string name="search_detail_driver_phone_label_text_view">Telemóvel:</string>
+    <string name="search_detail_driver_email_label_text_view">E-mail:</string>
+    <string name="search_detail_vehicle_title_text_view">Veículo</string>
+    <string name="search_detail_vehicle_brand_label_text_view">Marca:</string>
+    <string name="search_detail_vehicle_model_label_text_view">Modelo:</string>
+    <string name="search_detail_vehicle_license_plate_label_text_view">Matrícula:</string>
+
+    <string name="search_map_title_text_view">Selecione uma viagem!</string>
+
+    <string name="searchNav">Pesquisar</string>
+    <string name="createNav">Criar</string>
+    <string name="travelsNav">Viagens</string>
+    <string name="profileNav">Perfil</string>
+    <string name="select_valid_city">Por favor, selecione uma cidade válida!</string>
+    <string name="date_required">É necessário escolher uma data para a viagem!</string>
+    <string name="invalid_date">Data inválida, por favor selecione nova data!</string>
+    <string name="current_location">Localização atual!</string>
+    <string name="car_brand_required">É necessário o marca do carro!</string>
+    <string name="car_model_required">É necessário a modelo do carro!</string>
+    <string name="car_license_plate_required">É necessário a matrícula do carro!</string>
+    <string name="car_photo_required">É necessário tirar ou escolher uma fotografia!</string>
+    <string name="travel_data_submited">Dados da viagem submetidos!</string>
+    <string name="submited_travel_error">Erro ao submeter dados da viagem!</string>
+    <string name="photo_sended">Envio da fotografia feito!</string>
+    <string name="photo_sended_error">Falha ao enviar fotografia!</string>
+    <string name="activate_camera_required">É necessária ativar a permissão para utilizar a camara!</string>
+    <string name="login_failed">Login falhou! Verifique os seus dados!</string>
+    <string name="email_required">Introduza o e-mail!</string>
+    <string name="invalid_email">E-mail é invalido!</string>
+    <string name="password_required">Introduza a password!</string>
+    <string name="password_min_caract">A password tem no mínimo 6 caracteres!</string>
+    <string name="photo_download_error">Erro ao baixar fotografia!</string>
+    <string name="profile_photo_load_error">Erro ao carregar imagem de perfil!</string>
+    <string name="name_required">É necessário o nome!</string>
+    <string name="phone_required">É necessário o telemóvel!</string>
+    <string name="user_registered">Utilizador foi registado!</string>
+    <string name="register_failed">Registo falhou! Tente novamente!</string>
+    <string name="car_photo_load_error">Erro ao baixar fotografia do veículo!</string>
+    <string name="driver_photo_load_error">Erro ao baixar fotografia do condutor!</string>
+    <string name="travel_info_error">Erro ao obter informação das viagens!</string>
+    <string name="driver">Motorista: </string>
+    <string name="hour">\"Hora: \"</string>
+</resources>

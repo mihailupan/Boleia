@@ -1,19 +1,9 @@
-<resources>
-    <string name="app_name">Boleias</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
-    <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
-
-    <string name="default_spinner_value">Select a city:</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Boleias</string>
+    <string name="defaul_spinner_value">Select a city:</string>
 
     <string-array name="cities">
-        <item>@string/default_spinner_value</item>
+        <item>@string/defaul_spinner_value</item>
         <item>Beja</item>
         <item>Évora</item>
         <item>Faro</item>
@@ -21,5 +11,98 @@
         <item>Braga</item>
     </string-array>
     <string name="map_key" translatable="false">AIzaSyATUyvttNBj4keCFBsSyoQWKEIGXIApAlI</string>
+    <string name="search_title_text_view">Where you want to go?</string>
+    <string name="create_title_text_view">Create your travel!</string>
+    <string name="create_from_title_text_view">From:</string>
+    <string name="create_to_title_text_view">To:</string>
+    <string name="create_next_button">Next</string>
+    <string name="create_trip_date_picker_button">Date</string>
+
+    <string name="create_map_title_text_view">Select a meeting point!</string>
+    <string name="create_map_chose_location_next_button">Next</string>
+
+    <string name="create_register_vehicle_title_text_view">Travel Vehicle</string>
+    <string name="create_register_vehicle_brand_edit_text">Brand</string>
+    <string name="create_register_vehicle_vehicle_model_edit_text">Model</string>
+    <string name="create_register_vehicle_vehicle_license_plate_edit_text">License Plate</string>
+    <string name="create_register_vehicle_load_photo_text_view" tools:ignore="MissingTranslation">Load photo of the vehicle:</string>
+    <string name="create_register_vehicle_create_travel_button">Create Travel</string>
+
+    <string name="main_login_button">Login</string>
+    <string name="main_question_text_view">Not a member yet?</string>
+    <string name="main_register_text_view">Register</string>
+    <string name="main_email_edit_text">E-mail</string>
+    <string name="main_password_edit_text">Password</string>
+
+    <string name="profile_title_text_view">Profile</string>
+    <string name="profile_logout_button">Logout</string>
+    <string name="profile_label_name_text_view">Name:</string>
+    <string name="profile_label_email_text_view">E-mail:</string>
+    <string name="profile_label_phone_text_view">Phone:</string>
+    <string name="profile_edit_photo_text_view">Edit the profile photo</string>
+
+    <string name="register_title_text_view">Register</string>
+    <string name="register_email_edit_text">E-mail</string>
+    <string name="register_password_edit_text" tools:ignore="MissingTranslation">Password</string>
+    <string name="register_name_edit_text">Name</string>
+    <string name="register_phone_edit_text">Phone</string>
+    <string name="register_register_button">Register</string>
+
+    <string name="search_from_title_text_view">From:</string>
+    <string name="search_to_title_text_view">To:</string>
+    <string name="search_next_button">Search</string>
+    <string name="search_date_picker_button">Date</string>
+
+    <string name="search_detail_title_text_view">Travel Details</string>
+    <string name="search_detail_from_label_text_view">From:</string>
+    <string name="search_detail_to_label_text_view">To:</string>
+    <string name="search_detail_time_label_text_view">Hour:</string>
+    <string name="search_detail_date_label_text_view">Date:</string>
+    <string name="search_detail_driver_title_text_view">Driver</string>
+    <string name="search_detail_driver_name_label_text_view">Name:</string>
+    <string name="search_detail_driver_phone_label_text_view">Phone:</string>
+    <string name="search_detail_driver_email_label_text_view">E-mail:</string>
+    <string name="search_detail_vehicle_title_text_view">Vehicle</string>
+    <string name="search_detail_vehicle_brand_label_text_view">Brand:</string>
+    <string name="search_detail_vehicle_model_label_text_view">Model:</string>
+    <string name="search_detail_vehicle_license_plate_label_text_view">License Plate:</string>
+
+    <string name="search_map_title_text_view">Select a travel!</string>
+
+    <string name="searchNav">Search</string>
+    <string name="createNav">Create</string>
+    <string name="travelsNav">Travels</string>
+    <string name="profileNav">Profile</string>
+
+    <string name="select_valid_city">Select a valid city!</string>
+    <string name="date_required">Date for travel required!</string>
+    <string name="invalid_date">Invalid date, please insert again!</string>
+    <string name="current_location">Current Location!</string>
+    <string name="car_brand_required">Vehicle brand required!</string>
+    <string name="car_model_required">Vehicle model required!</string>
+    <string name="car_license_plate_required">Vehicle license plate required!</string>
+    <string name="car_photo_required">Photo required!</string>
+    <string name="travel_data_submited">Travel loaded successfully!</string>
+    <string name="submited_travel_error">Error loading travel!</string>
+    <string name="photo_sended">Photo Loaded!</string>
+    <string name="photo_sended_error">Photo loading failed!</string>
+    <string name="activate_camera_required">Camera permission required!</string>
+
+    <string name="login_failed">Login failed! Check the data!</string>
+    <string name="email_required">E-mail required!</string>
+    <string name="invalid_email">E-mail invalid!</string>
+    <string name="password_required">Password required!</string>
+    <string name="password_min_caract">Password with minimum 6 characters!</string>
+    <string name="photo_download_error">Error downloading vehicle photo!</string>
+    <string name="profile_photo_load_error">Error loading profile photo!</string>
+    <string name="name_required">Name required!</string>
+    <string name="phone_required">Phone required!</string>
+    <string name="user_registered">User register with success!</string>
+    <string name="register_failed">Register failed! Try Again!</string>
+    <string name="car_photo_load_error">Error downloading the vehicle photo!</string>
+    <string name="driver_photo_load_error">Error downloading driver photo!</string>
+    <string name="travel_info_error">Travel information error!</string>
+    <string name="driver">Driver: </string>
+    <string name="hour">"Time: "</string>
 
 </resources>

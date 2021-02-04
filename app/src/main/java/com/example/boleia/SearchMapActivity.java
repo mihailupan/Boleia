@@ -201,7 +201,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                         }
                         map(location, travelList);
                     } else {
-                        Toast.makeText(SearchMapActivity.this, "Erro ao obter informação das viagens!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SearchMapActivity.this, R.string.travel_info_error, Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -222,10 +222,10 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                 LatLng meet = new LatLng(latMeet,lngMeet);
 
 
-                String infoTitle = "Hora: "+travelList.get(i).getTime();
+                String infoTitle = getString(R.string.hour)+travelList.get(i).getTime();
 
                 String driverNumber = String.valueOf(i + 1);
-                googleMap.addMarker(new MarkerOptions().position(meet).title(infoTitle).snippet("Motorista: "+ driverNumber).icon(bitmapDescriptorFromVector(getApplicationContext(),
+                googleMap.addMarker(new MarkerOptions().position(meet).title(infoTitle).snippet(getString(R.string.driver)+ driverNumber).icon(bitmapDescriptorFromVector(getApplicationContext(),
                         R.drawable.ic_marker_map)));
                 googleMap.setOnInfoWindowClickListener(marker -> {
 
@@ -257,7 +257,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
 
             //Add Marker in the "from city"
             googleMap.addMarker(new MarkerOptions()
-                    .position(latLngCurrentLocation).title("Localização atual!")
+                    .position(latLngCurrentLocation).title(getString(R.string.current_location))
                     .icon(bitmapDescriptorFromVector(getApplicationContext(),
                             R.drawable.ic_current_location)));
 

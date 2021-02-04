@@ -91,7 +91,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         captureImageButtonVehicle.setOnClickListener(this);
 
         //Gallery button
-        openGalleryButtonVehicle = findViewById(R.id.create_register_vehicle_gellery_image_button);
+        openGalleryButtonVehicle = findViewById(R.id.create_register_vehicle_gallery_image_button);
         openGalleryButtonVehicle.setOnClickListener(this);
 
 
@@ -132,14 +132,14 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
 
         //Check if every field isn't empty
-        if ( checkField(brandVehicle.isEmpty(), editBrandVehicle, "É necessário o modelo do carro")) return;
-        if ( checkField(modelVehicle.isEmpty(), editModelVehicle, "É necessário a marca do carro")) return;
-        if ( checkField(licensePlateVehicle.isEmpty(), editLicensePlateVehicle, "É necessário a matrícula do carro")) return;
+        if ( checkField(brandVehicle.isEmpty(), editBrandVehicle, getString(R.string.car_brand_required))) return;
+        if ( checkField(modelVehicle.isEmpty(), editModelVehicle, getString(R.string.car_model_required))) return;
+        if ( checkField(licensePlateVehicle.isEmpty(), editLicensePlateVehicle, getString(R.string.car_license_plate_required))) return;
 
 
         //Check if photo was chosen
         if(vehiclePhoto.getVisibility() == View.INVISIBLE){
-            Toast.makeText(CreateVehicleActivity.this, "É necessário tirar ou escolher uma fotografia!", Toast.LENGTH_LONG).show();
+            Toast.makeText(CreateVehicleActivity.this, R.string.car_photo_required, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -221,8 +221,8 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         //Access document that belongs to user
         DocumentReference documentReference = mStore.collection("travels").document(vehiclePhotoName);
         documentReference.set(user)
-                .addOnSuccessListener(successSubmit -> Toast.makeText(CreateVehicleActivity.this, "Dados da viagem submetidos!", Toast.LENGTH_LONG).show())
-                .addOnFailureListener(e -> Toast.makeText(CreateVehicleActivity.this, "Erro ao submeter dados da viagem!", Toast.LENGTH_LONG).show());
+                .addOnSuccessListener(successSubmit -> Toast.makeText(CreateVehicleActivity.this, R.string.travel_data_submited, Toast.LENGTH_LONG).show())
+                .addOnFailureListener(e -> Toast.makeText(CreateVehicleActivity.this, R.string.submited_travel_error, Toast.LENGTH_LONG).show());
 
         updloadImageToFirebase(vehiclePhotoName);
 
@@ -268,8 +268,8 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
         try {
             image.putFile(contentUri)
-                    .addOnSuccessListener(taskSnapshot -> Toast.makeText(CreateVehicleActivity.this, "Envio da fotografia feito!", Toast.LENGTH_SHORT).show()).
-                    addOnFailureListener(e -> Toast.makeText(CreateVehicleActivity.this, "Falha ao enviar fotografia!", Toast.LENGTH_SHORT).show());
+                    .addOnSuccessListener(taskSnapshot -> Toast.makeText(CreateVehicleActivity.this, R.string.photo_sended, Toast.LENGTH_SHORT).show()).
+                    addOnFailureListener(e -> Toast.makeText(CreateVehicleActivity.this, R.string.photo_sended_error, Toast.LENGTH_SHORT).show());
         }
         catch (SecurityException e){
             Toast.makeText(this, "Erro de segurança ao enviar fotografia!", Toast.LENGTH_SHORT).show();
@@ -325,7 +325,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             }
             else
             {
-                Toast.makeText(this, "É necessária ativar a permissão para utilizar a camara!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.activate_camera_required, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -490,7 +490,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
             }
             else
             {
-                if(v.getId() == R.id.create_register_vehicle_gellery_image_button)
+                if(v.getId() == R.id.create_register_vehicle_gallery_image_button)
                 {
                     this.openGallery();
                 }

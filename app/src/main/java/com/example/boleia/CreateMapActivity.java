@@ -214,7 +214,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
             //Add Marker in the "from city"
             googleMap.addMarker(new MarkerOptions()
-                    .position(latLngCurrentLocation).title("Localização atual!")
+                    .position(latLngCurrentLocation).title(getString(R.string.current_location))
                     .icon(bitmapDescriptorFromVector(getApplicationContext(),
                             R.drawable.ic_current_location)));
 

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MainActivity.this, SearchActivity.class));
                 finish();
             }else{
-                Toast.makeText(MainActivity.this, "Login falhou! Verifique os seus dados!", Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, R.string.login_failed, Toast.LENGTH_LONG).show();
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
@@ -100,22 +100,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private boolean checkField(String email, String password) {
         if(email.isEmpty()){
-            emailEditText.setError("Introduza o e-mail!");
+            emailEditText.setError(getString(R.string.email_required));
             emailEditText.requestFocus();
             return true;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            emailEditText.setError("E-mail é invalido!");
+            emailEditText.setError(getString(R.string.invalid_email));
             emailEditText.requestFocus();
             return true;
         }
         if (password.isEmpty()){
-            passwordEditText.setError("Introduza a password!");
+            passwordEditText.setError(getString(R.string.password_required));
             passwordEditText.requestFocus();
             return true;
         }
         if (password.length()<6){
-            passwordEditText.setError("A password tem no mínimo 6 caracteres!");
+            passwordEditText.setError(getString(R.string.password_min_caract));
             passwordEditText.requestFocus();
             return true;
         }
