@@ -13,8 +13,8 @@
     <string name="map_key" translatable="false">AIzaSyATUyvttNBj4keCFBsSyoQWKEIGXIApAlI</string>
     <string name="search_title_text_view">Where you want to go?</string>
     <string name="create_title_text_view">Create your travel!</string>
-    <string name="create_from_title_text_view">From:</string>
-    <string name="create_to_title_text_view">To:</string>
+    <string name="create_from_title_text_view">From</string>
+    <string name="create_to_title_text_view">To</string>
     <string name="create_next_button">Next</string>
     <string name="create_trip_date_picker_button">Date</string>
 
@@ -48,8 +48,8 @@
     <string name="register_phone_edit_text">Phone</string>
     <string name="register_register_button">Register</string>
 
-    <string name="search_from_title_text_view">From:</string>
-    <string name="search_to_title_text_view">To:</string>
+    <string name="search_from_title_text_view">From</string>
+    <string name="search_to_title_text_view">To</string>
     <string name="search_next_button">Search</string>
     <string name="search_date_picker_button">Date</string>
 

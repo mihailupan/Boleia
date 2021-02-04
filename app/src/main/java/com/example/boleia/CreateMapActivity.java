@@ -237,7 +237,8 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng2, 15));
 
                 //Add marker on map
-                googleMap.addMarker(markerOptions);
+                googleMap.addMarker(markerOptions).setIcon(bitmapDescriptorFromVector(getApplicationContext(),
+                        R.drawable.ic_marker_map));
 
                 //Set button visible so the user can continue to new activity
                 next.setVisibility(View.VISIBLE);

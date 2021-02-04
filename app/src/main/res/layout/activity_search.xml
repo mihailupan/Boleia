@@ -13,12 +13,24 @@
         android:layout_above="@+id/bottom_navigation">
 
 
+        <ImageView
+            android:id="@+id/search_white_rectangle"
+            android:layout_width="339dp"
+            android:layout_height="444dp"
+            android:layout_marginTop="137dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/rectangle_background" />
+
         <TextView
             android:id="@+id/search_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="151dp"
+            android:layout_marginTop="150dp"
             android:text="@string/search_title_text_view"
+            android:textColor="@color/boleias_blue"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
@@ -29,13 +41,14 @@
             android:id="@+id/search_from_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="312dp"
-            android:layout_marginRight="312dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
             android:text="@string/search_from_title_text_view"
+            android:textColor="@color/boleias_blue"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_title_text_view" />
 
 
@@ -43,11 +56,11 @@
             android:id="@+id/search_from_cities_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="65dp"
-            android:layout_marginLeft="16dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
             android:layout_marginTop="24dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginRight="60dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginRight="80dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_from_title_text_view" />
@@ -56,26 +69,26 @@
             android:id="@+id/search_to_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="292dp"
-            android:layout_marginRight="292dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="50dp"
             android:text="@string/search_to_title_text_view"
+            android:textColor="@color/boleias_blue"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_from_cities_spinner" />
 
         <Spinner
             android:id="@+id/search_to_cities_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="65dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="38dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginRight="60dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="80dp"
+            android:layout_marginRight="80dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/search_to_title_text_view" />
 
@@ -94,6 +107,8 @@
             android:layout_marginRight="24dp"
             android:layout_marginBottom="24dp"
             android:text="@string/search_next_button"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/boleias_blue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -112,11 +127,11 @@
             android:id="@+id/search_date_time_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="144dp"
-            android:layout_marginLeft="144dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/boleias_blue"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/boleias_blue"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/search_date_picker_button"
             app:layout_constraintStart_toEndOf="@+id/search_date_picker_button"
