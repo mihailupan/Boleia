@@ -32,6 +32,8 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
     Button dateButton;
     int myDay, myMonth, myYear, myHour, myMinute;
     TextView dateTimeTextView;
+    String defaultSpinnerValue;
+    int selectedFromCityPos, selectedToCityPos;
 
 
     @Override
@@ -39,9 +41,15 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        defaultSpinnerValue = String.valueOf(R.string.defaul_spinner_value);
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        //Pos of item on spinner
+        selectedFromCityPos = 0;
+        selectedToCityPos = 0;
 
         //Initializes the spinners
         fromSpinner = findViewById(R.id.search_from_spinner);
@@ -130,6 +138,13 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
             return;
         }
 
+        if((selectedFromCityPos == 0 || selectedToCityPos == 0) || (selectedToCity.equals(selectedFromCity)))
+        {
+            Toast.makeText(this, "Por favor, selecione uma cidade válida!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
         Intent intent = new Intent(SearchActivity.this, SearchMapActivity.class);
 
         //Pass from and to
@@ -158,7 +173,7 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         int locPosition = 0;
         String [] cities = {
                 "Beja",
-                "Evora",
+                "Évora",
                 "Faro",
                 "Lisboa",
                 "Braga"
@@ -168,9 +183,9 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
         double [][] citiesLocation = {
                 {38.0173806,-7.8676554},
                 {38.5743528,-7.9163379},
-                {37.0177845,-7.9749516},
-                {38.741348,-9.1694114},
-                {41.5487301,-8.4389198}
+                {37.019395,-7.930615},
+                {38.721493,-9.139282},
+                {41.545672,-8.426505}
         };
 
         //For cycle to get the location of the city selected on from spinner
@@ -262,14 +277,37 @@ public class SearchActivity extends AppCompatActivity implements BottomNavigatio
 
         //Spinner from
         if(parent.getId() == R.id.search_from_spinner){
-            selectedFromCity= parent.getItemAtPosition(position).toString();
+
+
+                if(position != 0)
+                {
+                    selectedFromCity= parent.getItemAtPosition(position).toString();
+                    selectedFromCityPos = 1;
+                }
+                else
+                {
+                    selectedFromCityPos = 0;
+                }
+
+
         }
 
 
         else {
             //Spinner to
             if (parent.getId() == R.id.search_to_spinner) {
-                selectedToCity = parent.getItemAtPosition(position).toString();
+
+
+                if(position != 0) {
+                    selectedToCity = parent.getItemAtPosition(position).toString();
+                    selectedToCityPos = 1;
+                }
+                else
+                {
+                    selectedToCityPos = 0;
+                }
+
+
             }
         }
     }

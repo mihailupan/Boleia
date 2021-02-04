@@ -34,7 +34,6 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        Toast.makeText(this, "Sim", Toast.LENGTH_SHORT).show();
         setUpRecyclerView();
     }
 
@@ -100,6 +99,7 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
+
         if (item.getItemId() == R.id.searchNav) {
 
             startActivity(new Intent(this, SearchActivity.class));
@@ -107,24 +107,36 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
             return true;
 
         }
-        if (item.getItemId() == R.id.createNav) {
+        else
+        {
+            if (item.getItemId() == R.id.createNav) {
 
-            startActivity(new Intent(this, CreateActivity.class));
-            overridePendingTransition(0,0);
-            return true;
+                startActivity(new Intent(this, CreateActivity.class));
+                overridePendingTransition(0,0);
+                return true;
 
+            }
+            else
+            {
+                if (item.getItemId() == R.id.travelsNav) {
+
+                    return true;
+
+                }
+                else
+                {
+                    if (item.getItemId() == R.id.profileNav) {
+
+                        startActivity(new Intent(this, ProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    }
+                }
+            }
         }
-        if (item.getItemId() == R.id.travelsNav) {
 
-            return true;
 
-        }
-        if (item.getItemId() == R.id.profileNav) {
 
-            startActivity(new Intent(this, ProfileActivity.class));
-            overridePendingTransition(0,0);
-            return true;
-        }
         return false;
     }
 }

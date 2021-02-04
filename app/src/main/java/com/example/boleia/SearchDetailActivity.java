@@ -2,10 +2,17 @@ package com.example.boleia;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,13 +23,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
-public class SearchDetailActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+public class SearchDetailActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
 
     TextView fromTextView, toTextView, dateTextView, timeTextView, driverNameTextView, driverPhoneTextView,
              driverEmailTextView, vehicleBrandTextView, vehicleModelTextView, vehicleLicensePlateTextView;
     ImageView driverPhotoImageView, vehiclePhotoImageView;
     private StorageReference storageReference;
+    Travel travel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,8 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
         timeTextView = findViewById(R.id.search_detail_time_text_view);
         driverNameTextView =  findViewById(R.id.search_detail_driver_name_text_view);
         driverPhoneTextView =  findViewById(R.id.search_detail_driver_phone_text_view);
+        driverPhoneTextView.setOnClickListener(this);
+
         driverEmailTextView = findViewById(R.id.search_detail_driver_email_text_view);
         vehicleBrandTextView = findViewById(R.id.search_detail_vehicle_brand_text_view);
         vehicleModelTextView = findViewById(R.id.search_detail_vehicle_model_text_view);
@@ -57,7 +67,7 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
 
         //Get travel object using Gson library
         Gson gson = new Gson();
-        Travel travel = gson.fromJson(getIntent().getStringExtra("myjson"), Travel.class);
+        travel = gson.fromJson(getIntent().getStringExtra("myjson"), Travel.class);
 
         //Set values
         this.setTextViewValues(travel);
@@ -177,5 +187,68 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
 
 
         return false;
+    }
+
+    /**
+     * Function to see which view was clicked and do something depending on the view clicked
+     * @param v View selected
+     */
+    @Override
+    public void onClick(View v) {
+
+        if(v.getId() == R.id.search_detail_driver_phone_text_view)
+        {
+            //Open phone to call number
+            if(isPermissionGranted()){
+                call_action();
+            }
+        }
+    }
+
+    public  boolean isPermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                Log.v("TAG","Permission is granted");
+                return true;
+            } else {
+
+                Log.v("TAG","Permission is revoked");
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, 1);
+                return false;
+            }
+        }
+        else { //permission is automatically granted on sdk<23 upon installation
+            Log.v("TAG","Permission is granted");
+            return true;
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        if (requestCode == 1) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(getApplicationContext(), "Permission granted", Toast.LENGTH_SHORT).show();
+                call_action();
+            } else {
+                Toast.makeText(getApplicationContext(), "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+
+    /**
+     * Start activity to call the driver number
+     */
+    public void call_action(){
+        String phnum = driverPhoneTextView.getText().toString();
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + phnum));
+        startActivity(callIntent);
     }
 }

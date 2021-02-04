@@ -29,15 +29,22 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     String fromCreate, toCreate;
     Spinner createCitiesSpinnerFrom, createCitiesSpinnerTo;
     Button chooseDateBtn, advanceBtn;
+    String defaultSpinnerValue;
     int myDay, myMonth, myYear, myHour, myMinute;
     TextView showDateTime;
-
+    private int fromCreatePos, toCreatePos;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
+
+        defaultSpinnerValue = String.valueOf(R.string.defaul_spinner_value);
+
+        //Position of item spinner
+        fromCreatePos = 0;
+        toCreatePos = 0;
 
         //SpinnerFrom
         createCitiesSpinnerFrom = findViewById(R.id.createCitiesSpinnerFrom);
@@ -85,6 +92,12 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         int currentDay = cal.get(Calendar.DAY_OF_MONTH);
 
         if (dateIsNotValid(currentYear, currentMonth, currentDay)) return;
+        //Check if any city was selected using selected pos and user didn't selected same city
+        if((fromCreatePos == 0 || toCreatePos == 0) || fromCreate.equals(toCreate))
+        {
+            Toast.makeText(this, "Por favor, selecione uma cidade válida!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Intent intent = new Intent(CreateActivity.this, CreateMapActivity.class);
 
@@ -147,7 +160,7 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         //Array of each city name
         String [] cities = {
                 "Beja",
-                "Evora",
+                "Évora",
                 "Faro",
                 "Lisboa",
                 "Braga"
@@ -157,9 +170,9 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
         double [][] citiesLocation = {
                 {38.0173806,-7.8676554},
                 {38.5743528,-7.9163379},
-                {37.0177845,-7.9749516},
-                {38.741348,-9.1694114},
-                {41.5487301,-8.4389198}
+                {37.019395,-7.930615},
+                {38.721493,-9.139282},
+                {41.545672,-8.426505}
         };
 
         //For cycle to get the location of the city selected on from spinner
@@ -299,18 +312,43 @@ public class CreateActivity extends AppCompatActivity implements BottomNavigatio
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        //Spinner from
-       if(parent.getId() == R.id.createCitiesSpinnerFrom){
-            fromCreate= parent.getItemAtPosition(position).toString();
-        }
+            //Spinner from
+            if(parent.getId() == R.id.createCitiesSpinnerFrom){
+
+                if(position != 0)
+                {
+                    fromCreate= parent.getItemAtPosition(position).toString();
+                    fromCreatePos = 1;
+                }
+                else
+                {
+                    fromCreatePos = 0;
+                }
 
 
-        else {
-            //Spinner to
-            if (parent.getId() == R.id.createCitiesSpinnerTo) {
-                   toCreate = parent.getItemAtPosition(position).toString();
             }
-       }
+
+
+            else {
+                //Spinner to
+                if (parent.getId() == R.id.createCitiesSpinnerTo) {
+
+                    if(position != 0){
+                        toCreate = parent.getItemAtPosition(position).toString();
+                    }
+
+                    if(position != 0) {
+                        toCreate = parent.getItemAtPosition(position).toString();
+                        toCreatePos = 1;
+                    }
+                    else
+                    {
+                        toCreatePos = 0;
+                    }
+                }
+            }
+
+
     }
 
 
