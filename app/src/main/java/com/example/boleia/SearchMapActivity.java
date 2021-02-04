@@ -225,7 +225,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                 String infoTitle = getString(R.string.hour)+travelList.get(i).getTime();
 
                 String driverNumber = String.valueOf(i + 1);
-                googleMap.addMarker(new MarkerOptions().position(meet).title(infoTitle).snippet(getString(R.string.driver)+ driverNumber).icon(bitmapDescriptorFromVector(getApplicationContext(),
+                googleMap.addMarker(new MarkerOptions().position(meet).title(infoTitle).snippet(getString(R.string.driver)+" "+driverNumber).icon(bitmapDescriptorFromVector(getApplicationContext(),
                         R.drawable.ic_marker_map)));
                 googleMap.setOnInfoWindowClickListener(marker -> {
 

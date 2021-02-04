@@ -38,7 +38,7 @@
         <ImageView
             android:id="@+id/white_background_vehicle"
             android:layout_width="380dp"
-            android:layout_height="190dp"
+            android:layout_height="205dp"
             android:layout_marginTop="130dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -375,6 +375,18 @@
             app:layout_constraintBottom_toBottomOf="@+id/search_detail_vehicle_license_plate_label_text_view"
             app:layout_constraintStart_toEndOf="@+id/search_detail_vehicle_license_plate_label_text_view"
             app:layout_constraintTop_toTopOf="@+id/search_detail_vehicle_license_plate_label_text_view" />
+
+        <ImageButton
+            android:id="@+id/search_detail_call_button"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/search_detail_driver_email_label_text_view"
+            app:srcCompat="@drawable/ic_phone"
+            tools:ignore="VectorDrawableCompat" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

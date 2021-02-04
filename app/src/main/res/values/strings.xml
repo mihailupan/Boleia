@@ -102,7 +102,7 @@
     <string name="car_photo_load_error">Error downloading the vehicle photo!</string>
     <string name="driver_photo_load_error">Error downloading driver photo!</string>
     <string name="travel_info_error">Travel information error!</string>
-    <string name="driver">Driver: </string>
-    <string name="hour">"Time: "</string>
+    <string name="driver">Driver:</string>
+    <string name="hour">"Time:"</string>
 
 </resources>

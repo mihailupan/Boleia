@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
     ImageView driverPhotoImageView, vehiclePhotoImageView;
     private StorageReference storageReference;
     Travel travel;
+    ImageButton callButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +54,8 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
         timeTextView = findViewById(R.id.search_detail_time_text_view);
         driverNameTextView =  findViewById(R.id.search_detail_driver_name_text_view);
         driverPhoneTextView =  findViewById(R.id.search_detail_driver_phone_text_view);
-        driverPhoneTextView.setOnClickListener(this);
+        callButton = findViewById(R.id.search_detail_call_button);
+        callButton.setOnClickListener(this);
 
         driverEmailTextView = findViewById(R.id.search_detail_driver_email_text_view);
         vehicleBrandTextView = findViewById(R.id.search_detail_vehicle_brand_text_view);
@@ -196,7 +199,7 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.search_detail_driver_phone_text_view)
+        if(v.getId() == R.id.search_detail_call_button)
         {
             //Open phone to call number
             if(isPermissionGranted()){
@@ -246,7 +249,7 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
      * Start activity to call the driver number
      */
     public void call_action(){
-        String phnum = driverPhoneTextView.getText().toString();
+        String phnum = travel.getPhone();
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:" + phnum));
         startActivity(callIntent);

@@ -99,6 +99,6 @@
     <string name="car_photo_load_error">Erro ao baixar fotografia do veículo!</string>
     <string name="driver_photo_load_error">Erro ao baixar fotografia do condutor!</string>
     <string name="travel_info_error">Erro ao obter informação das viagens!</string>
-    <string name="driver">Motorista: </string>
-    <string name="hour">\"Hora: \"</string>
+    <string name="driver">Motorista:</string>
+    <string name="hour">"Hora:"</string>
 </resources>
