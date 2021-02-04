@@ -20,7 +20,6 @@
         <activity android:name=".SearchDetailActivity"></activity>
         <activity android:name=".SearchMapActivity" />
         <activity android:name=".CreateVehicleActivity" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />

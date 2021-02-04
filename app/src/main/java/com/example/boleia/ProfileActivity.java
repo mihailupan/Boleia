@@ -60,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         setContentView(R.layout.activity_profile);
 
         //ImageView
-        profilePhoto = findViewById(R.id.profilePhoto);
+        profilePhoto = findViewById(R.id.profile_photo_image_view);
 
         //References
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -72,7 +72,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-        Button logoutButton = (Button) findViewById(R.id.profileLogoutButton);
+        Button logoutButton = (Button) findViewById(R.id.profile_logout_button);
         logoutButton.setOnClickListener(this);
 
 
@@ -86,11 +86,11 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
 
 
         //Button to capture
-        ImageButton captureImageButtonProfile = findViewById(R.id.captureImageButtonProfile);
+        ImageButton captureImageButtonProfile = findViewById(R.id.profile_camera_image_button);
         captureImageButtonProfile.setOnClickListener(this);
 
         //Gallery button
-        ImageButton openGalleryButtonProfile = findViewById(R.id.openGalleryButtonProfile);
+        ImageButton openGalleryButtonProfile = findViewById(R.id.profile_gallery_image_button);
         openGalleryButtonProfile.setOnClickListener(this);
 
     }
@@ -101,9 +101,9 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
      */
     private void setProfileInformation(DocumentReference docRef) {
 
-        final TextView nameTextView = (TextView) findViewById(R.id.userNameProfile);
-        final TextView emailTextView = (TextView) findViewById(R.id.userEmailProfile);
-        final TextView phoneTextView = (TextView) findViewById(R.id.userPhoneProfile);
+        final TextView nameTextView = (TextView) findViewById(R.id.profile_name_text_view);
+        final TextView emailTextView = (TextView) findViewById(R.id.profile_email_text_view);
+        final TextView phoneTextView = (TextView) findViewById(R.id.profile_phone_text_view);
 
         docRef.get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -197,7 +197,7 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
     @Override
     public void onClick(View v) {
 
-        if(v.getId()==R.id.profileLogoutButton){
+        if(v.getId()==R.id.profile_logout_button){
             FirebaseAuth.getInstance().signOut();
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -206,13 +206,13 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         }
         else
         {
-            if(v.getId() == R.id.captureImageButtonProfile)
+            if(v.getId() == R.id.profile_camera_image_button)
             {
                 this.askCameraPermissions();
             }
             else
             {
-                if(v.getId() == R.id.openGalleryButtonProfile)
+                if(v.getId() == R.id.profile_gallery_image_button)
                 {
                     this.openGallery();
                 }

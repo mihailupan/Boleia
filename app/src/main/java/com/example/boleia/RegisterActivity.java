@@ -39,19 +39,19 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mAuth = FirebaseAuth.getInstance();
         mStore = FirebaseFirestore.getInstance();
 
-        TextView title = (TextView) findViewById(R.id.registerTitleTextView);
+        TextView title = (TextView) findViewById(R.id.register_title_text_view);
 
-        progressBar = (ProgressBar) findViewById(R.id.progressBarRegister);
+        progressBar = (ProgressBar) findViewById(R.id.register_progress_bar);
 
-        emailEdit = (EditText) findViewById(R.id.editEmailRegister);
+        emailEdit = (EditText) findViewById(R.id.register_email_edit_text);
 
-        passwordEdit = (EditText) findViewById(R.id.editPasswordRegister);
+        passwordEdit = (EditText) findViewById(R.id.register_password_edit_text);
 
-        nameEdit = (EditText) findViewById(R.id.editNameRegister);
+        nameEdit = (EditText) findViewById(R.id.register_name_edit_text);
 
-        phoneEdit = (EditText) findViewById(R.id.editPhoneRegister);
+        phoneEdit = (EditText) findViewById(R.id.register_phone_edit_text);
 
-        Button confirmRegisterButton = (Button) findViewById(R.id.confirmRegisterButton);
+        Button confirmRegisterButton = (Button) findViewById(R.id.register_register_button);
         confirmRegisterButton.setOnClickListener(this);
     }
 
@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.confirmRegisterButton) {
+        if (v.getId() == R.id.register_register_button) {
             registerUser();
         }
     }

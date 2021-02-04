@@ -13,7 +13,7 @@
         android:layout_above="@+id/bottom_navigation">
 
         <TextView
-            android:id="@+id/registerVehicleTitleTextView"
+            android:id="@+id/create_register_vehicle_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/editBrandVehicle"
+            android:id="@+id/create_register_vehicle_brand_edit_text"
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_marginTop="30dp"
@@ -43,11 +43,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/registerVehicleTitleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_title_text_view"
             android:drawableLeft="@drawable/ic_car" />
 
         <EditText
-            android:id="@+id/editModelVehicle"
+            android:id="@+id/create_register_vehicle_vehicle_model_edit_text"
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_marginTop="30dp"
@@ -64,11 +64,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editBrandVehicle" />
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_brand_edit_text" />
 
 
         <EditText
-            android:id="@+id/editLicensePlateVehicle"
+            android:id="@+id/create_register_vehicle_vehicle_license_plate_edit_text"
             android:layout_width="300dp"
             android:layout_height="40dp"
             android:layout_marginTop="30dp"
@@ -85,11 +85,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editModelVehicle" />
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_vehicle_model_edit_text" />
 
 
         <TextView
-            android:id="@+id/loadPhotoVehicleTextView"
+            android:id="@+id/create_register_vehicle_load_photo_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -100,32 +100,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editLicensePlateVehicle" />
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_vehicle_license_plate_edit_text" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/profile_white_rectangle"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="120dp"
             android:layout_marginLeft="120dp"
             android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_load_photo_text_view"
             app:srcCompat="@drawable/rectangle_background" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/profile_camera_white_rectangle"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="120dp"
             android:layout_marginRight="120dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_load_photo_text_view"
             app:srcCompat="@drawable/rectangle_background" />
 
         <ImageButton
-            android:id="@+id/captureImageButtonVehicle"
+            android:id="@+id/create_register_vehicle_camera_image_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginStart="120dp"
@@ -133,10 +133,10 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/ic_camera"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_load_photo_text_view" />
 
         <ImageButton
-            android:id="@+id/openGalleryButtonVehicle"
+            android:id="@+id/create_register_vehicle_gellery_image_button"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginTop="16dp"
@@ -144,10 +144,10 @@
             android:layout_marginRight="120dp"
             android:background="@drawable/ic_gallery"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView" />
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_load_photo_text_view" />
 
         <Button
-            android:id="@+id/createTravelButton"
+            android:id="@+id/create_register_vehicle_create_travel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -159,13 +159,13 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageView
-            android:id="@+id/carPhoto"
+            android:id="@+id/create_register_vehicle_car_photo_image_view"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="90dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/loadPhotoVehicleTextView"
+            app:layout_constraintTop_toBottomOf="@+id/create_register_vehicle_load_photo_text_view"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -83,7 +83,7 @@
             android:textColor="@color/boleias_blue" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/recycle_view_arrow_image_view"
             android:layout_width="109dp"
             android:layout_height="69dp"
             android:layout_centerInParent="true"

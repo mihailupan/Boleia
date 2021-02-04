@@ -204,8 +204,6 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                         Toast.makeText(SearchMapActivity.this, "Erro ao obter informação das viagens!", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
     }
 
 
@@ -227,7 +225,8 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
                 String infoTitle = "Hora: "+travelList.get(i).getTime();
 
                 String driverNumber = String.valueOf(i + 1);
-                googleMap.addMarker(new MarkerOptions().position(meet).title(infoTitle).snippet("Motorista: "+ driverNumber));
+                googleMap.addMarker(new MarkerOptions().position(meet).title(infoTitle).snippet("Motorista: "+ driverNumber).icon(bitmapDescriptorFromVector(getApplicationContext(),
+                        R.drawable.ic_marker_map)));
                 googleMap.setOnInfoWindowClickListener(marker -> {
 
                     String[] segments = marker.getSnippet().split(" ");

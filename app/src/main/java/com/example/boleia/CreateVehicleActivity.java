@@ -68,12 +68,12 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         setContentView(R.layout.activity_create_vehicle);
 
         //EditTexts
-        editBrandVehicle = findViewById(R.id.editBrandVehicle);
-        editModelVehicle = findViewById(R.id.editModelVehicle);
-        editLicensePlateVehicle = findViewById(R.id.editLicensePlateVehicle);
+        editBrandVehicle = findViewById(R.id.create_register_vehicle_brand_edit_text);
+        editModelVehicle = findViewById(R.id.create_register_vehicle_vehicle_model_edit_text);
+        editLicensePlateVehicle = findViewById(R.id.create_register_vehicle_vehicle_license_plate_edit_text);
 
         //ImageView
-        vehiclePhoto = findViewById(R.id.carPhoto);
+        vehiclePhoto = findViewById(R.id.create_register_vehicle_car_photo_image_view);
 
         //BottomNavigationView
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -82,16 +82,16 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
 
         //Button to create travel
-        createTravelButton = findViewById(R.id.createTravelButton);
+        createTravelButton = findViewById(R.id.create_register_vehicle_create_travel_button);
         createTravelButton.setOnClickListener(this);
 
 
         //Button to capture
-        captureImageButtonVehicle = findViewById(R.id.captureImageButtonVehicle);
+        captureImageButtonVehicle = findViewById(R.id.create_register_vehicle_camera_image_button);
         captureImageButtonVehicle.setOnClickListener(this);
 
         //Gallery button
-        openGalleryButtonVehicle = findViewById(R.id.openGalleryButtonVehicle);
+        openGalleryButtonVehicle = findViewById(R.id.create_register_vehicle_gellery_image_button);
         openGalleryButtonVehicle.setOnClickListener(this);
 
 
@@ -476,7 +476,7 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
     public void onClick(View v) {
 
         //Create travel button
-        if (v.getId() == R.id.createTravelButton) {
+        if (v.getId() == R.id.create_register_vehicle_create_travel_button) {
             this.createTravel();
             Intent intent = new Intent(CreateVehicleActivity.this, TravelsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -485,12 +485,12 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
         }
         else
         {
-            if(v.getId() == R.id.captureImageButtonVehicle){
+            if(v.getId() == R.id.create_register_vehicle_camera_image_button){
                 this.askCameraPermissions();
             }
             else
             {
-                if(v.getId() == R.id.openGalleryButtonVehicle)
+                if(v.getId() == R.id.create_register_vehicle_gellery_image_button)
                 {
                     this.openGallery();
                 }

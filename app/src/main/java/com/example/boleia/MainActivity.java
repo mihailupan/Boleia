@@ -38,19 +38,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAuth = FirebaseAuth.getInstance();
 
         //Button
-        Button loginButton = (Button) findViewById(R.id.loginMainButton);
+        Button loginButton = (Button) findViewById(R.id.main_login_button);
         loginButton.setOnClickListener(this);
 
         //EditText
-        emailEditText = (EditText) findViewById(R.id.emailMainEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordMainEditText);
+        emailEditText = (EditText) findViewById(R.id.main_email_edit_text);
+        passwordEditText = (EditText) findViewById(R.id.main_password_edit_text);
 
         //TextView
-        TextView registerTextView = (TextView) findViewById(R.id.registerMainTextView);
+        TextView registerTextView = (TextView) findViewById(R.id.main_register_text_view);
         registerTextView.setOnClickListener(this);
 
         //ProgressBar
-        progressBar = (ProgressBar) findViewById(R.id.progressBarMain);
+        progressBar = (ProgressBar) findViewById(R.id.main_progress_bar);
 
     }
 
@@ -61,11 +61,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.registerMainTextView) {
+        if (v.getId() == R.id.main_register_text_view) {
 
             startActivity(new Intent(this, RegisterActivity.class));
 
-        }if (v.getId() == R.id.loginMainButton){
+        }if (v.getId() == R.id.main_login_button){
             userLogin();
         }
     }

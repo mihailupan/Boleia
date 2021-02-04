@@ -10,9 +10,10 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
 
-    <string name="defaul_spinner_value">Selecione uma cidade</string>
+    <string name="default_spinner_value">Select a city:</string>
+
     <string-array name="cities">
-        <item>@string/defaul_spinner_value</item>
+        <item>@string/default_spinner_value</item>
         <item>Beja</item>
         <item>Évora</item>
         <item>Faro</item>

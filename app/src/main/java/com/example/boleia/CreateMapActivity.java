@@ -34,7 +34,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -69,7 +68,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         client = LocationServices.getFusedLocationProviderClient(this);
 
         //Next button to continue creating travel
-        next = findViewById(R.id.choseLocationNextButton);
+        next = findViewById(R.id.create_map_chose_location_next_button);
         next.setVisibility(View.INVISIBLE); //Only after the user select a meeting point in the map, he can see the next button and click this button
         next.setOnClickListener(this);
 
@@ -198,16 +197,12 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
         supportMapFragment.getMapAsync(googleMap -> {
             //CurrentLocation
-
-            MarkerOptions actualMarker = new MarkerOptions();
-
             double currentLocationLat =  location.getLatitude();
             double currentLocationLng = location.getLongitude();
 
             //Location of the "from" city
             location.setLatitude(initLocation[0]);
             location.setLongitude(initLocation[1]);
-
             latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
             //Zoom map to the "from" city
@@ -217,9 +212,8 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             LatLng latLngCurrentLocation = new LatLng(currentLocationLat,currentLocationLng);
 
 
-
             //Add Marker in the "from city"
-            googleMap.addMarker(actualMarker
+            googleMap.addMarker(new MarkerOptions()
                     .position(latLngCurrentLocation).title("Localização atual!")
                     .icon(bitmapDescriptorFromVector(getApplicationContext(),
                             R.drawable.ic_current_location)));
@@ -247,11 +241,6 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
                 //Set button visible so the user can continue to new activity
                 next.setVisibility(View.VISIBLE);
-
-                googleMap.addMarker(actualMarker
-                        .position(latLngCurrentLocation).title("Localização atual!")
-                        .icon(bitmapDescriptorFromVector(getApplicationContext(),
-                                R.drawable.ic_current_location)));
 
             });
 
@@ -331,7 +320,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
     public void onClick(View v) {
 
         //Next button to coontinue to new activity and pass data as an array
-        if (v.getId() == R.id.choseLocationNextButton) {
+        if (v.getId() == R.id.create_map_chose_location_next_button) {
 
             String [] data = {
                     fromCreate,
