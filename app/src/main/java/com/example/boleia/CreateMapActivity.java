@@ -217,7 +217,6 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             LatLng latLngCurrentLocation = new LatLng(currentLocationLat,currentLocationLng);
 
 
-
             //Add Marker in the "from city"
             googleMap.addMarker(actualMarker
                     .position(latLngCurrentLocation).title("Localização atual!")

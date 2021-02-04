@@ -1,8 +1,10 @@
 package com.example.boleia;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,17 +15,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
-public class TravelsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class TravelsActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private final CollectionReference travelRef = db.collection("travels");
 
     private TravelAdapter adapter;
+    private FloatingActionButton fab_save_travels;
+    private List<Travel> travelList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +54,10 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+        fab_save_travels = findViewById(R.id.fab_create_travels_pdf);
+        fab_save_travels.setOnClickListener(this);
+
+        getTravelsFromFirestore();
         setUpRecyclerView();
     }
 
@@ -139,4 +163,114 @@ public class TravelsActivity extends AppCompatActivity implements BottomNavigati
 
         return false;
     }
+
+    /**
+     * Function to see which view was clicked and do something depending on the view clicked
+     * @param v View selected
+     */
+    @Override
+    public void onClick(View v) {
+        if(v.getId() == R.id.fab_create_travels_pdf){
+            createPDF();
+        }
+    }
+
+    /**
+     * Function to create PDF with user travels information
+     */
+    private void createPDF() {
+        String title = "MinhasViagens";
+        String path = getExternalFilesDir(null).toString() + "/"+title+".pdf";
+        File file = new File(path);
+
+        if(!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Document document = new Document(PageSize.A4);
+
+        try {
+            PdfWriter.getInstance(document, new FileOutputStream(file.getAbsoluteFile()));
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        document.open();
+        
+        try {
+            document.add(new Paragraph(title));
+            document.add(new Paragraph("\n"));
+
+        } catch (DocumentException e) {
+            //TODO
+            Toast.makeText(this, "Error while creating PDF!", Toast.LENGTH_SHORT).show();
+        }
+
+
+        for (int i = 0; i < travelList.size(); i++) {
+            try {
+                document.add(new Paragraph("Nome: "+travelList.get(i).getName()+"\\n"));
+                document.add(new Paragraph("De: "+travelList.get(i).getFrom()+"\\n"));
+                document.add(new Paragraph("Para: "+travelList.get(i).getTo()+"\\n"));
+                document.add(new Paragraph("Data: "+travelList.get(i).getDate()+"\\n"));
+                document.add(new Paragraph("Hora: "+travelList.get(i).getTime()+"\\n"));
+                document.add(new Paragraph("Marca Veículo: "+travelList.get(i).getVehicleBrand()+"\\n"));
+                document.add(new Paragraph("Modelo Veículo: "+travelList.get(i).getVehicleModel()+"\\n"));
+                document.add(new Paragraph("Matrícula Veículo: "+travelList.get(i).getVehicleLicensePlate()+"\\n"));
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph("\n"));
+                document.add(new Paragraph(title));
+            }
+            catch (DocumentException e){
+                //TODO
+                Toast.makeText(this, "Error while creating PDF!", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+        //TODO
+        Toast.makeText(this, "PDF File created successfully!", Toast.LENGTH_LONG).show();
+
+        document.close();
+
+    }
+
+    /**
+     * Get all the current ueser travels from firestore
+     */
+    private void getTravelsFromFirestore(){
+
+        travelList = new ArrayList<>();
+
+        travelRef.orderBy("timestamp", Query.Direction.DESCENDING)
+                .whereEqualTo("userID", FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .whereGreaterThanOrEqualTo("timestamp", System.currentTimeMillis())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            Travel travel = new Travel(document.getString("userID"),document.getString("name"),document.getString("email"),
+                                    document.getString("phone"),document.getString("from"),document.getString("to")
+                                    ,document.getString("date"),document.getString("time"),document.getString("meetingPointLat"),
+                                    document.getString("meetingPointLng"),document.getString("vehicleBrand"),document.getString("vehicleModel"),
+                                    document.getString("vehicleLicensePlate"),document.getString("vehiclePhotoName"));
+
+                            travelList.add(travel);
+                        }
+                    } else {
+                        //TODO
+                        Toast.makeText(TravelsActivity.this, "Erro ao obter informação das viagens!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+    }
+
 }
