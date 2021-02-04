@@ -55,6 +55,7 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_map);
 
+
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.searchNav);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);

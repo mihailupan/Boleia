@@ -76,9 +76,6 @@ public class ProfileActivity extends AppCompatActivity implements BottomNavigati
         logoutButton.setOnClickListener(this);
 
 
-
-
-
         DocumentReference docRef = mStore.collection("users").document(userID);
         setProfileInformation(docRef);
 

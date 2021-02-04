@@ -95,6 +95,9 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
         this.date = day+"-"+month+"-"+year;
     }
 
+    /**
+     * Checks if app has permission to use current location
+     */
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void checkPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
@@ -109,6 +112,7 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
         }
     }
 
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -122,6 +126,10 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
         }
     }
 
+
+    /**
+     * Gets the current location of the person
+     */
     @SuppressLint("MissingPermission")
     private void getCurrentLocation() {
         //Initialize location manager
@@ -207,6 +215,12 @@ public class SearchMapActivity extends AppCompatActivity implements BottomNaviga
     }
 
 
+    /**
+     * Opens the map and inserts the markers with information and actions
+     *
+     * @param location has the latitude and longitude to open the map in a certain position
+     * @param travelList The list with all the travels information
+     */
     private void map(Location location, List<Travel> travelList){
 
         supportMapFragment.getMapAsync(googleMap -> {

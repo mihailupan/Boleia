@@ -39,8 +39,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mAuth = FirebaseAuth.getInstance();
         mStore = FirebaseFirestore.getInstance();
 
-        TextView title = (TextView) findViewById(R.id.register_title_text_view);
-
         progressBar = (ProgressBar) findViewById(R.id.register_progress_bar);
 
         emailEdit = (EditText) findViewById(R.id.register_email_edit_text);
@@ -67,7 +65,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     /**
-     * Regist new user on the application
+     * Register new user on the application
      */
     private void registerUser(){
         String email = emailEdit.getText().toString().trim();
@@ -107,10 +105,17 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 });
     }
 
-    private boolean checkField(boolean empty, EditText emailEdit, String s) {
+    /**
+     * Verify each editText field to see if user put data correctly
+     * @param empty Boolean value to see if user introduced empty text
+     * @param editText Current editText
+     * @param s
+     * @return True if user has to write aain data, false if user don't need to put data
+     */
+    private boolean checkField(boolean empty, EditText editText, String s) {
         if (empty) {
-            emailEdit.setError(s);
-            emailEdit.requestFocus();
+            editText.setError(s);
+            editText.requestFocus();
             return true;
         }
         return false;

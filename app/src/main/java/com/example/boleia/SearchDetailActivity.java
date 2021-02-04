@@ -208,7 +208,11 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
         }
     }
 
-    public  boolean isPermissionGranted() {
+
+    /**
+     * @return True if app has permission to open phone app and make a call, false if not
+     */
+    public boolean isPermissionGranted() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (checkSelfPermission(android.Manifest.permission.CALL_PHONE)
                     == PackageManager.PERMISSION_GRANTED) {
@@ -228,6 +232,11 @@ public class SearchDetailActivity extends AppCompatActivity implements BottomNav
     }
 
 
+    /**
+     * @param requestCode Request code to open phone
+     * @param permissions Array of permissions
+     * @param grantResults Array of grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
