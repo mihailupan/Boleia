@@ -198,12 +198,16 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
         supportMapFragment.getMapAsync(googleMap -> {
             //CurrentLocation
+
+            MarkerOptions actualMarker = new MarkerOptions();
+
             double currentLocationLat =  location.getLatitude();
             double currentLocationLng = location.getLongitude();
 
             //Location of the "from" city
             location.setLatitude(initLocation[0]);
             location.setLongitude(initLocation[1]);
+
             latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
             //Zoom map to the "from" city
@@ -213,8 +217,9 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
             LatLng latLngCurrentLocation = new LatLng(currentLocationLat,currentLocationLng);
 
 
+
             //Add Marker in the "from city"
-            googleMap.addMarker(new MarkerOptions()
+            googleMap.addMarker(actualMarker
                     .position(latLngCurrentLocation).title("Localização atual!")
                     .icon(bitmapDescriptorFromVector(getApplicationContext(),
                             R.drawable.ic_current_location)));
@@ -242,6 +247,11 @@ public class CreateMapActivity extends AppCompatActivity implements BottomNaviga
 
                 //Set button visible so the user can continue to new activity
                 next.setVisibility(View.VISIBLE);
+
+                googleMap.addMarker(actualMarker
+                        .position(latLngCurrentLocation).title("Localização atual!")
+                        .icon(bitmapDescriptorFromVector(getApplicationContext(),
+                                R.drawable.ic_current_location)));
 
             });
 
