@@ -132,9 +132,15 @@ public class CreateVehicleActivity extends AppCompatActivity implements BottomNa
 
 
         //Check if every field isn't empty
-        if ( checkField(brandVehicle.isEmpty(), editBrandVehicle, getString(R.string.car_brand_required))) return;
-        if ( checkField(modelVehicle.isEmpty(), editModelVehicle, getString(R.string.car_model_required))) return;
-        if ( checkField(licensePlateVehicle.isEmpty(), editLicensePlateVehicle, getString(R.string.car_license_plate_required))) return;
+        if ( checkField(brandVehicle.isEmpty(), editBrandVehicle, getString(R.string.car_brand_required))){
+            return;
+        }
+        if ( checkField(modelVehicle.isEmpty(), editModelVehicle, getString(R.string.car_model_required))){
+            return;
+        }
+        if ( checkField(licensePlateVehicle.isEmpty(), editLicensePlateVehicle, getString(R.string.car_license_plate_required))){
+            return;
+        }
 
 
         //Check if photo was chosen
